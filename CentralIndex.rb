@@ -52,9 +52,6 @@ class CentralIndex
   end
 
 
-#ci = CentralIndex.new('x8zka8snsccrhpt324uj36ut', false);
-#puts ci.getEntity('379236608286720');
-
   def getStatus()
     params = Hash.new
     return doCurl("get","/status",params)
