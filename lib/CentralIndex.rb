@@ -52,12 +52,26 @@ class CentralIndex
   end
 
 
+  #
+  # Confirms that the API is active, and returns the current version number
+  #
+  #  @return - the data from the api
+  #
   def getStatus()
     params = Hash.new
     return doCurl("get","/status",params)
   end
 
 
+  #
+  # Fetch the project logo, the symbol of the Wolf
+  #
+  #  @param a
+  #  @param b
+  #  @param c
+  #  @param d
+  #  @return - the data from the api
+  #
   def getLogo( a, b, c, d)
     params = Hash.new
     params['a'] = a
@@ -68,6 +82,12 @@ class CentralIndex
   end
 
 
+  #
+  # Fetch the project logo, the symbol of the Wolf
+  #
+  #  @param a
+  #  @return - the data from the api
+  #
   def putLogo( a)
     params = Hash.new
     params['a'] = a
@@ -75,6 +95,12 @@ class CentralIndex
   end
 
 
+  #
+  # Uploads a CSV file of known format and bulk inserts into DB
+  #
+  #  @param filedata
+  #  @return - the data from the api
+  #
   def postEntityBulkCsv( filedata)
     params = Hash.new
     params['filedata'] = filedata
@@ -82,6 +108,12 @@ class CentralIndex
   end
 
 
+  #
+  # Shows the current status of a bulk upload
+  #
+  #  @param upload_id
+  #  @return - the data from the api
+  #
   def getEntityBulkCsvStatus( upload_id)
     params = Hash.new
     params['upload_id'] = upload_id
@@ -89,6 +121,16 @@ class CentralIndex
   end
 
 
+  #
+  # This entity isn't really supported anymore. You probably want PUT /business. Only to be used for testing.
+  #
+  #  @param type
+  #  @param scope
+  #  @param country
+  #  @param trust
+  #  @param our_data
+  #  @return - the data from the api
+  #
   def putEntity( type, scope, country, trust, our_data)
     params = Hash.new
     params['type'] = type
@@ -100,6 +142,12 @@ class CentralIndex
   end
 
 
+  #
+  # Fetches the documents that match the given masheryid and supplier_id
+  #
+  #  @param supplier_id - The Supplier ID
+  #  @return - the data from the api
+  #
   def getEntityBy_supplier_id( supplier_id)
     params = Hash.new
     params['supplier_id'] = supplier_id
@@ -107,6 +155,20 @@ class CentralIndex
   end
 
 
+  #
+  # Search for matching entities
+  #
+  #  @param what
+  #  @param entity_name
+  #  @param where
+  #  @param per_page
+  #  @param page
+  #  @param longitude
+  #  @param latitude
+  #  @param country
+  #  @param language
+  #  @return - the data from the api
+  #
   def getEntitySearch( what, entity_name, where, per_page, page, longitude, latitude, country, language)
     params = Hash.new
     params['what'] = what
@@ -122,6 +184,17 @@ class CentralIndex
   end
 
 
+  #
+  # Search for matching entities
+  #
+  #  @param what - What to get results for. E.g. Plumber e.g. plumber
+  #  @param where - The location to get results for. E.g. Dublin e.g. Dublin
+  #  @param per_page - Number of results returned per page
+  #  @param page - Which page number to retrieve
+  #  @param country - Which country to return results for. An ISO compatible country code, E.g. ie e.g. ie
+  #  @param language - An ISO compatible language code, E.g. en
+  #  @return - the data from the api
+  #
   def getEntitySearchWhatBylocation( what, where, per_page, page, country, language)
     params = Hash.new
     params['what'] = what
@@ -134,6 +207,20 @@ class CentralIndex
   end
 
 
+  #
+  # Search for matching entities
+  #
+  #  @param what
+  #  @param latitude_1
+  #  @param longitude_1
+  #  @param latitude_2
+  #  @param longitude_2
+  #  @param per_page
+  #  @param page
+  #  @param country
+  #  @param language
+  #  @return - the data from the api
+  #
   def getEntitySearchWhatByboundingbox( what, latitude_1, longitude_1, latitude_2, longitude_2, per_page, page, country, language)
     params = Hash.new
     params['what'] = what
@@ -149,6 +236,19 @@ class CentralIndex
   end
 
 
+  #
+  # Search for matching entities
+  #
+  #  @param who
+  #  @param latitude_1
+  #  @param longitude_1
+  #  @param latitude_2
+  #  @param longitude_2
+  #  @param per_page
+  #  @param page
+  #  @param country
+  #  @return - the data from the api
+  #
   def getEntitySearchWhoByboundingbox( who, latitude_1, longitude_1, latitude_2, longitude_2, per_page, page, country)
     params = Hash.new
     params['who'] = who
@@ -163,6 +263,16 @@ class CentralIndex
   end
 
 
+  #
+  # Search for matching entities
+  #
+  #  @param who - Company Name e.g. Starbucks
+  #  @param where - The location to get results for. E.g. Dublin e.g. Dublin
+  #  @param per_page - Number of results returned per page
+  #  @param page - Which page number to retrieve
+  #  @param country - Which country to return results for. An ISO compatible country code, E.g. ie e.g. ie
+  #  @return - the data from the api
+  #
   def getEntitySearchWhoBylocation( who, where, per_page, page, country)
     params = Hash.new
     params['who'] = who
@@ -174,6 +284,16 @@ class CentralIndex
   end
 
 
+  #
+  # Search for matching entities
+  #
+  #  @param what - What to get results for. E.g. Plumber e.g. plumber
+  #  @param per_page - Number of results returned per page
+  #  @param page - The page number to retrieve
+  #  @param country - Which country to return results for. An ISO compatible country code, E.g. ie e.g. ie
+  #  @param language - An ISO compatible language code, E.g. en
+  #  @return - the data from the api
+  #
   def getEntitySearchWhat( what, per_page, page, country, language)
     params = Hash.new
     params['what'] = what
@@ -185,6 +305,15 @@ class CentralIndex
   end
 
 
+  #
+  # Search for matching entities
+  #
+  #  @param who - Company name e.g. Starbucks
+  #  @param per_page - How many results per page
+  #  @param page - What page number to retrieve
+  #  @param country - Which country to return results for. An ISO compatible country code, E.g. ie e.g. ie
+  #  @return - the data from the api
+  #
   def getEntitySearchWho( who, per_page, page, country)
     params = Hash.new
     params['who'] = who
@@ -195,6 +324,16 @@ class CentralIndex
   end
 
 
+  #
+  # Search for matching entities
+  #
+  #  @param where - Location to search for results. E.g. Dublin e.g. Dublin
+  #  @param per_page - How many results per page
+  #  @param page - What page number to retrieve
+  #  @param country - Which country to return results for. An ISO compatible country code, E.g. ie
+  #  @param language - An ISO compatible language code, E.g. en
+  #  @return - the data from the api
+  #
   def getEntitySearchBylocation( where, per_page, page, country, language)
     params = Hash.new
     params['where'] = where
@@ -206,6 +345,19 @@ class CentralIndex
   end
 
 
+  #
+  # Search for matching entities
+  #
+  #  @param latitude_1
+  #  @param longitude_1
+  #  @param latitude_2
+  #  @param longitude_2
+  #  @param per_page
+  #  @param page
+  #  @param country
+  #  @param language
+  #  @return - the data from the api
+  #
   def getEntitySearchByboundingbox( latitude_1, longitude_1, latitude_2, longitude_2, per_page, page, country, language)
     params = Hash.new
     params['latitude_1'] = latitude_1
@@ -220,6 +372,16 @@ class CentralIndex
   end
 
 
+  #
+  # Search for matching entities that are advertisers and return a random selection upto the limit requested
+  #
+  #  @param tag - The word or words the advertiser is to appear for in searches
+  #  @param where - The location to get results for. E.g. Dublin
+  #  @param limit - The number of advertisers that are to be returned
+  #  @param country - Which country to return results for. An ISO compatible country code, E.g. ie e.g. ie
+  #  @param language - An ISO compatible language code, E.g. en
+  #  @return - the data from the api
+  #
   def getEntityAdvertisers( tag, where, limit, country, language)
     params = Hash.new
     params['tag'] = tag
@@ -231,6 +393,12 @@ class CentralIndex
   end
 
 
+  #
+  # Allows a whole entity to be pulled from the datastore by its unique id
+  #
+  #  @param entity_id - The unique entity ID e.g. 379236608286720
+  #  @return - the data from the api
+  #
   def getEntity( entity_id)
     params = Hash.new
     params['entity_id'] = entity_id
@@ -238,6 +406,12 @@ class CentralIndex
   end
 
 
+  #
+  # Get all entiies claimed by a specific user
+  #
+  #  @param user_id - The unique user ID of the user with claimed entities e.g. 379236608286720
+  #  @return - the data from the api
+  #
   def getEntityBy_user_id( user_id)
     params = Hash.new
     params['user_id'] = user_id
@@ -245,6 +419,12 @@ class CentralIndex
   end
 
 
+  #
+  # Allows a list of available revisions to be returned by its entity id
+  #
+  #  @param entity_id
+  #  @return - the data from the api
+  #
   def getEntityRevisions( entity_id)
     params = Hash.new
     params['entity_id'] = entity_id
@@ -252,6 +432,13 @@ class CentralIndex
   end
 
 
+  #
+  # Allows a specific revision of an entity to be returned by entity id and a revision number
+  #
+  #  @param entity_id
+  #  @param revision_id
+  #  @return - the data from the api
+  #
   def getEntityRevisionsByRevisionID( entity_id, revision_id)
     params = Hash.new
     params['entity_id'] = entity_id
@@ -260,6 +447,14 @@ class CentralIndex
   end
 
 
+  #
+  # Separates an entity into two distinct entities 
+  #
+  #  @param entity_id
+  #  @param supplier_masheryid
+  #  @param supplier_id
+  #  @return - the data from the api
+  #
   def postEntityUnmerge( entity_id, supplier_masheryid, supplier_id)
     params = Hash.new
     params['entity_id'] = entity_id
@@ -269,6 +464,12 @@ class CentralIndex
   end
 
 
+  #
+  # Fetches the changelog documents that match the given entity_id
+  #
+  #  @param entity_id
+  #  @return - the data from the api
+  #
   def getEntityChangelog( entity_id)
     params = Hash.new
     params['entity_id'] = entity_id
@@ -276,6 +477,13 @@ class CentralIndex
   end
 
 
+  #
+  # Merge two entities into one
+  #
+  #  @param from
+  #  @param to
+  #  @return - the data from the api
+  #
   def postEntityMerge( from, to)
     params = Hash.new
     params['from'] = from
@@ -284,12 +492,25 @@ class CentralIndex
   end
 
 
+  #
+  # Force refresh of search indexes
+  #
+  #  @return - the data from the api
+  #
   def getToolsReindex()
     params = Hash.new
     return doCurl("get","/tools/reindex",params)
   end
 
 
+  #
+  # Supply an entity and an object within it (e.g. a phone number), and retrieve a URL that allows the user to report an issue with that object
+  #
+  #  @param entity_id - The unique Entity ID e.g. 379236608286720
+  #  @param gen_id - A Unique ID for the object you wish to report, E.g. Phone number e.g. 379236608299008
+  #  @param language
+  #  @return - the data from the api
+  #
   def getEntityReport( entity_id, gen_id, language)
     params = Hash.new
     params['entity_id'] = entity_id
@@ -299,6 +520,12 @@ class CentralIndex
   end
 
 
+  #
+  # Allows us to identify the user, entity and element from an encoded endpoint URL's token
+  #
+  #  @param token
+  #  @return - the data from the api
+  #
   def getToolsDecodereport( token)
     params = Hash.new
     params['token'] = token
@@ -306,6 +533,14 @@ class CentralIndex
   end
 
 
+  #
+  # Update entities that use an old category ID to a new one
+  #
+  #  @param from
+  #  @param to
+  #  @param limit
+  #  @return - the data from the api
+  #
   def postEntityMigrate_category( from, to, limit)
     params = Hash.new
     params['from'] = from
@@ -315,6 +550,29 @@ class CentralIndex
   end
 
 
+  #
+  # Create a new business entity with all it's objects
+  #
+  #  @param name
+  #  @param address1
+  #  @param address2
+  #  @param address3
+  #  @param district
+  #  @param town
+  #  @param county
+  #  @param postcode
+  #  @param country
+  #  @param latitude
+  #  @param longitude
+  #  @param timezone
+  #  @param telephone_number
+  #  @param telephone_type
+  #  @param email
+  #  @param website
+  #  @param category_id
+  #  @param category_name
+  #  @return - the data from the api
+  #
   def putBusiness( name, address1, address2, address3, district, town, county, postcode, country, latitude, longitude, timezone, telephone_number, telephone_type, email, website, category_id, category_name)
     params = Hash.new
     params['name'] = name
@@ -339,6 +597,12 @@ class CentralIndex
   end
 
 
+  #
+  # Provides a personalised URL to redirect a user to add an entity to Central Index
+  #
+  #  @param language - The language to use to render the add path
+  #  @return - the data from the api
+  #
   def getEntityAdd( language)
     params = Hash.new
     params['language'] = language
@@ -346,6 +610,13 @@ class CentralIndex
   end
 
 
+  #
+  # Find a location from cache or cloudant depending if it is in the cache
+  #
+  #  @param string
+  #  @param country
+  #  @return - the data from the api
+  #
   def getLookupLocation( string, country)
     params = Hash.new
     params['string'] = string
@@ -354,6 +625,13 @@ class CentralIndex
   end
 
 
+  #
+  # Find a category from cache or cloudant depending if it is in the cache
+  #
+  #  @param string - A string to search against, E.g. Plumbers
+  #  @param language - An ISO compatible language code, E.g. en
+  #  @return - the data from the api
+  #
   def getLookupCategory( string, language)
     params = Hash.new
     params['string'] = string
@@ -362,6 +640,13 @@ class CentralIndex
   end
 
 
+  #
+  # Find a category from a legacy ID or supplier (e.g. bill_moss)
+  #
+  #  @param id
+  #  @param type
+  #  @return - the data from the api
+  #
   def getLookupLegacyCategory( id, type)
     params = Hash.new
     params['id'] = id
@@ -370,6 +655,14 @@ class CentralIndex
   end
 
 
+  #
+  # With a known entity id, a name can be updated.
+  #
+  #  @param entity_id
+  #  @param name
+  #  @param formal_name
+  #  @return - the data from the api
+  #
   def postEntityName( entity_id, name, formal_name)
     params = Hash.new
     params['entity_id'] = entity_id
@@ -379,6 +672,18 @@ class CentralIndex
   end
 
 
+  #
+  # With a known entity id, an background object can be added. There can however only be one background object.
+  #
+  #  @param entity_id
+  #  @param number_of_employees
+  #  @param turnover
+  #  @param net_profit
+  #  @param vat_number
+  #  @param duns_number
+  #  @param registered_company_number
+  #  @return - the data from the api
+  #
   def postEntityBackground( entity_id, number_of_employees, turnover, net_profit, vat_number, duns_number, registered_company_number)
     params = Hash.new
     params['entity_id'] = entity_id
@@ -392,6 +697,19 @@ class CentralIndex
   end
 
 
+  #
+  # With a known entity id, an employee object can be added.
+  #
+  #  @param entity_id
+  #  @param title
+  #  @param forename
+  #  @param surname
+  #  @param job_title
+  #  @param description
+  #  @param email
+  #  @param phone_number
+  #  @return - the data from the api
+  #
   def postEntityEmployee( entity_id, title, forename, surname, job_title, description, email, phone_number)
     params = Hash.new
     params['entity_id'] = entity_id
@@ -406,6 +724,13 @@ class CentralIndex
   end
 
 
+  #
+  # Allows an employee object to be reduced in confidence
+  #
+  #  @param entity_id
+  #  @param gen_id
+  #  @return - the data from the api
+  #
   def deleteEntityEmployee( entity_id, gen_id)
     params = Hash.new
     params['entity_id'] = entity_id
@@ -414,6 +739,18 @@ class CentralIndex
   end
 
 
+  #
+  # Allows a new phone object to be added to a specified entity. A new object id will be calculated and returned to you if successful.
+  #
+  #  @param entity_id
+  #  @param number
+  #  @param description
+  #  @param premium_rate
+  #  @param telephone_type
+  #  @param tps
+  #  @param ctps
+  #  @return - the data from the api
+  #
   def postEntityPhone( entity_id, number, description, premium_rate, telephone_type, tps, ctps)
     params = Hash.new
     params['entity_id'] = entity_id
@@ -427,6 +764,13 @@ class CentralIndex
   end
 
 
+  #
+  # Allows a phone object to be reduced in confidence
+  #
+  #  @param entity_id
+  #  @param gen_id
+  #  @return - the data from the api
+  #
   def deleteEntityPhone( entity_id, gen_id)
     params = Hash.new
     params['entity_id'] = entity_id
@@ -435,6 +779,15 @@ class CentralIndex
   end
 
 
+  #
+  # With a known entity id, an fax object can be added.
+  #
+  #  @param entity_id
+  #  @param number
+  #  @param description
+  #  @param premium_rate
+  #  @return - the data from the api
+  #
   def postEntityFax( entity_id, number, description, premium_rate)
     params = Hash.new
     params['entity_id'] = entity_id
@@ -445,6 +798,13 @@ class CentralIndex
   end
 
 
+  #
+  # Allows a fax object to be reduced in confidence
+  #
+  #  @param entity_id
+  #  @param gen_id
+  #  @return - the data from the api
+  #
   def deleteEntityFax( entity_id, gen_id)
     params = Hash.new
     params['entity_id'] = entity_id
@@ -453,6 +813,14 @@ class CentralIndex
   end
 
 
+  #
+  # With a known category id, an category object can be added.
+  #
+  #  @param category_id
+  #  @param language
+  #  @param name
+  #  @return - the data from the api
+  #
   def putCategory( category_id, language, name)
     params = Hash.new
     params['category_id'] = category_id
@@ -462,6 +830,15 @@ class CentralIndex
   end
 
 
+  #
+  # With a known category id, a mapping object can be added.
+  #
+  #  @param category_id
+  #  @param type
+  #  @param id
+  #  @param name
+  #  @return - the data from the api
+  #
   def postCategoryMappings( category_id, type, id, name)
     params = Hash.new
     params['category_id'] = category_id
@@ -472,6 +849,14 @@ class CentralIndex
   end
 
 
+  #
+  # With a known category id, an synonym object can be added.
+  #
+  #  @param category_id
+  #  @param synonym
+  #  @param language
+  #  @return - the data from the api
+  #
   def postCategorySynonym( category_id, synonym, language)
     params = Hash.new
     params['category_id'] = category_id
@@ -481,6 +866,14 @@ class CentralIndex
   end
 
 
+  #
+  # With a known category id, a synonyms object can be removed.
+  #
+  #  @param category_id
+  #  @param synonym
+  #  @param language
+  #  @return - the data from the api
+  #
   def deleteCategorySynonym( category_id, synonym, language)
     params = Hash.new
     params['category_id'] = category_id
@@ -490,6 +883,13 @@ class CentralIndex
   end
 
 
+  #
+  # Allows a category object to merged with another
+  #
+  #  @param from
+  #  @param to
+  #  @return - the data from the api
+  #
   def postCategoryMerge( from, to)
     params = Hash.new
     params['from'] = from
@@ -498,6 +898,14 @@ class CentralIndex
   end
 
 
+  #
+  # With a known entity id, an category object can be added.
+  #
+  #  @param entity_id
+  #  @param category_id
+  #  @param category_name
+  #  @return - the data from the api
+  #
   def postEntityCategory( entity_id, category_id, category_name)
     params = Hash.new
     params['entity_id'] = entity_id
@@ -507,6 +915,13 @@ class CentralIndex
   end
 
 
+  #
+  # Allows a category object to be reduced in confidence
+  #
+  #  @param entity_id
+  #  @param gen_id
+  #  @return - the data from the api
+  #
   def deleteEntityCategory( entity_id, gen_id)
     params = Hash.new
     params['entity_id'] = entity_id
@@ -515,6 +930,15 @@ class CentralIndex
   end
 
 
+  #
+  # With a known entity id, a geopoint can be updated.
+  #
+  #  @param entity_id
+  #  @param longitude
+  #  @param latitude
+  #  @param accuracy
+  #  @return - the data from the api
+  #
   def postEntityGeopoint( entity_id, longitude, latitude, accuracy)
     params = Hash.new
     params['entity_id'] = entity_id
@@ -525,6 +949,17 @@ class CentralIndex
   end
 
 
+  #
+  # Find all matches by phone number and then return all matches that also match company name and location. Default location_strictness is defined in Km and the default is set to 0.2 (200m)
+  #
+  #  @param phone
+  #  @param company_name
+  #  @param latitude
+  #  @param longitude
+  #  @param name_strictness
+  #  @param location_strictness
+  #  @return - the data from the api
+  #
   def getMatchByphone( phone, company_name, latitude, longitude, name_strictness, location_strictness)
     params = Hash.new
     params['phone'] = phone
@@ -537,6 +972,16 @@ class CentralIndex
   end
 
 
+  #
+  # Find all matches by location and then return all matches that also match company name. Default location_strictness is set to 7, which equates to +/- 20m
+  #
+  #  @param company_name
+  #  @param latitude
+  #  @param longitude
+  #  @param name_strictness
+  #  @param location_strictness
+  #  @return - the data from the api
+  #
   def getMatchBylocation( company_name, latitude, longitude, name_strictness, location_strictness)
     params = Hash.new
     params['company_name'] = company_name
@@ -548,6 +993,12 @@ class CentralIndex
   end
 
 
+  #
+  # Removes stopwords from a string
+  #
+  #  @param text
+  #  @return - the data from the api
+  #
   def getToolsStopwords( text)
     params = Hash.new
     params['text'] = text
@@ -555,6 +1006,12 @@ class CentralIndex
   end
 
 
+  #
+  # Returns a stemmed version of a string
+  #
+  #  @param text
+  #  @return - the data from the api
+  #
   def getToolsStem( text)
     params = Hash.new
     params['text'] = text
@@ -562,6 +1019,12 @@ class CentralIndex
   end
 
 
+  #
+  # Return the phonetic representation of a string
+  #
+  #  @param text
+  #  @return - the data from the api
+  #
   def getToolsPhonetic( text)
     params = Hash.new
     params['text'] = text
@@ -569,6 +1032,12 @@ class CentralIndex
   end
 
 
+  #
+  # Fully process a string. This includes removing punctuation, stops words and stemming a string. Also returns the phonetic representation of this string.
+  #
+  #  @param text
+  #  @return - the data from the api
+  #
   def getToolsProcess_string( text)
     params = Hash.new
     params['text'] = text
@@ -576,6 +1045,12 @@ class CentralIndex
   end
 
 
+  #
+  # Attempt to process a phone number, removing anything which is not a digit
+  #
+  #  @param number
+  #  @return - the data from the api
+  #
   def getToolsProcess_phone( number)
     params = Hash.new
     params['number'] = number
@@ -583,6 +1058,12 @@ class CentralIndex
   end
 
 
+  #
+  # Spider a single url looking for key facts
+  #
+  #  @param url
+  #  @return - the data from the api
+  #
   def getToolsSpider( url)
     params = Hash.new
     params['url'] = url
@@ -590,6 +1071,12 @@ class CentralIndex
   end
 
 
+  #
+  # Supply an address to geocode - returns lat/lon and accuracy
+  #
+  #  @param address
+  #  @return - the data from the api
+  #
   def getToolsGeocode( address)
     params = Hash.new
     params['address'] = address
@@ -597,6 +1084,15 @@ class CentralIndex
   end
 
 
+  #
+  # Generate JSON in the format to generate Mashery's IODocs
+  #
+  #  @param mode - The HTTP method of the API call to document. e.g. GET
+  #  @param path - The path of the API call to document e.g, /entity
+  #  @param endpoint - The Mashery 'endpoint' to prefix to our API paths e.g. v1
+  #  @param doctype - Mashery has two forms of JSON to describe API methods; one on github, the other on its customer dashboard
+  #  @return - the data from the api
+  #
   def getToolsIodocs( mode, path, endpoint, doctype)
     params = Hash.new
     params['mode'] = mode
@@ -607,6 +1103,13 @@ class CentralIndex
   end
 
 
+  #
+  # Use this call to get information (in HTML or JSON) about the data structure of given entity object (e.g. a phone number or an address)
+  #
+  #  @param object - The API call documentation is required for
+  #  @param format - The format of the returned data eg. JSON or HTML
+  #  @return - the data from the api
+  #
   def getToolsDocs( object, format)
     params = Hash.new
     params['object'] = object
@@ -615,6 +1118,13 @@ class CentralIndex
   end
 
 
+  #
+  # Format a phone number according to the rules of the country supplied
+  #
+  #  @param number - The telephone number to format
+  #  @param country - The country where the telephone number is based
+  #  @return - the data from the api
+  #
   def getToolsFormatPhone( number, country)
     params = Hash.new
     params['number'] = number
@@ -623,6 +1133,20 @@ class CentralIndex
   end
 
 
+  #
+  # With a known entity id, an invoice_address object can be updated.
+  #
+  #  @param entity_id
+  #  @param address1
+  #  @param address2
+  #  @param address3
+  #  @param district
+  #  @param town
+  #  @param county
+  #  @param postcode
+  #  @param address_type
+  #  @return - the data from the api
+  #
   def postEntityInvoice_address( entity_id, address1, address2, address3, district, town, county, postcode, address_type)
     params = Hash.new
     params['entity_id'] = entity_id
@@ -638,6 +1162,12 @@ class CentralIndex
   end
 
 
+  #
+  # With a known entity id and a known invoice_address ID, we can delete a specific invoice_address object from an enitity.
+  #
+  #  @param entity_id
+  #  @return - the data from the api
+  #
   def deleteEntityInvoice_address( entity_id)
     params = Hash.new
     params['entity_id'] = entity_id
@@ -645,6 +1175,14 @@ class CentralIndex
   end
 
 
+  #
+  # With a known entity id, an tag object can be added.
+  #
+  #  @param entity_id
+  #  @param tag
+  #  @param language
+  #  @return - the data from the api
+  #
   def postEntityTag( entity_id, tag, language)
     params = Hash.new
     params['entity_id'] = entity_id
@@ -654,6 +1192,13 @@ class CentralIndex
   end
 
 
+  #
+  # Allows a tag object to be reduced in confidence
+  #
+  #  @param entity_id
+  #  @param gen_id
+  #  @return - the data from the api
+  #
   def deleteEntityTag( entity_id, gen_id)
     params = Hash.new
     params['entity_id'] = entity_id
@@ -662,6 +1207,20 @@ class CentralIndex
   end
 
 
+  #
+  # Create/Update a postal address
+  #
+  #  @param entity_id
+  #  @param address1
+  #  @param address2
+  #  @param address3
+  #  @param district
+  #  @param town
+  #  @param county
+  #  @param postcode
+  #  @param address_type
+  #  @return - the data from the api
+  #
   def postEntityPostal_address( entity_id, address1, address2, address3, district, town, county, postcode, address_type)
     params = Hash.new
     params['entity_id'] = entity_id
@@ -677,6 +1236,17 @@ class CentralIndex
   end
 
 
+  #
+  # With a known entity id, a advertiser is added
+  #
+  #  @param entity_id
+  #  @param tags
+  #  @param locations
+  #  @param expiry
+  #  @param is_national
+  #  @param language
+  #  @return - the data from the api
+  #
   def postEntityAdvertiser( entity_id, tags, locations, expiry, is_national, language)
     params = Hash.new
     params['entity_id'] = entity_id
@@ -689,6 +1259,13 @@ class CentralIndex
   end
 
 
+  #
+  # Allows an advertiser object to be reduced in confidence
+  #
+  #  @param entity_id
+  #  @param gen_id
+  #  @return - the data from the api
+  #
   def deleteEntityAdvertiser( entity_id, gen_id)
     params = Hash.new
     params['entity_id'] = entity_id
@@ -697,6 +1274,14 @@ class CentralIndex
   end
 
 
+  #
+  # With a known entity id, an email address object can be added.
+  #
+  #  @param entity_id
+  #  @param email_address
+  #  @param email_description
+  #  @return - the data from the api
+  #
   def postEntityEmail( entity_id, email_address, email_description)
     params = Hash.new
     params['entity_id'] = entity_id
@@ -706,6 +1291,13 @@ class CentralIndex
   end
 
 
+  #
+  # Allows a email object to be reduced in confidence
+  #
+  #  @param entity_id
+  #  @param gen_id
+  #  @return - the data from the api
+  #
   def deleteEntityEmail( entity_id, gen_id)
     params = Hash.new
     params['entity_id'] = entity_id
@@ -714,6 +1306,15 @@ class CentralIndex
   end
 
 
+  #
+  # With a known entity id, a website object can be added.
+  #
+  #  @param entity_id
+  #  @param website_url
+  #  @param display_url
+  #  @param website_description
+  #  @return - the data from the api
+  #
   def postEntityWebsite( entity_id, website_url, display_url, website_description)
     params = Hash.new
     params['entity_id'] = entity_id
@@ -724,6 +1325,13 @@ class CentralIndex
   end
 
 
+  #
+  # Allows a website object to be reduced in confidence
+  #
+  #  @param entity_id
+  #  @param gen_id
+  #  @return - the data from the api
+  #
   def deleteEntityWebsite( entity_id, gen_id)
     params = Hash.new
     params['entity_id'] = entity_id
@@ -732,6 +1340,14 @@ class CentralIndex
   end
 
 
+  #
+  # With a known entity id, a image object can be added.
+  #
+  #  @param entity_id
+  #  @param filedata
+  #  @param image_name
+  #  @return - the data from the api
+  #
   def postEntityImage( entity_id, filedata, image_name)
     params = Hash.new
     params['entity_id'] = entity_id
@@ -741,6 +1357,13 @@ class CentralIndex
   end
 
 
+  #
+  # Allows a image object to be reduced in confidence
+  #
+  #  @param entity_id
+  #  @param gen_id
+  #  @return - the data from the api
+  #
   def deleteEntityImage( entity_id, gen_id)
     params = Hash.new
     params['entity_id'] = entity_id
@@ -749,6 +1372,12 @@ class CentralIndex
   end
 
 
+  #
+  # Read a location with the supplied ID in the locations reference database.
+  #
+  #  @param location_id
+  #  @return - the data from the api
+  #
   def getLocation( location_id)
     params = Hash.new
     params['location_id'] = location_id
@@ -756,6 +1385,23 @@ class CentralIndex
   end
 
 
+  #
+  # Create/update a new location entity with the supplied ID in the locations reference database.
+  #
+  #  @param location_id
+  #  @param name
+  #  @param formal_name
+  #  @param latitude
+  #  @param longitude
+  #  @param resolution
+  #  @param country
+  #  @param population
+  #  @param description
+  #  @param timezone
+  #  @param is_duplicate
+  #  @param is_default
+  #  @return - the data from the api
+  #
   def postLocation( location_id, name, formal_name, latitude, longitude, resolution, country, population, description, timezone, is_duplicate, is_default)
     params = Hash.new
     params['location_id'] = location_id
@@ -774,6 +1420,14 @@ class CentralIndex
   end
 
 
+  #
+  # Add a new synonym to a known location
+  #
+  #  @param location_id
+  #  @param synonym
+  #  @param language
+  #  @return - the data from the api
+  #
   def postLocationSynonym( location_id, synonym, language)
     params = Hash.new
     params['location_id'] = location_id
@@ -783,6 +1437,14 @@ class CentralIndex
   end
 
 
+  #
+  # Remove a new synonym from a known location
+  #
+  #  @param location_id
+  #  @param synonym
+  #  @param language
+  #  @return - the data from the api
+  #
   def deleteLocationSynonym( location_id, synonym, language)
     params = Hash.new
     params['location_id'] = location_id
@@ -792,6 +1454,15 @@ class CentralIndex
   end
 
 
+  #
+  # Add a new source to a known location
+  #
+  #  @param location_id
+  #  @param type
+  #  @param url
+  #  @param ref
+  #  @return - the data from the api
+  #
   def postLocationSource( location_id, type, url, ref)
     params = Hash.new
     params['location_id'] = location_id
@@ -802,6 +1473,13 @@ class CentralIndex
   end
 
 
+  #
+  # With a known entity id, a status object can be updated.
+  #
+  #  @param entity_id
+  #  @param status
+  #  @return - the data from the api
+  #
   def postEntityStatus( entity_id, status)
     params = Hash.new
     params['entity_id'] = entity_id
@@ -810,6 +1488,14 @@ class CentralIndex
   end
 
 
+  #
+  # With a known entity id, a logo object can be added.
+  #
+  #  @param entity_id
+  #  @param filedata
+  #  @param logo_name
+  #  @return - the data from the api
+  #
   def postEntityLogo( entity_id, filedata, logo_name)
     params = Hash.new
     params['entity_id'] = entity_id
@@ -819,6 +1505,13 @@ class CentralIndex
   end
 
 
+  #
+  # Allows a phone object to be reduced in confidence
+  #
+  #  @param entity_id
+  #  @param gen_id
+  #  @return - the data from the api
+  #
   def deleteEntityLogo( entity_id, gen_id)
     params = Hash.new
     params['entity_id'] = entity_id
@@ -827,6 +1520,16 @@ class CentralIndex
   end
 
 
+  #
+  # With a known entity id, avideo object can be added.
+  #
+  #  @param entity_id
+  #  @param title
+  #  @param description
+  #  @param thumbnail
+  #  @param embed_code
+  #  @return - the data from the api
+  #
   def postEntityVideo( entity_id, title, description, thumbnail, embed_code)
     params = Hash.new
     params['entity_id'] = entity_id
@@ -838,6 +1541,13 @@ class CentralIndex
   end
 
 
+  #
+  # Allows a video object to be reduced in confidence
+  #
+  #  @param entity_id
+  #  @param gen_id
+  #  @return - the data from the api
+  #
   def deleteEntityVideo( entity_id, gen_id)
     params = Hash.new
     params['entity_id'] = entity_id
@@ -846,6 +1556,16 @@ class CentralIndex
   end
 
 
+  #
+  # With a known entity id, an affiliate link object can be added.
+  #
+  #  @param entity_id
+  #  @param affiliate_name
+  #  @param affiliate_link
+  #  @param affiliate_message
+  #  @param affiliate_logo
+  #  @return - the data from the api
+  #
   def postEntityAffiliate_link( entity_id, affiliate_name, affiliate_link, affiliate_message, affiliate_logo)
     params = Hash.new
     params['entity_id'] = entity_id
@@ -857,6 +1577,13 @@ class CentralIndex
   end
 
 
+  #
+  # Allows an affiliate link object to be reduced in confidence
+  #
+  #  @param entity_id
+  #  @param gen_id
+  #  @return - the data from the api
+  #
   def deleteEntityAffiliate_link( entity_id, gen_id)
     params = Hash.new
     params['entity_id'] = entity_id
@@ -865,6 +1592,14 @@ class CentralIndex
   end
 
 
+  #
+  # With a known entity id, a description object can be added.
+  #
+  #  @param entity_id
+  #  @param headline
+  #  @param body
+  #  @return - the data from the api
+  #
   def postEntityDescription( entity_id, headline, body)
     params = Hash.new
     params['entity_id'] = entity_id
@@ -874,6 +1609,13 @@ class CentralIndex
   end
 
 
+  #
+  # Allows a description object to be reduced in confidence
+  #
+  #  @param entity_id
+  #  @param gen_id
+  #  @return - the data from the api
+  #
   def deleteEntityDescription( entity_id, gen_id)
     params = Hash.new
     params['entity_id'] = entity_id
@@ -882,6 +1624,14 @@ class CentralIndex
   end
 
 
+  #
+  # With a known entity id, a list description object can be added.
+  #
+  #  @param entity_id
+  #  @param headline
+  #  @param body
+  #  @return - the data from the api
+  #
   def postEntityList( entity_id, headline, body)
     params = Hash.new
     params['entity_id'] = entity_id
@@ -891,6 +1641,13 @@ class CentralIndex
   end
 
 
+  #
+  # Allows a list description object to be reduced in confidence
+  #
+  #  @param gen_id
+  #  @param entity_id
+  #  @return - the data from the api
+  #
   def deleteEntityList( gen_id, entity_id)
     params = Hash.new
     params['gen_id'] = gen_id
@@ -899,6 +1656,14 @@ class CentralIndex
   end
 
 
+  #
+  # With a known entity id, an document object can be added.
+  #
+  #  @param entity_id
+  #  @param name
+  #  @param filedata
+  #  @return - the data from the api
+  #
   def postEntityDocument( entity_id, name, filedata)
     params = Hash.new
     params['entity_id'] = entity_id
@@ -908,6 +1673,13 @@ class CentralIndex
   end
 
 
+  #
+  # Allows a phone object to be reduced in confidence
+  #
+  #  @param entity_id
+  #  @param gen_id
+  #  @return - the data from the api
+  #
   def deleteEntityDocument( entity_id, gen_id)
     params = Hash.new
     params['entity_id'] = entity_id
@@ -916,6 +1688,16 @@ class CentralIndex
   end
 
 
+  #
+  # With a known entity id, a testimonial object can be added.
+  #
+  #  @param entity_id
+  #  @param title
+  #  @param text
+  #  @param date
+  #  @param testifier_name
+  #  @return - the data from the api
+  #
   def postEntityTestimonial( entity_id, title, text, date, testifier_name)
     params = Hash.new
     params['entity_id'] = entity_id
@@ -927,6 +1709,13 @@ class CentralIndex
   end
 
 
+  #
+  # Allows a testimonial object to be reduced in confidence
+  #
+  #  @param entity_id
+  #  @param gen_id
+  #  @return - the data from the api
+  #
   def deleteEntityTestimonial( entity_id, gen_id)
     params = Hash.new
     params['entity_id'] = entity_id
@@ -935,6 +1724,21 @@ class CentralIndex
   end
 
 
+  #
+  # With a known entity id, a opening times object can be added. Each day can be either 'closed' to indicate that the entity is closed that day, '24hour' to indicate that the entity is open all day or single/split time ranges can be supplied in 4-digit 24-hour format, such as '09001730' or '09001200,13001700' to indicate hours of opening.
+  #
+  #  @param entity_id - The id of the entity to edit
+  #  @param monday - e.g. 'closed', '24hour' , '09001730' , '09001200,13001700'
+  #  @param tuesday - e.g. 'closed', '24hour' , '09001730' , '09001200,13001700'
+  #  @param wednesday - e.g. 'closed', '24hour' , '09001730' , '09001200,13001700'
+  #  @param thursday - e.g. 'closed', '24hour' , '09001730' , '09001200,13001700'
+  #  @param friday - e.g. 'closed', '24hour' , '09001730' , '09001200,13001700'
+  #  @param saturday - e.g. 'closed', '24hour' , '09001730' , '09001200,13001700'
+  #  @param sunday - e.g. 'closed', '24hour' , '09001730' , '09001200,13001700'
+  #  @param closed - a comma-separated list of dates that the entity is closed e.g. '2013-04-29,2013-05-02'
+  #  @param closed_public_holidays - whether the entity is closed on public holidays
+  #  @return - the data from the api
+  #
   def postEntityOpening_times( entity_id, monday, tuesday, wednesday, thursday, friday, saturday, sunday, closed, closed_public_holidays)
     params = Hash.new
     params['entity_id'] = entity_id
@@ -951,6 +1755,19 @@ class CentralIndex
   end
 
 
+  #
+  # With a known entity id, a website object can be added.
+  #
+  #  @param entity_id
+  #  @param title
+  #  @param description
+  #  @param terms
+  #  @param start_date
+  #  @param expiry_date
+  #  @param url
+  #  @param image_url
+  #  @return - the data from the api
+  #
   def postEntitySpecial_offer( entity_id, title, description, terms, start_date, expiry_date, url, image_url)
     params = Hash.new
     params['entity_id'] = entity_id
@@ -965,6 +1782,13 @@ class CentralIndex
   end
 
 
+  #
+  # Allows a special offer object to be reduced in confidence
+  #
+  #  @param entity_id
+  #  @param gen_id
+  #  @return - the data from the api
+  #
   def deleteEntitySpecial_offer( entity_id, gen_id)
     params = Hash.new
     params['entity_id'] = entity_id
@@ -973,6 +1797,20 @@ class CentralIndex
   end
 
 
+  #
+  # Update user based on email address or social_network/social_network_id
+  #
+  #  @param email
+  #  @param first_name
+  #  @param last_name
+  #  @param active
+  #  @param trust
+  #  @param creation_date
+  #  @param user_type
+  #  @param social_network
+  #  @param social_network_id
+  #  @return - the data from the api
+  #
   def postUser( email, first_name, last_name, active, trust, creation_date, user_type, social_network, social_network_id)
     params = Hash.new
     params['email'] = email
@@ -988,6 +1826,12 @@ class CentralIndex
   end
 
 
+  #
+  # With a unique email address an user can be retrieved
+  #
+  #  @param email
+  #  @return - the data from the api
+  #
   def getUserBy_email( email)
     params = Hash.new
     params['email'] = email
@@ -995,6 +1839,12 @@ class CentralIndex
   end
 
 
+  #
+  # With a unique ID address an user can be retrieved
+  #
+  #  @param user_id
+  #  @return - the data from the api
+  #
   def getUser( user_id)
     params = Hash.new
     params['user_id'] = user_id
@@ -1002,6 +1852,13 @@ class CentralIndex
   end
 
 
+  #
+  # With a unique ID address an user can be retrieved
+  #
+  #  @param name
+  #  @param id
+  #  @return - the data from the api
+  #
   def getUserBy_social_media( name, id)
     params = Hash.new
     params['name'] = name
@@ -1010,6 +1867,13 @@ class CentralIndex
   end
 
 
+  #
+  # The search matches a category name or synonym on a given string and language.
+  #
+  #  @param str - A string to search against, E.g. Plumbers e.g. but
+  #  @param language - An ISO compatible language code, E.g. en e.g. en
+  #  @return - the data from the api
+  #
   def getAutocompleteCategory( str, language)
     params = Hash.new
     params['str'] = str
@@ -1018,6 +1882,13 @@ class CentralIndex
   end
 
 
+  #
+  # The search matches a location name or synonym on a given string and language.
+  #
+  #  @param str - A string to search against, E.g. Dub e.g. dub
+  #  @param country - Which country to return results for. An ISO compatible country code, E.g. ie e.g. ie
+  #  @return - the data from the api
+  #
   def getAutocompleteLocation( str, country)
     params = Hash.new
     params['str'] = str
@@ -1026,6 +1897,13 @@ class CentralIndex
   end
 
 
+  #
+  # Create a queue item
+  #
+  #  @param queue_name
+  #  @param data
+  #  @return - the data from the api
+  #
   def putQueue( queue_name, data)
     params = Hash.new
     params['queue_name'] = queue_name
@@ -1034,6 +1912,12 @@ class CentralIndex
   end
 
 
+  #
+  # With a known queue id, a queue item can be removed.
+  #
+  #  @param queue_id
+  #  @return - the data from the api
+  #
   def deleteQueue( queue_id)
     params = Hash.new
     params['queue_id'] = queue_id
@@ -1041,6 +1925,13 @@ class CentralIndex
   end
 
 
+  #
+  # Retrieve queue items.
+  #
+  #  @param limit
+  #  @param queue_name
+  #  @return - the data from the api
+  #
   def getQueue( limit, queue_name)
     params = Hash.new
     params['limit'] = limit
@@ -1049,6 +1940,13 @@ class CentralIndex
   end
 
 
+  #
+  # Unlock queue items.
+  #
+  #  @param queue_name
+  #  @param seconds
+  #  @return - the data from the api
+  #
   def postQueueUnlock( queue_name, seconds)
     params = Hash.new
     params['queue_name'] = queue_name
@@ -1057,6 +1955,13 @@ class CentralIndex
   end
 
 
+  #
+  # Add an error to a queue item
+  #
+  #  @param queue_id
+  #  @param error
+  #  @return - the data from the api
+  #
   def postQueueError( queue_id, error)
     params = Hash.new
     params['queue_id'] = queue_id
@@ -1065,6 +1970,13 @@ class CentralIndex
   end
 
 
+  #
+  # Find a queue item by its type and id
+  #
+  #  @param type
+  #  @param id
+  #  @return - the data from the api
+  #
   def getQueueSearch( type, id)
     params = Hash.new
     params['type'] = type
@@ -1073,6 +1985,17 @@ class CentralIndex
   end
 
 
+  #
+  # Create a new transaction
+  #
+  #  @param entity_id
+  #  @param user_id
+  #  @param basket_total
+  #  @param basket
+  #  @param currency
+  #  @param notes
+  #  @return - the data from the api
+  #
   def putTransaction( entity_id, user_id, basket_total, basket, currency, notes)
     params = Hash.new
     params['entity_id'] = entity_id
@@ -1085,6 +2008,13 @@ class CentralIndex
   end
 
 
+  #
+  # Set a transactions status to inprogess
+  #
+  #  @param transaction_id
+  #  @param paypal_setexpresscheckout
+  #  @return - the data from the api
+  #
   def postTransactionInprogress( transaction_id, paypal_setexpresscheckout)
     params = Hash.new
     params['transaction_id'] = transaction_id
@@ -1093,6 +2023,13 @@ class CentralIndex
   end
 
 
+  #
+  # Set a transactions status to authorised
+  #
+  #  @param transaction_id
+  #  @param paypal_getexpresscheckoutdetails
+  #  @return - the data from the api
+  #
   def postTransactionAuthorised( transaction_id, paypal_getexpresscheckoutdetails)
     params = Hash.new
     params['transaction_id'] = transaction_id
@@ -1101,6 +2038,15 @@ class CentralIndex
   end
 
 
+  #
+  # Set a transactions status to complete
+  #
+  #  @param transaction_id
+  #  @param paypal_doexpresscheckoutpayment
+  #  @param user_id
+  #  @param entity_id
+  #  @return - the data from the api
+  #
   def postTransactionComplete( transaction_id, paypal_doexpresscheckoutpayment, user_id, entity_id)
     params = Hash.new
     params['transaction_id'] = transaction_id
@@ -1111,6 +2057,12 @@ class CentralIndex
   end
 
 
+  #
+  # Set a transactions status to cancelled
+  #
+  #  @param transaction_id
+  #  @return - the data from the api
+  #
   def postTransactionCancelled( transaction_id)
     params = Hash.new
     params['transaction_id'] = transaction_id
@@ -1118,6 +2070,12 @@ class CentralIndex
   end
 
 
+  #
+  # Given a transaction_id retrieve information on it
+  #
+  #  @param transaction_id
+  #  @return - the data from the api
+  #
   def getTransaction( transaction_id)
     params = Hash.new
     params['transaction_id'] = transaction_id
@@ -1125,6 +2083,12 @@ class CentralIndex
   end
 
 
+  #
+  # Given a transaction_id retrieve information on it
+  #
+  #  @param paypal_transaction_id
+  #  @return - the data from the api
+  #
   def getTransactionBy_paypal_transaction_id( paypal_transaction_id)
     params = Hash.new
     params['paypal_transaction_id'] = paypal_transaction_id
@@ -1132,6 +2096,14 @@ class CentralIndex
   end
 
 
+  #
+  # Allow an entity to be claimed by a valid user
+  #
+  #  @param entity_id
+  #  @param claimed_user_id
+  #  @param claimed_date
+  #  @return - the data from the api
+  #
   def postEntityClaim( entity_id, claimed_user_id, claimed_date)
     params = Hash.new
     params['entity_id'] = entity_id
