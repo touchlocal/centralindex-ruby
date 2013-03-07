@@ -22,6 +22,16 @@ ci = CentralIndex.new('<api key goes here>', false)
 puts ci.getEntity('379236608286720')
 ```
 
+## Ruby Gem
+
+The CentralIndex code is also published as a Ruby Gem
+
+```
+  gem install centralindex
+```
+
+[see RubGems.org](https://rubygems.org/gems/centralindex)
+
 ## Function reference
 
 See the [API Docs](http://developer.centralindex.com/docs/read/API_Reference) for more information.
