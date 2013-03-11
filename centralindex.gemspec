@@ -8,5 +8,5 @@ Gem::Specification.new do |s|
   s.email       = 'developers@centralindex.com'
   s.files       = ["lib/CentralIndex.rb"]
   s.homepage    = 'http://centralindex.com'
-  s.add_dependency('json','')
+  s.add_dependency('json','1.7.7')
 end
