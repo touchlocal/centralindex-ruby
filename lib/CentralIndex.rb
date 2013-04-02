@@ -217,14 +217,14 @@ class CentralIndex
   #
   # Search for matching entities
   #
-  #  @param what
-  #  @param latitude_1
-  #  @param longitude_1
-  #  @param latitude_2
-  #  @param longitude_2
+  #  @param what - What to get results for. E.g. Plumber e.g. plumber
+  #  @param latitude_1 - Latitude of first point in bounding box e.g. 53.396842
+  #  @param longitude_1 - Longitude of first point in bounding box e.g. -6.37619
+  #  @param latitude_2 - Latitude of second point in bounding box e.g. 53.290463
+  #  @param longitude_2 - Longitude of second point in bounding box e.g. -6.207275
   #  @param per_page
   #  @param page
-  #  @param country
+  #  @param country - A valid ISO 3166 country code e.g. ie
   #  @param language
   #  @return - the data from the api
   #
@@ -614,6 +614,46 @@ class CentralIndex
     params['language'] = language
     params['portal_name'] = portal_name
     return doCurl("get","/entity/add",params)
+  end
+
+
+  #
+  # Allows the removal or insertion of tags into an advertiser object
+  #
+  #  @param gen_id - The gen_id of this advertiser
+  #  @param entity_id - The entity_id of the advertiser
+  #  @param language - The tag language to alter
+  #  @param tags_to_add - The tags to add
+  #  @param tags_to_remove - The tags to remove
+  #  @return - the data from the api
+  #
+  def postEntityAdvertiserTag( gen_id, entity_id, language, tags_to_add, tags_to_remove)
+    params = Hash.new
+    params['gen_id'] = gen_id
+    params['entity_id'] = entity_id
+    params['language'] = language
+    params['tags_to_add'] = tags_to_add
+    params['tags_to_remove'] = tags_to_remove
+    return doCurl("post","/entity/advertiser/tag",params)
+  end
+
+
+  #
+  # Allows the removal or insertion of locations into an advertiser object
+  #
+  #  @param gen_id - The gen_id of this advertiser
+  #  @param entity_id - The entity_id of the advertiser
+  #  @param locations_to_add - The locations to add
+  #  @param locations_to_remove - The locations to remove
+  #  @return - the data from the api
+  #
+  def postEntityAdvertiserLocation( gen_id, entity_id, locations_to_add, locations_to_remove)
+    params = Hash.new
+    params['gen_id'] = gen_id
+    params['entity_id'] = entity_id
+    params['locations_to_add'] = locations_to_add
+    params['locations_to_remove'] = locations_to_remove
+    return doCurl("post","/entity/advertiser/location",params)
   end
 
 
@@ -1071,12 +1111,26 @@ class CentralIndex
   #
   # Supply an address to geocode - returns lat/lon and accuracy
   #
-  #  @param address
+  #  @param address1
+  #  @param address2
+  #  @param address3
+  #  @param district
+  #  @param town
+  #  @param county
+  #  @param postcode
+  #  @param country
   #  @return - the data from the api
   #
-  def getToolsGeocode( address)
+  def getToolsGeocode( address1, address2, address3, district, town, county, postcode, country)
     params = Hash.new
-    params['address'] = address
+    params['address1'] = address1
+    params['address2'] = address2
+    params['address3'] = address3
+    params['district'] = district
+    params['town'] = town
+    params['county'] = county
+    params['postcode'] = postcode
+    params['country'] = country
     return doCurl("get","/tools/geocode",params)
   end
 
@@ -1257,9 +1311,12 @@ class CentralIndex
   #  @param expiry
   #  @param is_national
   #  @param language
+  #  @param reseller_ref
+  #  @param reseller_agent_id
+  #  @param publisher_id
   #  @return - the data from the api
   #
-  def postEntityAdvertiser( entity_id, tags, locations, expiry, is_national, language)
+  def postEntityAdvertiser( entity_id, tags, locations, expiry, is_national, language, reseller_ref, reseller_agent_id, publisher_id)
     params = Hash.new
     params['entity_id'] = entity_id
     params['tags'] = tags
@@ -1267,6 +1324,9 @@ class CentralIndex
     params['expiry'] = expiry
     params['is_national'] = is_national
     params['language'] = language
+    params['reseller_ref'] = reseller_ref
+    params['reseller_agent_id'] = reseller_agent_id
+    params['publisher_id'] = publisher_id
     return doCurl("post","/entity/advertiser",params)
   end
 
@@ -1880,7 +1940,7 @@ class CentralIndex
 
 
   #
-  # The search matches a category name or synonym on a given string and language.
+  # The search matches a category name on a given string and language.
   #
   #  @param str - A string to search against, E.g. Plumbers e.g. but
   #  @param language - An ISO compatible language code, E.g. en e.g. en
@@ -1891,6 +1951,21 @@ class CentralIndex
     params['str'] = str
     params['language'] = language
     return doCurl("get","/autocomplete/category",params)
+  end
+
+
+  #
+  # The search matches a category name or synonym on a given string and language.
+  #
+  #  @param str - A string to search against, E.g. Plumbers e.g. but
+  #  @param language - An ISO compatible language code, E.g. en e.g. en
+  #  @return - the data from the api
+  #
+  def getAutocompleteKeyword( str, language)
+    params = Hash.new
+    params['str'] = str
+    params['language'] = language
+    return doCurl("get","/autocomplete/keyword",params)
   end
 
 
@@ -2122,6 +2197,79 @@ class CentralIndex
     params['claimed_user_id'] = claimed_user_id
     params['claimed_date'] = claimed_date
     return doCurl("post","/entity/claim",params)
+  end
+
+
+  #
+  # Update/Add a publisher
+  #
+  #  @param publisher_id
+  #  @param country
+  #  @param name
+  #  @param description
+  #  @param active
+  #  @return - the data from the api
+  #
+  def postPublisher( publisher_id, country, name, description, active)
+    params = Hash.new
+    params['publisher_id'] = publisher_id
+    params['country'] = country
+    params['name'] = name
+    params['description'] = description
+    params['active'] = active
+    return doCurl("post","/publisher",params)
+  end
+
+
+  #
+  # Delete a publisher with a specified publisher_id
+  #
+  #  @param publisher_id
+  #  @return - the data from the api
+  #
+  def deletePublisher( publisher_id)
+    params = Hash.new
+    params['publisher_id'] = publisher_id
+    return doCurl("delete","/publisher",params)
+  end
+
+
+  #
+  # Returns publisher that matches a given publisher id
+  #
+  #  @param publisher_id
+  #  @return - the data from the api
+  #
+  def getPublisher( publisher_id)
+    params = Hash.new
+    params['publisher_id'] = publisher_id
+    return doCurl("get","/publisher",params)
+  end
+
+
+  #
+  # Returns publisher that matches a given publisher id
+  #
+  #  @param country
+  #  @return - the data from the api
+  #
+  def getPublisherByCountry( country)
+    params = Hash.new
+    params['country'] = country
+    return doCurl("get","/publisher/byCountry",params)
+  end
+
+
+  #
+  # Returns publishers that are available for a given entity_id.
+  #
+  #  @param entity_id
+  #  @return - the data from the api
+  #
+  def getPublisherByEntityId( entity_id)
+    params = Hash.new
+    params['entity_id'] = entity_id
+    return doCurl("get","/publisher/byEntityId",params)
   end
 
 
