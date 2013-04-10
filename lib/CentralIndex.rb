@@ -1,3 +1,4 @@
+Starting Wolf using 'dev' configuration
 require 'net/http'
 require "rubygems"
 require "json"
@@ -614,6 +615,23 @@ class CentralIndex
     params['language'] = language
     params['portal_name'] = portal_name
     return doCurl("get","/entity/add",params)
+  end
+
+
+  #
+  # Provides a personalised URL to redirect a user to claim an entity in the Central Index
+  #
+  #  @param language - The language to use to render the add path e.g. en
+  #  @param portal_name - The name of the website that data is to be added on e.g. YourLocal
+  #  @param entity_id - The id of the index card that is being claimed e.g. 379236808425472
+  #  @return - the data from the api
+  #
+  def getEntityClaim( language, portal_name, entity_id)
+    params = Hash.new
+    params['language'] = language
+    params['portal_name'] = portal_name
+    params['entity_id'] = entity_id
+    return doCurl("get","/entity/claim",params)
   end
 
 
@@ -2270,6 +2288,66 @@ class CentralIndex
     params = Hash.new
     params['entity_id'] = entity_id
     return doCurl("get","/publisher/byEntityId",params)
+  end
+
+
+  #
+  # Update/Add a country
+  #
+  #  @param country_id
+  #  @param name
+  #  @param synonyms
+  #  @param continentName
+  #  @param continent
+  #  @param geonameId
+  #  @param dbpediaURL
+  #  @param freebaseURL
+  #  @param population
+  #  @param currencyCode
+  #  @param languages
+  #  @param areaInSqKm
+  #  @param capital
+  #  @param east
+  #  @param west
+  #  @param north
+  #  @param south
+  #  @param claimPrice
+  #  @return - the data from the api
+  #
+  def postCountry( country_id, name, synonyms, continentName, continent, geonameId, dbpediaURL, freebaseURL, population, currencyCode, languages, areaInSqKm, capital, east, west, north, south, claimPrice)
+    params = Hash.new
+    params['country_id'] = country_id
+    params['name'] = name
+    params['synonyms'] = synonyms
+    params['continentName'] = continentName
+    params['continent'] = continent
+    params['geonameId'] = geonameId
+    params['dbpediaURL'] = dbpediaURL
+    params['freebaseURL'] = freebaseURL
+    params['population'] = population
+    params['currencyCode'] = currencyCode
+    params['languages'] = languages
+    params['areaInSqKm'] = areaInSqKm
+    params['capital'] = capital
+    params['east'] = east
+    params['west'] = west
+    params['north'] = north
+    params['south'] = south
+    params['claimPrice'] = claimPrice
+    return doCurl("post","/country",params)
+  end
+
+
+  #
+  # Fetching a country
+  #
+  #  @param country_id
+  #  @return - the data from the api
+  #
+  def getCountry( country_id)
+    params = Hash.new
+    params['country_id'] = country_id
+    return doCurl("get","/country",params)
   end
 
 
