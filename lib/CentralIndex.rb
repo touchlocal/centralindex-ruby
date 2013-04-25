@@ -541,14 +541,14 @@ class CentralIndex
   # Supply an entity and an object within it (e.g. a phone number), and retrieve a URL that allows the user to report an issue with that object
   #
   #  @param entity_id - The unique Entity ID e.g. 379236608286720
-  #  @param gen_id - A Unique ID for the object you wish to report, E.g. Phone number e.g. 379236608299008
+  #  @param portal_name - The name of the portal that the user is coming from e.g. YourLocal
   #  @param language
   #  @return - the data from the api
   #
-  def getEntityReport( entity_id, gen_id, language)
+  def getEntityReport( entity_id, portal_name, language)
     params = Hash.new
     params['entity_id'] = entity_id
-    params['gen_id'] = gen_id
+    params['portal_name'] = portal_name
     params['language'] = language
     return doCurl("get","/entity/report",params)
   end
@@ -2425,6 +2425,68 @@ class CentralIndex
     params['year'] = year
     params['month'] = month
     return doCurl("get","/stats/entity/by_date",params)
+  end
+
+
+  #
+  # Update/Add a traction
+  #
+  #  @param traction_id
+  #  @param trigger_type
+  #  @param action_type
+  #  @param email_addresses
+  #  @param title
+  #  @param body
+  #  @param active
+  #  @return - the data from the api
+  #
+  def postTraction( traction_id, trigger_type, action_type, email_addresses, title, body, active)
+    params = Hash.new
+    params['traction_id'] = traction_id
+    params['trigger_type'] = trigger_type
+    params['action_type'] = action_type
+    params['email_addresses'] = email_addresses
+    params['title'] = title
+    params['body'] = body
+    params['active'] = active
+    return doCurl("post","/traction",params)
+  end
+
+
+  #
+  # Fetching a traction
+  #
+  #  @param traction_id
+  #  @return - the data from the api
+  #
+  def getTraction( traction_id)
+    params = Hash.new
+    params['traction_id'] = traction_id
+    return doCurl("get","/traction",params)
+  end
+
+
+  #
+  # Fetching active tractions
+  #
+  #  @return - the data from the api
+  #
+  def getTractionActive()
+    params = Hash.new
+    return doCurl("get","/traction/active",params)
+  end
+
+
+  #
+  # Deleting a traction
+  #
+  #  @param traction_id
+  #  @return - the data from the api
+  #
+  def deleteTraction( traction_id)
+    params = Hash.new
+    params['traction_id'] = traction_id
+    return doCurl("delete","/traction",params)
   end
 
 
