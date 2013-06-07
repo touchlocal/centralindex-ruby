@@ -1800,17 +1800,15 @@ class CentralIndex
 
 
   #
-  # With a known entity id, avideo object can be added.
+  # With a known entity id, a YouTube video object can be added.
   #
   #  @param entity_id
-  #  @param title
   #  @param embed_code
   #  @return - the data from the api
   #
-  def postEntityVideoYoutube( entity_id, title, embed_code)
+  def postEntityVideoYoutube( entity_id, embed_code)
     params = Hash.new
     params['entity_id'] = entity_id
-    params['title'] = title
     params['embed_code'] = embed_code
     return doCurl("post","/entity/video/youtube",params)
   end
