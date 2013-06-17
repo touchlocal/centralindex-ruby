@@ -1273,6 +1273,25 @@ class CentralIndex
 
 
   #
+  # Ring the person and verify their account
+  #
+  #  @param to - The phone number to verify
+  #  @param from - The phone number to call from
+  #  @param pin - The pin to verify the phone number with
+  #  @param language - The language to read the verification in
+  #  @return - the data from the api
+  #
+  def getToolsPhonecallVerify( to, from, pin, language)
+    params = Hash.new
+    params['to'] = to
+    params['from'] = from
+    params['pin'] = pin
+    params['language'] = language
+    return doCurl("get","/tools/phonecall/verify",params)
+  end
+
+
+  #
   # Given a spreadsheet id add a row
   #
   #  @param spreadsheet_key - The key of the spreadsheet to edit
@@ -1531,6 +1550,21 @@ class CentralIndex
     params['locations_to_add'] = locations_to_add
     params['locations_to_remove'] = locations_to_remove
     return doCurl("post","/entity/advertiser/location",params)
+  end
+
+
+  #
+  # Get all advertisers that have been updated from a give date for a given reseller
+  #
+  #  @param from_date
+  #  @param country
+  #  @return - the data from the api
+  #
+  def getAdvertiserUpdated( from_date, country)
+    params = Hash.new
+    params['from_date'] = from_date
+    params['country'] = country
+    return doCurl("get","/advertiser/updated",params)
   end
 
 
