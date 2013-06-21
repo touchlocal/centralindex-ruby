@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = 'centralindex'
-  s.version     = '0.0.4'
+  s.version     = '0.0.13'
   s.date        = '2013-03-07'
   s.summary     = "Ruby library for Central Index, the world's local data exchange"
   s.description = "Allows easy integration with the Central Index API"
