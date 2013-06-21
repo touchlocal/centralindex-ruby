@@ -1857,7 +1857,6 @@ class CentralIndex
   #  @param country - the country to use for searches etc
   #  @param mapsType - the type of maps to use
   #  @param mapKey - the nokia map key to use to render maps
-  #  @param analyticsHTML - the html to insert to record page views
   #  @param searchFormShowOn - list of pages to show the search form
   #  @param searchFormShowKeywordsBox - whether to display the keywords box on the search form
   #  @param searchFormShowLocationBox - whether to display the location box on search forms - not required
@@ -1873,9 +1872,10 @@ class CentralIndex
   #  @param homepageDescription - the meta description of the home page
   #  @param homepageIntroTitle - the introductory title for the homepage
   #  @param homepageIntroText - the introductory text for the homepage
-  #  @param adblockHeader - the html (JS) to render an advert
-  #  @param adblock728x90 - the html (JS) to render a 728x90 advert
-  #  @param adblock468x60 - the html (JS) to render a 468x60 advert
+  #  @param head - payload to put in the head of the flatpack
+  #  @param adblock - payload to put in the adblock of the flatpack
+  #  @param bodyTop - the payload to put in the top of the body of a flatpack
+  #  @param bodyBottom - the payload to put in the bottom of the body of a flatpack
   #  @param header_menu - the JSON that describes a navigation at the top of the page
   #  @param footer_menu - the JSON that describes a navigation at the bottom of the page
   #  @param bdpTitle - The page title of the entity business profile pages
@@ -1891,9 +1891,16 @@ class CentralIndex
   #  @param addBusinessButtonText - The text used in the 'Add your business' button
   #  @param twitterUrl - Twitter link
   #  @param facebookUrl - Facebook link
+  #  @param copyright - Copyright message
+  #  @param advertUpgradeActive - whether upgrade message is displayed on this Flatpack
+  #  @param advertUpgradePrice - the cost of upgrading
+  #  @param advertUpgradeMaxTags - the number of tags upgrading gives you
+  #  @param advertUpgradeMaxLocations - the number of locations upgrading gives you
+  #  @param advertUpgradeContractLength - the length of the contract (days)
+  #  @param advertUpgradeRefId - a unique reference for the upgrade
   #  @return - the data from the api
   #
-  def postFlatpack( flatpack_id, domainName, flatpackName, less, language, country, mapsType, mapKey, analyticsHTML, searchFormShowOn, searchFormShowKeywordsBox, searchFormShowLocationBox, searchFormKeywordsAutoComplete, searchFormLocationsAutoComplete, searchFormDefaultLocation, searchFormPlaceholderKeywords, searchFormPlaceholderLocation, searchFormKeywordsLabel, searchFormLocationLabel, cannedLinksHeader, homepageTitle, homepageDescription, homepageIntroTitle, homepageIntroText, adblockHeader, adblock728x90, adblock468x60, header_menu, footer_menu, bdpTitle, bdpDescription, bdpAds, serpTitle, serpDescription, serpNumberResults, serpNumberAdverts, serpAds, cookiePolicyUrl, cookiePolicyNotice, addBusinessButtonText, twitterUrl, facebookUrl)
+  def postFlatpack( flatpack_id, domainName, flatpackName, less, language, country, mapsType, mapKey, searchFormShowOn, searchFormShowKeywordsBox, searchFormShowLocationBox, searchFormKeywordsAutoComplete, searchFormLocationsAutoComplete, searchFormDefaultLocation, searchFormPlaceholderKeywords, searchFormPlaceholderLocation, searchFormKeywordsLabel, searchFormLocationLabel, cannedLinksHeader, homepageTitle, homepageDescription, homepageIntroTitle, homepageIntroText, head, adblock, bodyTop, bodyBottom, header_menu, footer_menu, bdpTitle, bdpDescription, bdpAds, serpTitle, serpDescription, serpNumberResults, serpNumberAdverts, serpAds, cookiePolicyUrl, cookiePolicyNotice, addBusinessButtonText, twitterUrl, facebookUrl, copyright, advertUpgradeActive, advertUpgradePrice, advertUpgradeMaxTags, advertUpgradeMaxLocations, advertUpgradeContractLength, advertUpgradeRefId)
     params = Hash.new
     params['flatpack_id'] = flatpack_id
     params['domainName'] = domainName
@@ -1903,7 +1910,6 @@ class CentralIndex
     params['country'] = country
     params['mapsType'] = mapsType
     params['mapKey'] = mapKey
-    params['analyticsHTML'] = analyticsHTML
     params['searchFormShowOn'] = searchFormShowOn
     params['searchFormShowKeywordsBox'] = searchFormShowKeywordsBox
     params['searchFormShowLocationBox'] = searchFormShowLocationBox
@@ -1919,9 +1925,10 @@ class CentralIndex
     params['homepageDescription'] = homepageDescription
     params['homepageIntroTitle'] = homepageIntroTitle
     params['homepageIntroText'] = homepageIntroText
-    params['adblockHeader'] = adblockHeader
-    params['adblock728x90'] = adblock728x90
-    params['adblock468x60'] = adblock468x60
+    params['head'] = head
+    params['adblock'] = adblock
+    params['bodyTop'] = bodyTop
+    params['bodyBottom'] = bodyBottom
     params['header_menu'] = header_menu
     params['footer_menu'] = footer_menu
     params['bdpTitle'] = bdpTitle
@@ -1937,6 +1944,13 @@ class CentralIndex
     params['addBusinessButtonText'] = addBusinessButtonText
     params['twitterUrl'] = twitterUrl
     params['facebookUrl'] = facebookUrl
+    params['copyright'] = copyright
+    params['advertUpgradeActive'] = advertUpgradeActive
+    params['advertUpgradePrice'] = advertUpgradePrice
+    params['advertUpgradeMaxTags'] = advertUpgradeMaxTags
+    params['advertUpgradeMaxLocations'] = advertUpgradeMaxLocations
+    params['advertUpgradeContractLength'] = advertUpgradeContractLength
+    params['advertUpgradeRefId'] = advertUpgradeRefId
     return doCurl("post","/flatpack",params)
   end
 
