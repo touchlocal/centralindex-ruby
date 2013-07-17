@@ -3390,10 +3390,11 @@ class CentralIndex
   #  @param api_params
   #  @param active
   #  @param reseller_masheryid
+  #  @param publisher_masheryid
   #  @param description
   #  @return - the data from the api
   #
-  def postTraction( traction_id, trigger_type, action_type, country, email_addresses, title, body, api_method, api_url, api_params, active, reseller_masheryid, description)
+  def postTraction( traction_id, trigger_type, action_type, country, email_addresses, title, body, api_method, api_url, api_params, active, reseller_masheryid, publisher_masheryid, description)
     params = Hash.new
     params['traction_id'] = traction_id
     params['trigger_type'] = trigger_type
@@ -3407,6 +3408,7 @@ class CentralIndex
     params['api_params'] = api_params
     params['active'] = active
     params['reseller_masheryid'] = reseller_masheryid
+    params['publisher_masheryid'] = publisher_masheryid
     params['description'] = description
     return doCurl("post","/traction",params)
   end
