@@ -324,6 +324,19 @@ class CentralIndex
 
 
   #
+  # Returns the supplied wolf category object by fetching the supplied category_id from our categories object.
+  #
+  #  @param category_id
+  #  @return - the data from the api
+  #
+  def getCategory( category_id)
+    params = Hash.new
+    params['category_id'] = category_id
+    return doCurl("get","/category",params)
+  end
+
+
+  #
   # With a known category id, an category object can be added.
   #
   #  @param category_id
@@ -341,19 +354,6 @@ class CentralIndex
 
 
   #
-  # Returns the supplied wolf category object by fetching the supplied category_id from our categories object.
-  #
-  #  @param category_id
-  #  @return - the data from the api
-  #
-  def getCategory( category_id)
-    params = Hash.new
-    params['category_id'] = category_id
-    return doCurl("get","/category",params)
-  end
-
-
-  #
   # Returns all Central Index categories and associated data
   #
   #  @return - the data from the api
@@ -361,6 +361,23 @@ class CentralIndex
   def getCategoryAll()
     params = Hash.new
     return doCurl("get","/category/all",params)
+  end
+
+
+  #
+  # With a known category id, a mapping object can be deleted.
+  #
+  #  @param category_id
+  #  @param category_type
+  #  @param mapped_id
+  #  @return - the data from the api
+  #
+  def deleteCategoryMappings( category_id, category_type, mapped_id)
+    params = Hash.new
+    params['category_id'] = category_id
+    params['category_type'] = category_type
+    params['mapped_id'] = mapped_id
+    return doCurl("delete","/category/mappings",params)
   end
 
 
@@ -380,23 +397,6 @@ class CentralIndex
     params['id'] = id
     params['name'] = name
     return doCurl("post","/category/mappings",params)
-  end
-
-
-  #
-  # With a known category id, a mapping object can be deleted.
-  #
-  #  @param category_id
-  #  @param category_type
-  #  @param mapped_id
-  #  @return - the data from the api
-  #
-  def deleteCategoryMappings( category_id, category_type, mapped_id)
-    params = Hash.new
-    params['category_id'] = category_id
-    params['category_type'] = category_type
-    params['mapped_id'] = mapped_id
-    return doCurl("delete","/category/mappings",params)
   end
 
 
@@ -814,21 +814,6 @@ class CentralIndex
 
 
   #
-  # Allows an affiliate link object to be reduced in confidence
-  #
-  #  @param entity_id
-  #  @param gen_id
-  #  @return - the data from the api
-  #
-  def deleteEntityAffiliate_link( entity_id, gen_id)
-    params = Hash.new
-    params['entity_id'] = entity_id
-    params['gen_id'] = gen_id
-    return doCurl("delete","/entity/affiliate_link",params)
-  end
-
-
-  #
   # With a known entity id, an affiliate link object can be added.
   #
   #  @param entity_id
@@ -846,6 +831,21 @@ class CentralIndex
     params['affiliate_message'] = affiliate_message
     params['affiliate_logo'] = affiliate_logo
     return doCurl("post","/entity/affiliate_link",params)
+  end
+
+
+  #
+  # Allows an affiliate link object to be reduced in confidence
+  #
+  #  @param entity_id
+  #  @param gen_id
+  #  @return - the data from the api
+  #
+  def deleteEntityAffiliate_link( entity_id, gen_id)
+    params = Hash.new
+    params['entity_id'] = entity_id
+    params['gen_id'] = gen_id
+    return doCurl("delete","/entity/affiliate_link",params)
   end
 
 
@@ -1036,21 +1036,6 @@ class CentralIndex
 
 
   #
-  # Allows a description object to be reduced in confidence
-  #
-  #  @param entity_id
-  #  @param gen_id
-  #  @return - the data from the api
-  #
-  def deleteEntityDescription( entity_id, gen_id)
-    params = Hash.new
-    params['entity_id'] = entity_id
-    params['gen_id'] = gen_id
-    return doCurl("delete","/entity/description",params)
-  end
-
-
-  #
   # With a known entity id, a description object can be added.
   #
   #  @param entity_id
@@ -1068,17 +1053,17 @@ class CentralIndex
 
 
   #
-  # Allows a phone object to be reduced in confidence
+  # Allows a description object to be reduced in confidence
   #
   #  @param entity_id
   #  @param gen_id
   #  @return - the data from the api
   #
-  def deleteEntityDocument( entity_id, gen_id)
+  def deleteEntityDescription( entity_id, gen_id)
     params = Hash.new
     params['entity_id'] = entity_id
     params['gen_id'] = gen_id
-    return doCurl("delete","/entity/document",params)
+    return doCurl("delete","/entity/description",params)
   end
 
 
@@ -1100,17 +1085,17 @@ class CentralIndex
 
 
   #
-  # Allows a email object to be reduced in confidence
+  # Allows a phone object to be reduced in confidence
   #
   #  @param entity_id
   #  @param gen_id
   #  @return - the data from the api
   #
-  def deleteEntityEmail( entity_id, gen_id)
+  def deleteEntityDocument( entity_id, gen_id)
     params = Hash.new
     params['entity_id'] = entity_id
     params['gen_id'] = gen_id
-    return doCurl("delete","/entity/email",params)
+    return doCurl("delete","/entity/document",params)
   end
 
 
@@ -1128,6 +1113,36 @@ class CentralIndex
     params['email_address'] = email_address
     params['email_description'] = email_description
     return doCurl("post","/entity/email",params)
+  end
+
+
+  #
+  # Allows a email object to be reduced in confidence
+  #
+  #  @param entity_id
+  #  @param gen_id
+  #  @return - the data from the api
+  #
+  def deleteEntityEmail( entity_id, gen_id)
+    params = Hash.new
+    params['entity_id'] = entity_id
+    params['gen_id'] = gen_id
+    return doCurl("delete","/entity/email",params)
+  end
+
+
+  #
+  # Allows an employee object to be reduced in confidence
+  #
+  #  @param entity_id
+  #  @param gen_id
+  #  @return - the data from the api
+  #
+  def deleteEntityEmployee( entity_id, gen_id)
+    params = Hash.new
+    params['entity_id'] = entity_id
+    params['gen_id'] = gen_id
+    return doCurl("delete","/entity/employee",params)
   end
 
 
@@ -1155,21 +1170,6 @@ class CentralIndex
     params['email'] = email
     params['phone_number'] = phone_number
     return doCurl("post","/entity/employee",params)
-  end
-
-
-  #
-  # Allows an employee object to be reduced in confidence
-  #
-  #  @param entity_id
-  #  @param gen_id
-  #  @return - the data from the api
-  #
-  def deleteEntityEmployee( entity_id, gen_id)
-    params = Hash.new
-    params['entity_id'] = entity_id
-    params['gen_id'] = gen_id
-    return doCurl("delete","/entity/employee",params)
   end
 
 
@@ -1225,6 +1225,21 @@ class CentralIndex
 
 
   #
+  # Allows a group object to be removed from an entities group members
+  #
+  #  @param entity_id
+  #  @param gen_id
+  #  @return - the data from the api
+  #
+  def deleteEntityGroup( entity_id, gen_id)
+    params = Hash.new
+    params['entity_id'] = entity_id
+    params['gen_id'] = gen_id
+    return doCurl("delete","/entity/group",params)
+  end
+
+
+  #
   # With a known entity id, a group  can be added to group members.
   #
   #  @param entity_id
@@ -1240,17 +1255,17 @@ class CentralIndex
 
 
   #
-  # Allows a group object to be removed from an entities group members
+  # Allows a image object to be reduced in confidence
   #
   #  @param entity_id
   #  @param gen_id
   #  @return - the data from the api
   #
-  def deleteEntityGroup( entity_id, gen_id)
+  def deleteEntityImage( entity_id, gen_id)
     params = Hash.new
     params['entity_id'] = entity_id
     params['gen_id'] = gen_id
-    return doCurl("delete","/entity/group",params)
+    return doCurl("delete","/entity/image",params)
   end
 
 
@@ -1268,21 +1283,6 @@ class CentralIndex
     params['filedata'] = filedata
     params['image_name'] = image_name
     return doCurl("post","/entity/image",params)
-  end
-
-
-  #
-  # Allows a image object to be reduced in confidence
-  #
-  #  @param entity_id
-  #  @param gen_id
-  #  @return - the data from the api
-  #
-  def deleteEntityImage( entity_id, gen_id)
-    params = Hash.new
-    params['entity_id'] = entity_id
-    params['gen_id'] = gen_id
-    return doCurl("delete","/entity/image",params)
   end
 
 
@@ -1442,6 +1442,19 @@ class CentralIndex
     params['name'] = name
     params['formal_name'] = formal_name
     return doCurl("post","/entity/name",params)
+  end
+
+
+  #
+  # With a known entity id, a opening times object can be removed.
+  #
+  #  @param entity_id - The id of the entity to edit
+  #  @return - the data from the api
+  #
+  def deleteEntityOpening_times( entity_id)
+    params = Hash.new
+    params['entity_id'] = entity_id
+    return doCurl("delete","/entity/opening_times",params)
   end
 
 
@@ -1823,21 +1836,6 @@ class CentralIndex
 
 
   #
-  # Allows a social media object to be reduced in confidence
-  #
-  #  @param entity_id
-  #  @param gen_id
-  #  @return - the data from the api
-  #
-  def deleteEntitySocialmedia( entity_id, gen_id)
-    params = Hash.new
-    params['entity_id'] = entity_id
-    params['gen_id'] = gen_id
-    return doCurl("delete","/entity/socialmedia",params)
-  end
-
-
-  #
   # With a known entity id, a social media object can be added.
   #
   #  @param entity_id
@@ -1851,6 +1849,21 @@ class CentralIndex
     params['type'] = type
     params['website_url'] = website_url
     return doCurl("post","/entity/socialmedia",params)
+  end
+
+
+  #
+  # Allows a social media object to be reduced in confidence
+  #
+  #  @param entity_id
+  #  @param gen_id
+  #  @return - the data from the api
+  #
+  def deleteEntitySocialmedia( entity_id, gen_id)
+    params = Hash.new
+    params['entity_id'] = entity_id
+    params['gen_id'] = gen_id
+    return doCurl("delete","/entity/socialmedia",params)
   end
 
 
@@ -1944,21 +1957,6 @@ class CentralIndex
 
 
   #
-  # Allows a testimonial object to be reduced in confidence
-  #
-  #  @param entity_id
-  #  @param gen_id
-  #  @return - the data from the api
-  #
-  def deleteEntityTestimonial( entity_id, gen_id)
-    params = Hash.new
-    params['entity_id'] = entity_id
-    params['gen_id'] = gen_id
-    return doCurl("delete","/entity/testimonial",params)
-  end
-
-
-  #
   # With a known entity id, a testimonial object can be added.
   #
   #  @param entity_id
@@ -1976,6 +1974,21 @@ class CentralIndex
     params['date'] = date
     params['testifier_name'] = testifier_name
     return doCurl("post","/entity/testimonial",params)
+  end
+
+
+  #
+  # Allows a testimonial object to be reduced in confidence
+  #
+  #  @param entity_id
+  #  @param gen_id
+  #  @return - the data from the api
+  #
+  def deleteEntityTestimonial( entity_id, gen_id)
+    params = Hash.new
+    params['entity_id'] = entity_id
+    params['gen_id'] = gen_id
+    return doCurl("delete","/entity/testimonial",params)
   end
 
 
@@ -2074,32 +2087,6 @@ class CentralIndex
     params['country'] = country
     params['event_type'] = event_type
     return doCurl("put","/entityserve",params)
-  end
-
-
-  #
-  # Get a flatpack
-  #
-  #  @param flatpack_id - the unique id to search for
-  #  @return - the data from the api
-  #
-  def getFlatpack( flatpack_id)
-    params = Hash.new
-    params['flatpack_id'] = flatpack_id
-    return doCurl("get","/flatpack",params)
-  end
-
-
-  #
-  # Remove a flatpack using a supplied flatpack_id
-  #
-  #  @param flatpack_id - the id of the flatpack to delete
-  #  @return - the data from the api
-  #
-  def deleteFlatpack( flatpack_id)
-    params = Hash.new
-    params['flatpack_id'] = flatpack_id
-    return doCurl("delete","/flatpack",params)
   end
 
 
@@ -2221,6 +2208,32 @@ class CentralIndex
     params['contextLocationId'] = contextLocationId
     params['addBusinessButtonPosition'] = addBusinessButtonPosition
     return doCurl("post","/flatpack",params)
+  end
+
+
+  #
+  # Get a flatpack
+  #
+  #  @param flatpack_id - the unique id to search for
+  #  @return - the data from the api
+  #
+  def getFlatpack( flatpack_id)
+    params = Hash.new
+    params['flatpack_id'] = flatpack_id
+    return doCurl("get","/flatpack",params)
+  end
+
+
+  #
+  # Remove a flatpack using a supplied flatpack_id
+  #
+  #  @param flatpack_id - the id of the flatpack to delete
+  #  @return - the data from the api
+  #
+  def deleteFlatpack( flatpack_id)
+    params = Hash.new
+    params['flatpack_id'] = flatpack_id
+    return doCurl("delete","/flatpack",params)
   end
 
 
