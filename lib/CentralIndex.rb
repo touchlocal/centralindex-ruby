@@ -2907,11 +2907,13 @@ class CentralIndex
   # Perform the whole PTB process on the supplied entity
   #
   #  @param entity_id
+  #  @param destructive
   #  @return - the data from the api
   #
-  def getPtbAll( entity_id)
+  def getPtbAll( entity_id, destructive)
     params = Hash.new
     params['entity_id'] = entity_id
+    params['destructive'] = destructive
     return doCurl("get","/ptb/all",params)
   end
 
@@ -2938,12 +2940,14 @@ class CentralIndex
   #
   #  @param entity_id
   #  @param module
+  #  @param destructive
   #  @return - the data from the api
   #
-  def getPtbModule( entity_id, module)
+  def getPtbModule( entity_id, module, destructive)
     params = Hash.new
     params['entity_id'] = entity_id
     params['module'] = module
+    params['destructive'] = destructive
     return doCurl("get","/ptb/module",params)
   end
 
