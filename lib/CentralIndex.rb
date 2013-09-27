@@ -2495,12 +2495,14 @@ class CentralIndex
   #
   #  @param from_date
   #  @param to_date
+  #  @param country_id
   #  @return - the data from the api
   #
-  def getHeartbeatBy_date( from_date, to_date)
+  def getHeartbeatBy_date( from_date, to_date, country_id)
     params = Hash.new
     params['from_date'] = from_date
     params['to_date'] = to_date
+    params['country_id'] = country_id
     return doCurl("get","/heartbeat/by_date",params)
   end
 
