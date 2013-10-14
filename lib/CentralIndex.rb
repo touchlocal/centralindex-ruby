@@ -2968,10 +2968,10 @@ class CentralIndex
   #  @param destructive
   #  @return - the data from the api
   #
-  def getPtbModule( entity_id, module, destructive)
+  def getPtbModule( entity_id, __module, destructive)
     params = Hash.new
     params['entity_id'] = entity_id
-    params['module'] = module
+    params['module'] = __module
     params['destructive'] = destructive
     return doCurl("get","/ptb/module",params)
   end
