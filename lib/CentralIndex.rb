@@ -60,6 +60,56 @@ class CentralIndex
 
 
   #
+  # Get the activity from the collection
+  #
+  #  @param type - The activity type: add, claim, special offer, image, video, description, testimonial
+  #  @param country - The country to filter by
+  #  @param latitude_1 - The latitude_1 to filter by
+  #  @param longitude_1 - The longitude_1 to filter by
+  #  @param latitude_2 - The latitude_2 to filter by
+  #  @param longitude_2 - The longitude_2 to filter by
+  #  @param number_results - The number_results to filter by
+  #  @param unique_action - Return only the most recent instance of this action?
+  #  @return - the data from the api
+  #
+  def getActivity_stream( type, country, latitude_1, longitude_1, latitude_2, longitude_2, number_results, unique_action)
+    params = Hash.new
+    params['type'] = type
+    params['country'] = country
+    params['latitude_1'] = latitude_1
+    params['longitude_1'] = longitude_1
+    params['latitude_2'] = latitude_2
+    params['longitude_2'] = longitude_2
+    params['number_results'] = number_results
+    params['unique_action'] = unique_action
+    return doCurl("get","/activity_stream",params)
+  end
+
+
+  #
+  # When we get some activity make a record of it
+  #
+  #  @param entity_id - The entity to pull
+  #  @param entity_name - The entity name this entry refers to
+  #  @param type - The activity type.
+  #  @param country - The country for the activity
+  #  @param longitude - The longitude for teh activity
+  #  @param latitude - The latitude for teh activity
+  #  @return - the data from the api
+  #
+  def postActivity_stream( entity_id, entity_name, type, country, longitude, latitude)
+    params = Hash.new
+    params['entity_id'] = entity_id
+    params['entity_name'] = entity_name
+    params['type'] = type
+    params['country'] = country
+    params['longitude'] = longitude
+    params['latitude'] = latitude
+    return doCurl("post","/activity_stream",params)
+  end
+
+
+  #
   # Get all advertisers that have been updated from a give date for a given reseller
   #
   #  @param from_date
@@ -160,6 +210,7 @@ class CentralIndex
   #
   #  @param name
   #  @param building_number
+  #  @param branch_name
   #  @param address1
   #  @param address2
   #  @param address3
@@ -183,10 +234,11 @@ class CentralIndex
   #  @param referrer_name
   #  @return - the data from the api
   #
-  def putBusiness( name, building_number, address1, address2, address3, district, town, county, province, postcode, country, latitude, longitude, timezone, telephone_number, additional_telephone_number, email, website, category_id, category_type, do_not_display, referrer_url, referrer_name)
+  def putBusiness( name, building_number, branch_name, address1, address2, address3, district, town, county, province, postcode, country, latitude, longitude, timezone, telephone_number, additional_telephone_number, email, website, category_id, category_type, do_not_display, referrer_url, referrer_name)
     params = Hash.new
     params['name'] = name
     params['building_number'] = building_number
+    params['branch_name'] = branch_name
     params['address1'] = address1
     params['address2'] = address2
     params['address3'] = address3
@@ -213,32 +265,6 @@ class CentralIndex
 
 
   #
-  # Returns business tool that matches a given tool id
-  #
-  #  @param tool_id
-  #  @return - the data from the api
-  #
-  def getBusiness_tool( tool_id)
-    params = Hash.new
-    params['tool_id'] = tool_id
-    return doCurl("get","/business_tool",params)
-  end
-
-
-  #
-  # Delete a business tool with a specified tool_id
-  #
-  #  @param tool_id
-  #  @return - the data from the api
-  #
-  def deleteBusiness_tool( tool_id)
-    params = Hash.new
-    params['tool_id'] = tool_id
-    return doCurl("delete","/business_tool",params)
-  end
-
-
-  #
   # Update/Add a Business Tool
   #
   #  @param tool_id
@@ -258,6 +284,32 @@ class CentralIndex
     params['link_url'] = link_url
     params['active'] = active
     return doCurl("post","/business_tool",params)
+  end
+
+
+  #
+  # Delete a business tool with a specified tool_id
+  #
+  #  @param tool_id
+  #  @return - the data from the api
+  #
+  def deleteBusiness_tool( tool_id)
+    params = Hash.new
+    params['tool_id'] = tool_id
+    return doCurl("delete","/business_tool",params)
+  end
+
+
+  #
+  # Returns business tool that matches a given tool id
+  #
+  #  @param tool_id
+  #  @return - the data from the api
+  #
+  def getBusiness_tool( tool_id)
+    params = Hash.new
+    params['tool_id'] = tool_id
+    return doCurl("get","/business_tool",params)
   end
 
 
@@ -331,6 +383,23 @@ class CentralIndex
 
 
   #
+  # With a known category id, a mapping object can be deleted.
+  #
+  #  @param category_id
+  #  @param category_type
+  #  @param mapped_id
+  #  @return - the data from the api
+  #
+  def deleteCategoryMappings( category_id, category_type, mapped_id)
+    params = Hash.new
+    params['category_id'] = category_id
+    params['category_type'] = category_type
+    params['mapped_id'] = mapped_id
+    return doCurl("delete","/category/mappings",params)
+  end
+
+
+  #
   # With a known category id, a mapping object can be added.
   #
   #  @param category_id
@@ -346,23 +415,6 @@ class CentralIndex
     params['id'] = id
     params['name'] = name
     return doCurl("post","/category/mappings",params)
-  end
-
-
-  #
-  # With a known category id, a mapping object can be deleted.
-  #
-  #  @param category_id
-  #  @param category_type
-  #  @param mapped_id
-  #  @return - the data from the api
-  #
-  def deleteCategoryMappings( category_id, category_type, mapped_id)
-    params = Hash.new
-    params['category_id'] = category_id
-    params['category_type'] = category_type
-    params['mapped_id'] = mapped_id
-    return doCurl("delete","/category/mappings",params)
   end
 
 
@@ -416,15 +468,252 @@ class CentralIndex
 
 
   #
-  # Fetching a country
+  # Get the contract from the ID supplied
   #
-  #  @param country_id
+  #  @param contract_id
   #  @return - the data from the api
   #
-  def getCountry( country_id)
+  def getContract( contract_id)
     params = Hash.new
-    params['country_id'] = country_id
-    return doCurl("get","/country",params)
+    params['contract_id'] = contract_id
+    return doCurl("get","/contract",params)
+  end
+
+
+  #
+  # Get a contract from the payment provider id supplied
+  #
+  #  @param payment_provider
+  #  @param payment_provider_id
+  #  @return - the data from the api
+  #
+  def getContractBy_payment_provider_id( payment_provider, payment_provider_id)
+    params = Hash.new
+    params['payment_provider'] = payment_provider
+    params['payment_provider_id'] = payment_provider_id
+    return doCurl("get","/contract/by_payment_provider_id",params)
+  end
+
+
+  #
+  # Get the active contracts from the ID supplied
+  #
+  #  @param user_id
+  #  @return - the data from the api
+  #
+  def getContractBy_user_id( user_id)
+    params = Hash.new
+    params['user_id'] = user_id
+    return doCurl("get","/contract/by_user_id",params)
+  end
+
+
+  #
+  # Cancels an existing contract for a given id
+  #
+  #  @param contract_id
+  #  @return - the data from the api
+  #
+  def postContractCancel( contract_id)
+    params = Hash.new
+    params['contract_id'] = contract_id
+    return doCurl("post","/contract/cancel",params)
+  end
+
+
+  #
+  # Creates a new contract for a given entity
+  #
+  #  @param entity_id
+  #  @param user_id
+  #  @param payment_provider
+  #  @param basket
+  #  @param billing_period
+  #  @param source
+  #  @param channel
+  #  @param campaign
+  #  @return - the data from the api
+  #
+  def postContractCreate( entity_id, user_id, payment_provider, basket, billing_period, source, channel, campaign)
+    params = Hash.new
+    params['entity_id'] = entity_id
+    params['user_id'] = user_id
+    params['payment_provider'] = payment_provider
+    params['basket'] = basket
+    params['billing_period'] = billing_period
+    params['source'] = source
+    params['channel'] = channel
+    params['campaign'] = campaign
+    return doCurl("post","/contract/create",params)
+  end
+
+
+  #
+  # When we failed to receive money add the dates etc to the contract
+  #
+  #  @param contract_id
+  #  @param failure_reason
+  #  @param payment_date
+  #  @param amount
+  #  @param currency
+  #  @param response
+  #  @return - the data from the api
+  #
+  def postContractPaymentFailure( contract_id, failure_reason, payment_date, amount, currency, response)
+    params = Hash.new
+    params['contract_id'] = contract_id
+    params['failure_reason'] = failure_reason
+    params['payment_date'] = payment_date
+    params['amount'] = amount
+    params['currency'] = currency
+    params['response'] = response
+    return doCurl("post","/contract/payment/failure",params)
+  end
+
+
+  #
+  # Adds payment details to a given contract_id
+  #
+  #  @param contract_id
+  #  @param payment_provider_id
+  #  @param payment_provider_profile
+  #  @param user_name
+  #  @param user_surname
+  #  @param user_billing_address
+  #  @param user_email_address
+  #  @return - the data from the api
+  #
+  def postContractPaymentSetup( contract_id, payment_provider_id, payment_provider_profile, user_name, user_surname, user_billing_address, user_email_address)
+    params = Hash.new
+    params['contract_id'] = contract_id
+    params['payment_provider_id'] = payment_provider_id
+    params['payment_provider_profile'] = payment_provider_profile
+    params['user_name'] = user_name
+    params['user_surname'] = user_surname
+    params['user_billing_address'] = user_billing_address
+    params['user_email_address'] = user_email_address
+    return doCurl("post","/contract/payment/setup",params)
+  end
+
+
+  #
+  # When we receive money add the dates etc to the contract
+  #
+  #  @param contract_id
+  #  @param payment_date
+  #  @param amount
+  #  @param currency
+  #  @param response
+  #  @return - the data from the api
+  #
+  def postContractPaymentSuccess( contract_id, payment_date, amount, currency, response)
+    params = Hash.new
+    params['contract_id'] = contract_id
+    params['payment_date'] = payment_date
+    params['amount'] = amount
+    params['currency'] = currency
+    params['response'] = response
+    return doCurl("post","/contract/payment/success",params)
+  end
+
+
+  #
+  # Go through all the products in a contract and provision them
+  #
+  #  @param contract_id
+  #  @return - the data from the api
+  #
+  def postContractProvision( contract_id)
+    params = Hash.new
+    params['contract_id'] = contract_id
+    return doCurl("post","/contract/provision",params)
+  end
+
+
+  #
+  # Creates a new contract log for a given contract
+  #
+  #  @param contract_id
+  #  @param date
+  #  @param payment_provider
+  #  @param response
+  #  @param success
+  #  @param amount
+  #  @param currency
+  #  @return - the data from the api
+  #
+  def postContract_log( contract_id, date, payment_provider, response, success, amount, currency)
+    params = Hash.new
+    params['contract_id'] = contract_id
+    params['date'] = date
+    params['payment_provider'] = payment_provider
+    params['response'] = response
+    params['success'] = success
+    params['amount'] = amount
+    params['currency'] = currency
+    return doCurl("post","/contract_log",params)
+  end
+
+
+  #
+  # Get the contract log from the ID supplied
+  #
+  #  @param contract_log_id
+  #  @return - the data from the api
+  #
+  def getContract_log( contract_log_id)
+    params = Hash.new
+    params['contract_log_id'] = contract_log_id
+    return doCurl("get","/contract_log",params)
+  end
+
+
+  #
+  # Get the contract logs from the ID supplied
+  #
+  #  @param contract_id
+  #  @param page
+  #  @param per_page
+  #  @return - the data from the api
+  #
+  def getContract_logBy_contract_id( contract_id, page, per_page)
+    params = Hash.new
+    params['contract_id'] = contract_id
+    params['page'] = page
+    params['per_page'] = per_page
+    return doCurl("get","/contract_log/by_contract_id",params)
+  end
+
+
+  #
+  # Get the contract logs from the payment_provider supplied
+  #
+  #  @param payment_provider
+  #  @param page
+  #  @param per_page
+  #  @return - the data from the api
+  #
+  def getContract_logBy_payment_provider( payment_provider, page, per_page)
+    params = Hash.new
+    params['payment_provider'] = payment_provider
+    params['page'] = page
+    params['per_page'] = per_page
+    return doCurl("get","/contract_log/by_payment_provider",params)
+  end
+
+
+  #
+  # Get the contract log from the ID supplied
+  #
+  #  @param date
+  #  @param success
+  #  @return - the data from the api
+  #
+  def getContract_logSuccess_by_date( date, success)
+    params = Hash.new
+    params['date'] = date
+    params['success'] = success
+    return doCurl("get","/contract_log/success_by_date",params)
   end
 
 
@@ -450,7 +739,6 @@ class CentralIndex
   #  @param south
   #  @param claimPrice
   #  @param claimMethods
-  #  @param nokia_country_code
   #  @param twilio_sms
   #  @param twilio_phone
   #  @param twilio_voice
@@ -458,9 +746,13 @@ class CentralIndex
   #  @param currency_symbol_html - the html version of the symbol of this country's currency
   #  @param postcodeLookupActive - Whether the lookup is activated for this country
   #  @param addressFields - Whether fields are activated for this country
+  #  @param addressMatching - The configurable matching algorithm
+  #  @param dateFormat - The format of the date for this country
+  #  @param iso_3166_alpha_3
+  #  @param iso_3166_numeric
   #  @return - the data from the api
   #
-  def postCountry( country_id, name, synonyms, continentName, continent, geonameId, dbpediaURL, freebaseURL, population, currencyCode, languages, areaInSqKm, capital, east, west, north, south, claimPrice, claimMethods, nokia_country_code, twilio_sms, twilio_phone, twilio_voice, currency_symbol, currency_symbol_html, postcodeLookupActive, addressFields)
+  def postCountry( country_id, name, synonyms, continentName, continent, geonameId, dbpediaURL, freebaseURL, population, currencyCode, languages, areaInSqKm, capital, east, west, north, south, claimPrice, claimMethods, twilio_sms, twilio_phone, twilio_voice, currency_symbol, currency_symbol_html, postcodeLookupActive, addressFields, addressMatching, dateFormat, iso_3166_alpha_3, iso_3166_numeric)
     params = Hash.new
     params['country_id'] = country_id
     params['name'] = name
@@ -481,7 +773,6 @@ class CentralIndex
     params['south'] = south
     params['claimPrice'] = claimPrice
     params['claimMethods'] = claimMethods
-    params['nokia_country_code'] = nokia_country_code
     params['twilio_sms'] = twilio_sms
     params['twilio_phone'] = twilio_phone
     params['twilio_voice'] = twilio_voice
@@ -489,7 +780,24 @@ class CentralIndex
     params['currency_symbol_html'] = currency_symbol_html
     params['postcodeLookupActive'] = postcodeLookupActive
     params['addressFields'] = addressFields
+    params['addressMatching'] = addressMatching
+    params['dateFormat'] = dateFormat
+    params['iso_3166_alpha_3'] = iso_3166_alpha_3
+    params['iso_3166_numeric'] = iso_3166_numeric
     return doCurl("post","/country",params)
+  end
+
+
+  #
+  # Fetching a country
+  #
+  #  @param country_id
+  #  @return - the data from the api
+  #
+  def getCountry( country_id)
+    params = Hash.new
+    params['country_id'] = country_id
+    return doCurl("get","/country",params)
   end
 
 
@@ -549,6 +857,19 @@ class CentralIndex
 
 
   #
+  # Allows a whole entity to be pulled from the datastore by its unique id
+  #
+  #  @param entity_id - The unique entity ID e.g. 379236608286720
+  #  @return - the data from the api
+  #
+  def getEntity( entity_id)
+    params = Hash.new
+    params['entity_id'] = entity_id
+    return doCurl("get","/entity",params)
+  end
+
+
+  #
   # This entity isn't really supported anymore. You probably want PUT /business. Only to be used for testing.
   #
   #  @param type
@@ -566,19 +887,6 @@ class CentralIndex
     params['trust'] = trust
     params['our_data'] = our_data
     return doCurl("put","/entity",params)
-  end
-
-
-  #
-  # Allows a whole entity to be pulled from the datastore by its unique id
-  #
-  #  @param entity_id - The unique entity ID e.g. 379236608286720
-  #  @return - the data from the api
-  #
-  def getEntity( entity_id)
-    params = Hash.new
-    params['entity_id'] = entity_id
-    return doCurl("get","/entity",params)
   end
 
 
@@ -780,6 +1088,21 @@ class CentralIndex
 
 
   #
+  # Allows an affiliate link object to be reduced in confidence
+  #
+  #  @param entity_id
+  #  @param gen_id
+  #  @return - the data from the api
+  #
+  def deleteEntityAffiliate_link( entity_id, gen_id)
+    params = Hash.new
+    params['entity_id'] = entity_id
+    params['gen_id'] = gen_id
+    return doCurl("delete","/entity/affiliate_link",params)
+  end
+
+
+  #
   # With a known entity id, an affiliate link object can be added.
   #
   #  @param entity_id
@@ -797,21 +1120,6 @@ class CentralIndex
     params['affiliate_message'] = affiliate_message
     params['affiliate_logo'] = affiliate_logo
     return doCurl("post","/entity/affiliate_link",params)
-  end
-
-
-  #
-  # Allows an affiliate link object to be reduced in confidence
-  #
-  #  @param entity_id
-  #  @param gen_id
-  #  @return - the data from the api
-  #
-  def deleteEntityAffiliate_link( entity_id, gen_id)
-    params = Hash.new
-    params['entity_id'] = entity_id
-    params['gen_id'] = gen_id
-    return doCurl("delete","/entity/affiliate_link",params)
   end
 
 
@@ -906,6 +1214,25 @@ class CentralIndex
 
 
   #
+  # uncontributes a given entities supplier content and makes the entity inactive if the entity is un-usable
+  #
+  #  @param entity_id - The entity to pull
+  #  @param supplier_masheryid - The suppliers masheryid to match
+  #  @param supplier_id - The supplier id to match
+  #  @param supplier_user_id - The user id to match
+  #  @return - the data from the api
+  #
+  def deleteEntityBy_supplier( entity_id, supplier_masheryid, supplier_id, supplier_user_id)
+    params = Hash.new
+    params['entity_id'] = entity_id
+    params['supplier_masheryid'] = supplier_masheryid
+    params['supplier_id'] = supplier_id
+    params['supplier_user_id'] = supplier_user_id
+    return doCurl("delete","/entity/by_supplier",params)
+  end
+
+
+  #
   # Fetches the documents that match the given masheryid and supplier_id
   #
   #  @param supplier_id - The Supplier ID
@@ -981,6 +1308,8 @@ class CentralIndex
   #
   #  @param entity_id
   #  @param claimed_user_id
+  #  @param claimed_reseller_id
+  #  @param expiry_date
   #  @param claimed_date
   #  @param claim_method
   #  @param phone_number
@@ -988,16 +1317,33 @@ class CentralIndex
   #  @param referrer_name
   #  @return - the data from the api
   #
-  def postEntityClaim( entity_id, claimed_user_id, claimed_date, claim_method, phone_number, referrer_url, referrer_name)
+  def postEntityClaim( entity_id, claimed_user_id, claimed_reseller_id, expiry_date, claimed_date, claim_method, phone_number, referrer_url, referrer_name)
     params = Hash.new
     params['entity_id'] = entity_id
     params['claimed_user_id'] = claimed_user_id
+    params['claimed_reseller_id'] = claimed_reseller_id
+    params['expiry_date'] = expiry_date
     params['claimed_date'] = claimed_date
     params['claim_method'] = claim_method
     params['phone_number'] = phone_number
     params['referrer_url'] = referrer_url
     params['referrer_name'] = referrer_name
     return doCurl("post","/entity/claim",params)
+  end
+
+
+  #
+  # Allows a description object to be reduced in confidence
+  #
+  #  @param entity_id
+  #  @param gen_id
+  #  @return - the data from the api
+  #
+  def deleteEntityDescription( entity_id, gen_id)
+    params = Hash.new
+    params['entity_id'] = entity_id
+    params['gen_id'] = gen_id
+    return doCurl("delete","/entity/description",params)
   end
 
 
@@ -1019,17 +1365,17 @@ class CentralIndex
 
 
   #
-  # Allows a description object to be reduced in confidence
+  # Allows a phone object to be reduced in confidence
   #
   #  @param entity_id
   #  @param gen_id
   #  @return - the data from the api
   #
-  def deleteEntityDescription( entity_id, gen_id)
+  def deleteEntityDocument( entity_id, gen_id)
     params = Hash.new
     params['entity_id'] = entity_id
     params['gen_id'] = gen_id
-    return doCurl("delete","/entity/description",params)
+    return doCurl("delete","/entity/document",params)
   end
 
 
@@ -1051,17 +1397,17 @@ class CentralIndex
 
 
   #
-  # Allows a phone object to be reduced in confidence
+  # Allows a email object to be reduced in confidence
   #
   #  @param entity_id
   #  @param gen_id
   #  @return - the data from the api
   #
-  def deleteEntityDocument( entity_id, gen_id)
+  def deleteEntityEmail( entity_id, gen_id)
     params = Hash.new
     params['entity_id'] = entity_id
     params['gen_id'] = gen_id
-    return doCurl("delete","/entity/document",params)
+    return doCurl("delete","/entity/email",params)
   end
 
 
@@ -1079,36 +1425,6 @@ class CentralIndex
     params['email_address'] = email_address
     params['email_description'] = email_description
     return doCurl("post","/entity/email",params)
-  end
-
-
-  #
-  # Allows a email object to be reduced in confidence
-  #
-  #  @param entity_id
-  #  @param gen_id
-  #  @return - the data from the api
-  #
-  def deleteEntityEmail( entity_id, gen_id)
-    params = Hash.new
-    params['entity_id'] = entity_id
-    params['gen_id'] = gen_id
-    return doCurl("delete","/entity/email",params)
-  end
-
-
-  #
-  # Allows an employee object to be reduced in confidence
-  #
-  #  @param entity_id
-  #  @param gen_id
-  #  @return - the data from the api
-  #
-  def deleteEntityEmployee( entity_id, gen_id)
-    params = Hash.new
-    params['entity_id'] = entity_id
-    params['gen_id'] = gen_id
-    return doCurl("delete","/entity/employee",params)
   end
 
 
@@ -1140,17 +1456,17 @@ class CentralIndex
 
 
   #
-  # Allows a fax object to be reduced in confidence
+  # Allows an employee object to be reduced in confidence
   #
   #  @param entity_id
   #  @param gen_id
   #  @return - the data from the api
   #
-  def deleteEntityFax( entity_id, gen_id)
+  def deleteEntityEmployee( entity_id, gen_id)
     params = Hash.new
     params['entity_id'] = entity_id
     params['gen_id'] = gen_id
-    return doCurl("delete","/entity/fax",params)
+    return doCurl("delete","/entity/employee",params)
   end
 
 
@@ -1168,6 +1484,21 @@ class CentralIndex
     params['number'] = number
     params['description'] = description
     return doCurl("post","/entity/fax",params)
+  end
+
+
+  #
+  # Allows a fax object to be reduced in confidence
+  #
+  #  @param entity_id
+  #  @param gen_id
+  #  @return - the data from the api
+  #
+  def deleteEntityFax( entity_id, gen_id)
+    params = Hash.new
+    params['entity_id'] = entity_id
+    params['gen_id'] = gen_id
+    return doCurl("delete","/entity/fax",params)
   end
 
 
@@ -1299,21 +1630,6 @@ class CentralIndex
 
 
   #
-  # Allows a list description object to be reduced in confidence
-  #
-  #  @param gen_id
-  #  @param entity_id
-  #  @return - the data from the api
-  #
-  def deleteEntityList( gen_id, entity_id)
-    params = Hash.new
-    params['gen_id'] = gen_id
-    params['entity_id'] = entity_id
-    return doCurl("delete","/entity/list",params)
-  end
-
-
-  #
   # With a known entity id, a list description object can be added.
   #
   #  @param entity_id
@@ -1331,19 +1647,17 @@ class CentralIndex
 
 
   #
-  # With a known entity id, a logo object can be added.
+  # Allows a list description object to be reduced in confidence
   #
+  #  @param gen_id
   #  @param entity_id
-  #  @param filedata
-  #  @param logo_name
   #  @return - the data from the api
   #
-  def postEntityLogo( entity_id, filedata, logo_name)
+  def deleteEntityList( gen_id, entity_id)
     params = Hash.new
+    params['gen_id'] = gen_id
     params['entity_id'] = entity_id
-    params['filedata'] = filedata
-    params['logo_name'] = logo_name
-    return doCurl("post","/entity/logo",params)
+    return doCurl("delete","/entity/list",params)
   end
 
 
@@ -1359,6 +1673,23 @@ class CentralIndex
     params['entity_id'] = entity_id
     params['gen_id'] = gen_id
     return doCurl("delete","/entity/logo",params)
+  end
+
+
+  #
+  # With a known entity id, a logo object can be added.
+  #
+  #  @param entity_id
+  #  @param filedata
+  #  @param logo_name
+  #  @return - the data from the api
+  #
+  def postEntityLogo( entity_id, filedata, logo_name)
+    params = Hash.new
+    params['entity_id'] = entity_id
+    params['filedata'] = filedata
+    params['logo_name'] = logo_name
+    return doCurl("post","/entity/logo",params)
   end
 
 
@@ -1408,27 +1739,16 @@ class CentralIndex
   #  @param entity_id
   #  @param name
   #  @param formal_name
+  #  @param branch_name
   #  @return - the data from the api
   #
-  def postEntityName( entity_id, name, formal_name)
+  def postEntityName( entity_id, name, formal_name, branch_name)
     params = Hash.new
     params['entity_id'] = entity_id
     params['name'] = name
     params['formal_name'] = formal_name
+    params['branch_name'] = branch_name
     return doCurl("post","/entity/name",params)
-  end
-
-
-  #
-  # With a known entity id, a opening times object can be removed.
-  #
-  #  @param entity_id - The id of the entity to edit
-  #  @return - the data from the api
-  #
-  def deleteEntityOpening_times( entity_id)
-    params = Hash.new
-    params['entity_id'] = entity_id
-    return doCurl("delete","/entity/opening_times",params)
   end
 
 
@@ -1464,18 +1784,31 @@ class CentralIndex
 
 
   #
+  # With a known entity id, a opening times object can be removed.
+  #
+  #  @param entity_id - The id of the entity to edit
+  #  @return - the data from the api
+  #
+  def deleteEntityOpening_times( entity_id)
+    params = Hash.new
+    params['entity_id'] = entity_id
+    return doCurl("delete","/entity/opening_times",params)
+  end
+
+
+  #
   # Allows a new phone object to be added to a specified entity. A new object id will be calculated and returned to you if successful.
   #
   #  @param entity_id
   #  @param number
-  #  @param description
+  #  @param trackable
   #  @return - the data from the api
   #
-  def postEntityPhone( entity_id, number, description)
+  def postEntityPhone( entity_id, number, trackable)
     params = Hash.new
     params['entity_id'] = entity_id
     params['number'] = number
-    params['description'] = description
+    params['trackable'] = trackable
     return doCurl("post","/entity/phone",params)
   end
 
@@ -1701,6 +2034,29 @@ class CentralIndex
 
 
   #
+  # Search for matching entities, ordered by nearness
+  #
+  #  @param what - What to get results for. E.g. Plumber e.g. plumber
+  #  @param per_page - Number of results returned per page
+  #  @param page - Which page number to retrieve
+  #  @param language - An ISO compatible language code, E.g. en
+  #  @param latitude - The decimal latitude of the centre point of the search
+  #  @param longitude - The decimal longitude of the centre point of the search
+  #  @return - the data from the api
+  #
+  def getEntitySearchWhatBynearest( what, per_page, page, language, latitude, longitude)
+    params = Hash.new
+    params['what'] = what
+    params['per_page'] = per_page
+    params['page'] = page
+    params['language'] = language
+    params['latitude'] = latitude
+    params['longitude'] = longitude
+    return doCurl("get","/entity/search/what/bynearest",params)
+  end
+
+
+  #
   # Search for matching entities
   #
   #  @param who - Company name e.g. Starbucks
@@ -1799,6 +2155,21 @@ class CentralIndex
 
 
   #
+  # Allows a social media object to be reduced in confidence
+  #
+  #  @param entity_id
+  #  @param gen_id
+  #  @return - the data from the api
+  #
+  def deleteEntitySocialmedia( entity_id, gen_id)
+    params = Hash.new
+    params['entity_id'] = entity_id
+    params['gen_id'] = gen_id
+    return doCurl("delete","/entity/socialmedia",params)
+  end
+
+
+  #
   # With a known entity id, a social media object can be added.
   #
   #  @param entity_id
@@ -1812,21 +2183,6 @@ class CentralIndex
     params['type'] = type
     params['website_url'] = website_url
     return doCurl("post","/entity/socialmedia",params)
-  end
-
-
-  #
-  # Allows a social media object to be reduced in confidence
-  #
-  #  @param entity_id
-  #  @param gen_id
-  #  @return - the data from the api
-  #
-  def deleteEntitySocialmedia( entity_id, gen_id)
-    params = Hash.new
-    params['entity_id'] = entity_id
-    params['gen_id'] = gen_id
-    return doCurl("delete","/entity/socialmedia",params)
   end
 
 
@@ -1877,28 +2233,17 @@ class CentralIndex
   #
   #  @param entity_id
   #  @param status
+  #  @param inactive_reason
+  #  @param inactive_description
   #  @return - the data from the api
   #
-  def postEntityStatus( entity_id, status)
+  def postEntityStatus( entity_id, status, inactive_reason, inactive_description)
     params = Hash.new
     params['entity_id'] = entity_id
     params['status'] = status
+    params['inactive_reason'] = inactive_reason
+    params['inactive_description'] = inactive_description
     return doCurl("post","/entity/status",params)
-  end
-
-
-  #
-  # Allows a tag object to be reduced in confidence
-  #
-  #  @param entity_id
-  #  @param gen_id
-  #  @return - the data from the api
-  #
-  def deleteEntityTag( entity_id, gen_id)
-    params = Hash.new
-    params['entity_id'] = entity_id
-    params['gen_id'] = gen_id
-    return doCurl("delete","/entity/tag",params)
   end
 
 
@@ -1920,17 +2265,17 @@ class CentralIndex
 
 
   #
-  # Allows a testimonial object to be reduced in confidence
+  # Allows a tag object to be reduced in confidence
   #
   #  @param entity_id
   #  @param gen_id
   #  @return - the data from the api
   #
-  def deleteEntityTestimonial( entity_id, gen_id)
+  def deleteEntityTag( entity_id, gen_id)
     params = Hash.new
     params['entity_id'] = entity_id
     params['gen_id'] = gen_id
-    return doCurl("delete","/entity/testimonial",params)
+    return doCurl("delete","/entity/tag",params)
   end
 
 
@@ -1952,6 +2297,21 @@ class CentralIndex
     params['date'] = date
     params['testifier_name'] = testifier_name
     return doCurl("post","/entity/testimonial",params)
+  end
+
+
+  #
+  # Allows a testimonial object to be reduced in confidence
+  #
+  #  @param entity_id
+  #  @param gen_id
+  #  @return - the data from the api
+  #
+  def deleteEntityTestimonial( entity_id, gen_id)
+    params = Hash.new
+    params['entity_id'] = entity_id
+    params['gen_id'] = gen_id
+    return doCurl("delete","/entity/testimonial",params)
   end
 
 
@@ -2022,21 +2382,6 @@ class CentralIndex
 
 
   #
-  # Allows a website object to be reduced in confidence
-  #
-  #  @param entity_id
-  #  @param gen_id
-  #  @return - the data from the api
-  #
-  def deleteEntityWebsite( entity_id, gen_id)
-    params = Hash.new
-    params['entity_id'] = entity_id
-    params['gen_id'] = gen_id
-    return doCurl("delete","/entity/website",params)
-  end
-
-
-  #
   # With a known entity id, a website object can be added.
   #
   #  @param entity_id
@@ -2052,6 +2397,21 @@ class CentralIndex
     params['display_url'] = display_url
     params['website_description'] = website_description
     return doCurl("post","/entity/website",params)
+  end
+
+
+  #
+  # Allows a website object to be reduced in confidence
+  #
+  #  @param entity_id
+  #  @param gen_id
+  #  @return - the data from the api
+  #
+  def deleteEntityWebsite( entity_id, gen_id)
+    params = Hash.new
+    params['entity_id'] = entity_id
+    params['gen_id'] = gen_id
+    return doCurl("delete","/entity/website",params)
   end
 
 
@@ -2073,19 +2433,6 @@ class CentralIndex
 
 
   #
-  # Get a flatpack
-  #
-  #  @param flatpack_id - the unique id to search for
-  #  @return - the data from the api
-  #
-  def getFlatpack( flatpack_id)
-    params = Hash.new
-    params['flatpack_id'] = flatpack_id
-    return doCurl("get","/flatpack",params)
-  end
-
-
-  #
   # Remove a flatpack using a supplied flatpack_id
   #
   #  @param flatpack_id - the id of the flatpack to delete
@@ -2095,6 +2442,19 @@ class CentralIndex
     params = Hash.new
     params['flatpack_id'] = flatpack_id
     return doCurl("delete","/flatpack",params)
+  end
+
+
+  #
+  # Get a flatpack
+  #
+  #  @param flatpack_id - the unique id to search for
+  #  @return - the data from the api
+  #
+  def getFlatpack( flatpack_id)
+    params = Hash.new
+    params['flatpack_id'] = flatpack_id
+    return doCurl("get","/flatpack",params)
   end
 
 
@@ -2159,9 +2519,12 @@ class CentralIndex
   #  @param contextLocationId - The location ID to use as the context for searches on this flatpack
   #  @param addBusinessButtonPosition - The location ID to use as the context for searches on this flatpack
   #  @param denyIndexing - Whether to noindex a flatpack
+  #  @param contextRadius - allows you to set a catchment area around the contextLocationId in miles for use when displaying the activity stream module
+  #  @param activityStream - allows you to set the activity to be displayed in the activity stream
+  #  @param activityStreamSize - Sets the number of items to show within the activity stream.
   #  @return - the data from the api
   #
-  def postFlatpack( flatpack_id, domainName, stub, flatpackName, less, language, country, mapsType, mapKey, searchFormShowOn, searchFormShowKeywordsBox, searchFormShowLocationBox, searchFormKeywordsAutoComplete, searchFormLocationsAutoComplete, searchFormDefaultLocation, searchFormPlaceholderKeywords, searchFormPlaceholderLocation, searchFormKeywordsLabel, searchFormLocationLabel, cannedLinksHeader, homepageTitle, homepageDescription, homepageIntroTitle, homepageIntroText, head, adblock, bodyTop, bodyBottom, header_menu, header_menu_bottom, footer_menu, bdpTitle, bdpDescription, bdpAds, serpTitle, serpDescription, serpNumberResults, serpNumberAdverts, serpAds, serpTitleNoWhat, serpDescriptionNoWhat, cookiePolicyUrl, cookiePolicyNotice, addBusinessButtonText, twitterUrl, facebookUrl, copyright, advertUpgradeActive, advertUpgradePrice, advertUpgradeMaxTags, advertUpgradeMaxLocations, advertUpgradeContractLength, advertUpgradeRefId, phoneReveal, loginLinkText, contextLocationId, addBusinessButtonPosition, denyIndexing)
+  def postFlatpack( flatpack_id, domainName, stub, flatpackName, less, language, country, mapsType, mapKey, searchFormShowOn, searchFormShowKeywordsBox, searchFormShowLocationBox, searchFormKeywordsAutoComplete, searchFormLocationsAutoComplete, searchFormDefaultLocation, searchFormPlaceholderKeywords, searchFormPlaceholderLocation, searchFormKeywordsLabel, searchFormLocationLabel, cannedLinksHeader, homepageTitle, homepageDescription, homepageIntroTitle, homepageIntroText, head, adblock, bodyTop, bodyBottom, header_menu, header_menu_bottom, footer_menu, bdpTitle, bdpDescription, bdpAds, serpTitle, serpDescription, serpNumberResults, serpNumberAdverts, serpAds, serpTitleNoWhat, serpDescriptionNoWhat, cookiePolicyUrl, cookiePolicyNotice, addBusinessButtonText, twitterUrl, facebookUrl, copyright, advertUpgradeActive, advertUpgradePrice, advertUpgradeMaxTags, advertUpgradeMaxLocations, advertUpgradeContractLength, advertUpgradeRefId, phoneReveal, loginLinkText, contextLocationId, addBusinessButtonPosition, denyIndexing, contextRadius, activityStream, activityStreamSize)
     params = Hash.new
     params['flatpack_id'] = flatpack_id
     params['domainName'] = domainName
@@ -2221,6 +2584,9 @@ class CentralIndex
     params['contextLocationId'] = contextLocationId
     params['addBusinessButtonPosition'] = addBusinessButtonPosition
     params['denyIndexing'] = denyIndexing
+    params['contextRadius'] = contextRadius
+    params['activityStream'] = activityStream
+    params['activityStreamSize'] = activityStreamSize
     return doCurl("post","/flatpack",params)
   end
 
@@ -2325,6 +2691,21 @@ class CentralIndex
 
 
   #
+  # Remove a canned link to an existing flatpack site.
+  #
+  #  @param flatpack_id - the id of the flatpack to delete
+  #  @param gen_id - the id of the canned link to remove
+  #  @return - the data from the api
+  #
+  def deleteFlatpackLink( flatpack_id, gen_id)
+    params = Hash.new
+    params['flatpack_id'] = flatpack_id
+    params['gen_id'] = gen_id
+    return doCurl("delete","/flatpack/link",params)
+  end
+
+
+  #
   # Add a canned link to an existing flatpack site.
   #
   #  @param flatpack_id - the id of the flatpack to delete
@@ -2340,21 +2721,6 @@ class CentralIndex
     params['location'] = location
     params['linkText'] = linkText
     return doCurl("post","/flatpack/link",params)
-  end
-
-
-  #
-  # Remove a canned link to an existing flatpack site.
-  #
-  #  @param flatpack_id - the id of the flatpack to delete
-  #  @param gen_id - the id of the canned link to remove
-  #  @return - the data from the api
-  #
-  def deleteFlatpackLink( flatpack_id, gen_id)
-    params = Hash.new
-    params['flatpack_id'] = flatpack_id
-    params['gen_id'] = gen_id
-    return doCurl("delete","/flatpack/link",params)
   end
 
 
@@ -2402,15 +2768,21 @@ class CentralIndex
 
 
   #
-  # Returns group that matches a given group id
+  # Update/Add a Group
   #
   #  @param group_id
+  #  @param name
+  #  @param description
+  #  @param url
   #  @return - the data from the api
   #
-  def getGroup( group_id)
+  def postGroup( group_id, name, description, url)
     params = Hash.new
     params['group_id'] = group_id
-    return doCurl("get","/group",params)
+    params['name'] = name
+    params['description'] = description
+    params['url'] = url
+    return doCurl("post","/group",params)
   end
 
 
@@ -2428,21 +2800,58 @@ class CentralIndex
 
 
   #
-  # Update/Add a Group
+  # Returns group that matches a given group id
   #
   #  @param group_id
-  #  @param name
-  #  @param description
-  #  @param url
   #  @return - the data from the api
   #
-  def postGroup( group_id, name, description, url)
+  def getGroup( group_id)
     params = Hash.new
     params['group_id'] = group_id
-    params['name'] = name
-    params['description'] = description
-    params['url'] = url
-    return doCurl("post","/group",params)
+    return doCurl("get","/group",params)
+  end
+
+
+  #
+  # Returns all groups
+  #
+  #  @return - the data from the api
+  #
+  def getGroupAll()
+    params = Hash.new
+    return doCurl("get","/group/all",params)
+  end
+
+
+  #
+  # Bulk delete entities from a specified group
+  #
+  #  @param group_id
+  #  @param filedata
+  #  @return - the data from the api
+  #
+  def postGroupBulk_delete( group_id, filedata)
+    params = Hash.new
+    params['group_id'] = group_id
+    params['filedata'] = filedata
+    return doCurl("post","/group/bulk_delete",params)
+  end
+
+
+  #
+  # Bulk ingest entities into a specified group
+  #
+  #  @param group_id
+  #  @param filedata
+  #  @param category_type
+  #  @return - the data from the api
+  #
+  def postGroupBulk_ingest( group_id, filedata, category_type)
+    params = Hash.new
+    params['group_id'] = group_id
+    params['filedata'] = filedata
+    params['category_type'] = category_type
+    return doCurl("post","/group/bulk_ingest",params)
   end
 
 
@@ -2509,19 +2918,6 @@ class CentralIndex
 
 
   #
-  # Get an ingest job from the collection
-  #
-  #  @param job_id
-  #  @return - the data from the api
-  #
-  def getIngest_job( job_id)
-    params = Hash.new
-    params['job_id'] = job_id
-    return doCurl("get","/ingest_job",params)
-  end
-
-
-  #
   # Add a ingest job to the collection
   #
   #  @param description
@@ -2533,6 +2929,19 @@ class CentralIndex
     params['description'] = description
     params['category_type'] = category_type
     return doCurl("post","/ingest_job",params)
+  end
+
+
+  #
+  # Get an ingest job from the collection
+  #
+  #  @param job_id
+  #  @return - the data from the api
+  #
+  def getIngest_job( job_id)
+    params = Hash.new
+    params['job_id'] = job_id
+    return doCurl("get","/ingest_job",params)
   end
 
 
@@ -2567,6 +2976,19 @@ class CentralIndex
     params = Hash.new
     params['flush'] = flush
     return doCurl("get","/ingest_queue",params)
+  end
+
+
+  #
+  # Read a location with the supplied ID in the locations reference database.
+  #
+  #  @param location_id
+  #  @return - the data from the api
+  #
+  def getLocation( location_id)
+    params = Hash.new
+    params['location_id'] = location_id
+    return doCurl("get","/location",params)
   end
 
 
@@ -2620,19 +3042,6 @@ class CentralIndex
     params['searchable_id'] = searchable_id
     params['searchable_ids'] = searchable_ids
     return doCurl("post","/location",params)
-  end
-
-
-  #
-  # Read a location with the supplied ID in the locations reference database.
-  #
-  #  @param location_id
-  #  @return - the data from the api
-  #
-  def getLocation( location_id)
-    params = Hash.new
-    params['location_id'] = location_id
-    return doCurl("get","/location",params)
   end
 
 
@@ -2733,27 +3142,6 @@ class CentralIndex
 
 
   #
-  # Find all matches by location and then return all matches that also match company name. Default location_strictness is set to 7, which equates to +/- 20m
-  #
-  #  @param company_name
-  #  @param latitude
-  #  @param longitude
-  #  @param name_strictness
-  #  @param location_strictness
-  #  @return - the data from the api
-  #
-  def getMatchBylocation( company_name, latitude, longitude, name_strictness, location_strictness)
-    params = Hash.new
-    params['company_name'] = company_name
-    params['latitude'] = latitude
-    params['longitude'] = longitude
-    params['name_strictness'] = name_strictness
-    params['location_strictness'] = location_strictness
-    return doCurl("get","/match/bylocation",params)
-  end
-
-
-  #
   # Find all matches by phone number and then return all matches that also match company name and location. Default location_strictness is defined in Km and the default is set to 0.2 (200m)
   #
   #  @param phone
@@ -2777,6 +3165,65 @@ class CentralIndex
     params['name_strictness'] = name_strictness
     params['location_strictness'] = location_strictness
     return doCurl("get","/match/byphone",params)
+  end
+
+
+  #
+  # Find all matches by phone number, returning up to 10 matches
+  #
+  #  @param phone
+  #  @param country
+  #  @param exclude - Entity ID to exclude from the results
+  #  @return - the data from the api
+  #
+  def getMatchByphone2( phone, country, exclude)
+    params = Hash.new
+    params['phone'] = phone
+    params['country'] = country
+    params['exclude'] = exclude
+    return doCurl("get","/match/byphone2",params)
+  end
+
+
+  #
+  # Perform a match on the two supplied entities, returning the outcome and showing our working
+  #
+  #  @param primary_entity_id
+  #  @param secondary_entity_id
+  #  @param return_entities - Should we return the entity documents
+  #  @return - the data from the api
+  #
+  def getMatchOftheday( primary_entity_id, secondary_entity_id, return_entities)
+    params = Hash.new
+    params['primary_entity_id'] = primary_entity_id
+    params['secondary_entity_id'] = secondary_entity_id
+    params['return_entities'] = return_entities
+    return doCurl("get","/match/oftheday",params)
+  end
+
+
+  #
+  # Create a matching log
+  #
+  #  @param processed_entity_id
+  #  @param matched_entity_id
+  #  @param processed_mega
+  #  @param matched_mega
+  #  @param processed_group
+  #  @param matched_group
+  #  @param merged
+  #  @return - the data from the api
+  #
+  def putMatching_log( processed_entity_id, matched_entity_id, processed_mega, matched_mega, processed_group, matched_group, merged)
+    params = Hash.new
+    params['processed_entity_id'] = processed_entity_id
+    params['matched_entity_id'] = matched_entity_id
+    params['processed_mega'] = processed_mega
+    params['matched_mega'] = matched_mega
+    params['processed_group'] = processed_group
+    params['matched_group'] = matched_group
+    params['merged'] = merged
+    return doCurl("put","/matching_log",params)
   end
 
 
@@ -2877,6 +3324,106 @@ class CentralIndex
 
 
   #
+  # Update/Add a product
+  #
+  #  @param product_id - The ID of the product
+  #  @param name - The name of the product
+  #  @param strapline - The description of the product
+  #  @param price - The price of the product
+  #  @param currency - The currency in which the price is in
+  #  @param active - is this an active product
+  #  @param billing_period
+  #  @return - the data from the api
+  #
+  def postProduct( product_id, name, strapline, price, currency, active, billing_period)
+    params = Hash.new
+    params['product_id'] = product_id
+    params['name'] = name
+    params['strapline'] = strapline
+    params['price'] = price
+    params['currency'] = currency
+    params['active'] = active
+    params['billing_period'] = billing_period
+    return doCurl("post","/product",params)
+  end
+
+
+  #
+  # Returns the product information given a valid product_id
+  #
+  #  @param product_id
+  #  @return - the data from the api
+  #
+  def getProduct( product_id)
+    params = Hash.new
+    params['product_id'] = product_id
+    return doCurl("get","/product",params)
+  end
+
+
+  #
+  # Removes a provisioning object from product
+  #
+  #  @param product_id
+  #  @param gen_id
+  #  @return - the data from the api
+  #
+  def deleteProductProvisioning( product_id, gen_id)
+    params = Hash.new
+    params['product_id'] = product_id
+    params['gen_id'] = gen_id
+    return doCurl("delete","/product/provisioning",params)
+  end
+
+
+  #
+  # Adds advertising provisioning object to a product
+  #
+  #  @param product_id
+  #  @param publisher_id
+  #  @param max_tags
+  #  @param max_locations
+  #  @return - the data from the api
+  #
+  def postProductProvisioningAdvert( product_id, publisher_id, max_tags, max_locations)
+    params = Hash.new
+    params['product_id'] = product_id
+    params['publisher_id'] = publisher_id
+    params['max_tags'] = max_tags
+    params['max_locations'] = max_locations
+    return doCurl("post","/product/provisioning/advert",params)
+  end
+
+
+  #
+  # Adds claim provisioning object to a product
+  #
+  #  @param product_id
+  #  @return - the data from the api
+  #
+  def postProductProvisioningClaim( product_id)
+    params = Hash.new
+    params['product_id'] = product_id
+    return doCurl("post","/product/provisioning/claim",params)
+  end
+
+
+  #
+  # Adds syndication provisioning object to a product
+  #
+  #  @param product_id
+  #  @param publisher_id
+  #  @return - the data from the api
+  #
+  def postProductProvisioningSyndication( product_id, publisher_id)
+    params = Hash.new
+    params['product_id'] = product_id
+    params['publisher_id'] = publisher_id
+    return doCurl("post","/product/provisioning/syndication",params)
+  end
+
+
+  #
   # Perform the whole PTB process on the supplied entity
   #
   #  @param entity_id
@@ -2916,10 +3463,10 @@ class CentralIndex
   #  @param destructive
   #  @return - the data from the api
   #
-  def getPtbModule( entity_id, module, destructive)
+  def getPtbModule( entity_id, __module, destructive)
     params = Hash.new
     params['entity_id'] = entity_id
-    params['module'] = module
+    params['module'] = __module
     params['destructive'] = destructive
     return doCurl("get","/ptb/module",params)
   end
@@ -2985,19 +3532,6 @@ class CentralIndex
 
 
   #
-  # Returns publisher that matches a given publisher id
-  #
-  #  @param publisher_id
-  #  @return - the data from the api
-  #
-  def getPublisher( publisher_id)
-    params = Hash.new
-    params['publisher_id'] = publisher_id
-    return doCurl("get","/publisher",params)
-  end
-
-
-  #
   # Delete a publisher with a specified publisher_id
   #
   #  @param publisher_id
@@ -3007,6 +3541,19 @@ class CentralIndex
     params = Hash.new
     params['publisher_id'] = publisher_id
     return doCurl("delete","/publisher",params)
+  end
+
+
+  #
+  # Returns publisher that matches a given publisher id
+  #
+  #  @param publisher_id
+  #  @return - the data from the api
+  #
+  def getPublisher( publisher_id)
+    params = Hash.new
+    params['publisher_id'] = publisher_id
+    return doCurl("get","/publisher",params)
   end
 
 
@@ -3125,37 +3672,36 @@ class CentralIndex
 
 
   #
-  # Log a sale
+  # Update/Add a reseller
   #
-  #  @param entity_id - The entity the sale was made against
-  #  @param country - The country code the sales log orginated
-  #  @param action_type - The type of action we are performing
-  #  @param publisher_id - The publisher id that has made the sale
-  #  @param mashery_id - The mashery id
-  #  @param reseller_ref - The reference of the sale made by the seller
-  #  @param reseller_agent_id - The id of the agent selling the product
-  #  @param max_tags - The number of tags available to the entity
-  #  @param max_locations - The number of locations available to the entity
-  #  @param extra_tags - The extra number of tags
-  #  @param extra_locations - The extra number of locations
-  #  @param expiry_date - The date the product expires
+  #  @param reseller_id
+  #  @param country
+  #  @param name
+  #  @param description
+  #  @param active
   #  @return - the data from the api
   #
-  def postSales_log( entity_id, country, action_type, publisher_id, mashery_id, reseller_ref, reseller_agent_id, max_tags, max_locations, extra_tags, extra_locations, expiry_date)
+  def postReseller( reseller_id, country, name, description, active)
     params = Hash.new
-    params['entity_id'] = entity_id
+    params['reseller_id'] = reseller_id
     params['country'] = country
-    params['action_type'] = action_type
-    params['publisher_id'] = publisher_id
-    params['mashery_id'] = mashery_id
-    params['reseller_ref'] = reseller_ref
-    params['reseller_agent_id'] = reseller_agent_id
-    params['max_tags'] = max_tags
-    params['max_locations'] = max_locations
-    params['extra_tags'] = extra_tags
-    params['extra_locations'] = extra_locations
-    params['expiry_date'] = expiry_date
-    return doCurl("post","/sales_log",params)
+    params['name'] = name
+    params['description'] = description
+    params['active'] = active
+    return doCurl("post","/reseller",params)
+  end
+
+
+  #
+  # Returns reseller that matches a given reseller id
+  #
+  #  @param reseller_id
+  #  @return - the data from the api
+  #
+  def getReseller( reseller_id)
+    params = Hash.new
+    params['reseller_id'] = reseller_id
+    return doCurl("get","/reseller",params)
   end
 
 
@@ -3205,6 +3751,72 @@ class CentralIndex
 
 
   #
+  # Log a sale
+  #
+  #  @param entity_id - The entity the sale was made against
+  #  @param country - The country code the sales log orginated
+  #  @param action_type - The type of action we are performing
+  #  @param publisher_id - The publisher id that has made the sale
+  #  @param mashery_id - The mashery id
+  #  @param reseller_ref - The reference of the sale made by the seller
+  #  @param reseller_agent_id - The id of the agent selling the product
+  #  @param max_tags - The number of tags available to the entity
+  #  @param max_locations - The number of locations available to the entity
+  #  @param extra_tags - The extra number of tags
+  #  @param extra_locations - The extra number of locations
+  #  @param expiry_date - The date the product expires
+  #  @return - the data from the api
+  #
+  def postSales_logEntity( entity_id, country, action_type, publisher_id, mashery_id, reseller_ref, reseller_agent_id, max_tags, max_locations, extra_tags, extra_locations, expiry_date)
+    params = Hash.new
+    params['entity_id'] = entity_id
+    params['country'] = country
+    params['action_type'] = action_type
+    params['publisher_id'] = publisher_id
+    params['mashery_id'] = mashery_id
+    params['reseller_ref'] = reseller_ref
+    params['reseller_agent_id'] = reseller_agent_id
+    params['max_tags'] = max_tags
+    params['max_locations'] = max_locations
+    params['extra_tags'] = extra_tags
+    params['extra_locations'] = extra_locations
+    params['expiry_date'] = expiry_date
+    return doCurl("post","/sales_log/entity",params)
+  end
+
+
+  #
+  # Add a Sales Log document for a syndication action
+  #
+  #  @param action_type
+  #  @param syndication_type
+  #  @param publisher_id
+  #  @param expiry_date
+  #  @param entity_id
+  #  @param group_id
+  #  @param seed_masheryid
+  #  @param supplier_masheryid
+  #  @param country
+  #  @param reseller_masheryid
+  #  @return - the data from the api
+  #
+  def postSales_logSyndication( action_type, syndication_type, publisher_id, expiry_date, entity_id, group_id, seed_masheryid, supplier_masheryid, country, reseller_masheryid)
+    params = Hash.new
+    params['action_type'] = action_type
+    params['syndication_type'] = syndication_type
+    params['publisher_id'] = publisher_id
+    params['expiry_date'] = expiry_date
+    params['entity_id'] = entity_id
+    params['group_id'] = group_id
+    params['seed_masheryid'] = seed_masheryid
+    params['supplier_masheryid'] = supplier_masheryid
+    params['country'] = country
+    params['reseller_masheryid'] = reseller_masheryid
+    return doCurl("post","/sales_log/syndication",params)
+  end
+
+
+  #
   # For insance, reporting a phone number as wrong
   #
   #  @param entity_id - A valid entity_id e.g. 379236608286720
@@ -3212,15 +3824,19 @@ class CentralIndex
   #  @param gen_id - The gen_id for the item being reported
   #  @param signal_type - The signal that is to be reported e.g. wrong
   #  @param data_type - The type of data being reported
+  #  @param inactive_reason - The reason for making the entity inactive
+  #  @param inactive_description - A description to accompany the inactive reasoning
   #  @return - the data from the api
   #
-  def postSignal( entity_id, country, gen_id, signal_type, data_type)
+  def postSignal( entity_id, country, gen_id, signal_type, data_type, inactive_reason, inactive_description)
     params = Hash.new
     params['entity_id'] = entity_id
     params['country'] = country
     params['gen_id'] = gen_id
     params['signal_type'] = signal_type
     params['data_type'] = data_type
+    params['inactive_reason'] = inactive_reason
+    params['inactive_description'] = inactive_description
     return doCurl("post","/signal",params)
   end
 
@@ -3269,33 +3885,71 @@ class CentralIndex
 
 
   #
+  # get a Syndication
+  #
+  #  @param syndication_id
+  #  @return - the data from the api
+  #
+  def getSyndication( syndication_id)
+    params = Hash.new
+    params['syndication_id'] = syndication_id
+    return doCurl("get","/syndication",params)
+  end
+
+
+  #
   # Add a Syndicate
   #
   #  @param syndication_type
   #  @param publisher_id
-  #  @param user_id
   #  @param expiry_date
   #  @param entity_id
   #  @param group_id
   #  @param seed_masheryid
   #  @param supplier_masheryid
   #  @param country
-  #  @param reseller_masheryid
   #  @return - the data from the api
   #
-  def postSyndicationCreate( syndication_type, publisher_id, user_id, expiry_date, entity_id, group_id, seed_masheryid, supplier_masheryid, country, reseller_masheryid)
+  def postSyndicationCreate( syndication_type, publisher_id, expiry_date, entity_id, group_id, seed_masheryid, supplier_masheryid, country)
     params = Hash.new
     params['syndication_type'] = syndication_type
     params['publisher_id'] = publisher_id
-    params['user_id'] = user_id
     params['expiry_date'] = expiry_date
     params['entity_id'] = entity_id
     params['group_id'] = group_id
     params['seed_masheryid'] = seed_masheryid
     params['supplier_masheryid'] = supplier_masheryid
     params['country'] = country
-    params['reseller_masheryid'] = reseller_masheryid
     return doCurl("post","/syndication/create",params)
+  end
+
+
+  #
+  # Renew a Syndicate
+  #
+  #  @param syndication_type
+  #  @param publisher_id
+  #  @param entity_id
+  #  @param group_id
+  #  @param seed_masheryid
+  #  @param supplier_masheryid
+  #  @param country
+  #  @param reseller_masheryid - This parameter is derived from the incoming Mashery API key and is stored as reseller_masheryid in the syndication document.
+  #  @param expiry_date
+  #  @return - the data from the api
+  #
+  def postSyndicationRenew( syndication_type, publisher_id, entity_id, group_id, seed_masheryid, supplier_masheryid, country, reseller_masheryid, expiry_date)
+    params = Hash.new
+    params['syndication_type'] = syndication_type
+    params['publisher_id'] = publisher_id
+    params['entity_id'] = entity_id
+    params['group_id'] = group_id
+    params['seed_masheryid'] = seed_masheryid
+    params['supplier_masheryid'] = supplier_masheryid
+    params['country'] = country
+    params['reseller_masheryid'] = reseller_masheryid
+    params['expiry_date'] = expiry_date
+    return doCurl("post","/syndication/renew",params)
   end
 
 
@@ -3319,6 +3973,19 @@ class CentralIndex
     params['message'] = message
     params['syndicated_id'] = syndicated_id
     return doCurl("post","/syndication_log",params)
+  end
+
+
+  #
+  # Get all syndication log entries for a given entity id
+  #
+  #  @param entity_id
+  #  @return - the data from the api
+  #
+  def getSyndication_logBy_entity_id( entity_id)
+    params = Hash.new
+    params['entity_id'] = entity_id
+    return doCurl("get","/syndication_log/by_entity_id",params)
   end
 
 
@@ -3429,6 +4096,33 @@ class CentralIndex
 
 
   #
+  # Fetch token for product path
+  #
+  #  @param entity_id - The id of the entity to add a product to
+  #  @param product_id - The product id of the product
+  #  @param language - The language for the app
+  #  @param portal_name - The portal name
+  #  @param flatpack_id - The id of the flatpack site where the request originated
+  #  @param source - email, social media etc
+  #  @param channel - 
+  #  @param campaign - the campaign identifier
+  #  @return - the data from the api
+  #
+  def getTokenProduct( entity_id, product_id, language, portal_name, flatpack_id, source, channel, campaign)
+    params = Hash.new
+    params['entity_id'] = entity_id
+    params['product_id'] = product_id
+    params['language'] = language
+    params['portal_name'] = portal_name
+    params['flatpack_id'] = flatpack_id
+    params['source'] = source
+    params['channel'] = channel
+    params['campaign'] = campaign
+    return doCurl("get","/token/product",params)
+  end
+
+
+  #
   # Provides a tokenised URL that allows a user to report incorrect entity information
   #
   #  @param entity_id - The unique Entity ID e.g. 379236608286720
@@ -3488,6 +4182,25 @@ class CentralIndex
     params['first_entity_id'] = first_entity_id
     params['second_entity_id'] = second_entity_id
     return doCurl("get","/tools/addressdiff",params)
+  end
+
+
+  #
+  # Provide a method, a path and some data to run a load of curl commands and get emailed when complete
+  #
+  #  @param method - The method e.g. POST
+  #  @param path - The relative api call e.g. /entity/phone
+  #  @param curl_data - Multiple lines of data e.g. entity_id=123456&number=07731309555
+  #  @param email - Response email address e.g. dave@fender.com
+  #  @return - the data from the api
+  #
+  def postToolsCurl( method, path, curl_data, email)
+    params = Hash.new
+    params['method'] = method
+    params['path'] = path
+    params['curl_data'] = curl_data
+    params['email'] = email
+    return doCurl("post","/tools/curl",params)
   end
 
 
@@ -3774,6 +4487,148 @@ class CentralIndex
 
 
   #
+  # Fetch the entity and convert it to DnB TSV format
+  #
+  #  @param entity_id - The entity_id to fetch
+  #  @return - the data from the api
+  #
+  def getToolsSyndicateDnb( entity_id)
+    params = Hash.new
+    params['entity_id'] = entity_id
+    return doCurl("get","/tools/syndicate/dnb",params)
+  end
+
+
+  #
+  # Fetch the entity and convert add it to arlington
+  #
+  #  @param entity_id - The entity_id to fetch
+  #  @param reseller_masheryid - The reseller_masheryid
+  #  @param destructive - Add the entity or simulate adding the entity
+  #  @return - the data from the api
+  #
+  def getToolsSyndicateEnablemedia( entity_id, reseller_masheryid, destructive)
+    params = Hash.new
+    params['entity_id'] = entity_id
+    params['reseller_masheryid'] = reseller_masheryid
+    params['destructive'] = destructive
+    return doCurl("get","/tools/syndicate/enablemedia",params)
+  end
+
+
+  #
+  # Fetch the entity and convert add it to Factual
+  #
+  #  @param entity_id - The entity_id to fetch
+  #  @param destructive - Add the entity or simulate adding the entity
+  #  @return - the data from the api
+  #
+  def getToolsSyndicateFactual( entity_id, destructive)
+    params = Hash.new
+    params['entity_id'] = entity_id
+    params['destructive'] = destructive
+    return doCurl("get","/tools/syndicate/factual",params)
+  end
+
+
+  #
+  # Fetch the entity and convert it to TomTom XML format
+  #
+  #  @param entity_id - The entity_id to fetch
+  #  @return - the data from the api
+  #
+  def getToolsSyndicateGoogle( entity_id)
+    params = Hash.new
+    params['entity_id'] = entity_id
+    return doCurl("get","/tools/syndicate/google",params)
+  end
+
+
+  #
+  # Fetch the entity and convert it to Google KML format
+  #
+  #  @param entity_id - The entity_id to fetch
+  #  @return - the data from the api
+  #
+  def getToolsSyndicateKml( entity_id)
+    params = Hash.new
+    params['entity_id'] = entity_id
+    return doCurl("get","/tools/syndicate/kml",params)
+  end
+
+
+  #
+  # Fetch the entity and convert it to Nokia CSV format
+  #
+  #  @param entity_id - The entity_id to fetch
+  #  @return - the data from the api
+  #
+  def getToolsSyndicateNokia( entity_id)
+    params = Hash.new
+    params['entity_id'] = entity_id
+    return doCurl("get","/tools/syndicate/nokia",params)
+  end
+
+
+  #
+  # Post an entity to OpenStreetMap
+  #
+  #  @param entity_id - The entity_id to fetch
+  #  @param destructive - Add the entity or simulate adding the entity
+  #  @return - the data from the api
+  #
+  def getToolsSyndicateOsm( entity_id, destructive)
+    params = Hash.new
+    params['entity_id'] = entity_id
+    params['destructive'] = destructive
+    return doCurl("get","/tools/syndicate/osm",params)
+  end
+
+
+  #
+  # Fetch the entity and convert it to TomTom XML format
+  #
+  #  @param entity_id - The entity_id to fetch
+  #  @return - the data from the api
+  #
+  def getToolsSyndicateTomtom( entity_id)
+    params = Hash.new
+    params['entity_id'] = entity_id
+    return doCurl("get","/tools/syndicate/tomtom",params)
+  end
+
+
+  #
+  # Fetch the entity and convert add it to Yassaaaabeeee!!
+  #
+  #  @param entity_id - The entity_id to fetch
+  #  @param destructive - Add the entity or simulate adding the entity
+  #  @return - the data from the api
+  #
+  def getToolsSyndicateYasabe( entity_id, destructive)
+    params = Hash.new
+    params['entity_id'] = entity_id
+    params['destructive'] = destructive
+    return doCurl("get","/tools/syndicate/yasabe",params)
+  end
+
+
+  #
+  # Find a canonical URL from a supplied URL
+  #
+  #  @param url - The url to process
+  #  @param max_redirects - The maximum number of reirects
+  #  @return - the data from the api
+  #
+  def getToolsUrl_details( url, max_redirects)
+    params = Hash.new
+    params['url'] = url
+    params['max_redirects'] = max_redirects
+    return doCurl("get","/tools/url_details",params)
+  end
+
+
+  #
   # Check to see if a supplied email address is valid
   #
   #  @param email_address - The email address to validate
@@ -3783,6 +4638,21 @@ class CentralIndex
     params = Hash.new
     params['email_address'] = email_address
     return doCurl("get","/tools/validate_email",params)
+  end
+
+
+  #
+  # Calls a number to make sure it is active
+  #
+  #  @param phone_number - The phone number to validate
+  #  @param country - The country code of the phone number to be validated
+  #  @return - the data from the api
+  #
+  def getToolsValidate_phone( phone_number, country)
+    params = Hash.new
+    params['phone_number'] = phone_number
+    params['country'] = country
+    return doCurl("get","/tools/validate_phone",params)
   end
 
 
@@ -4100,6 +4970,21 @@ class CentralIndex
     params = Hash.new
     params['user_id'] = user_id
     return doCurl("post","/user/reseller_remove",params)
+  end
+
+
+  #
+  # Deletes a specific social network from a user
+  #
+  #  @param user_id
+  #  @param social_network
+  #  @return - the data from the api
+  #
+  def deleteUserSocial_network( user_id, social_network)
+    params = Hash.new
+    params['user_id'] = user_id
+    params['social_network'] = social_network
+    return doCurl("delete","/user/social_network",params)
   end
 
 
