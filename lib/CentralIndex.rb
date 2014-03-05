@@ -2537,12 +2537,6 @@ class CentralIndex
   #  @param twitterUrl - Twitter link
   #  @param facebookUrl - Facebook link
   #  @param copyright - Copyright message
-  #  @param advertUpgradeActive - whether upgrade message is displayed on this Flatpack
-  #  @param advertUpgradePrice - the cost of upgrading
-  #  @param advertUpgradeMaxTags - the number of tags upgrading gives you
-  #  @param advertUpgradeMaxLocations - the number of locations upgrading gives you
-  #  @param advertUpgradeContractLength - the length of the contract (days)
-  #  @param advertUpgradeRefId - a unique reference for the upgrade
   #  @param phoneReveal - record phone number reveal
   #  @param loginLinkText - the link text for the Login link
   #  @param contextLocationId - The location ID to use as the context for searches on this flatpack
@@ -2554,7 +2548,7 @@ class CentralIndex
   #  @param products - A Collection of Central Index products the flatpack is allowed to sell
   #  @return - the data from the api
   #
-  def postFlatpack( flatpack_id, domainName, stub, flatpackName, less, language, country, mapsType, mapKey, searchFormShowOn, searchFormShowKeywordsBox, searchFormShowLocationBox, searchFormKeywordsAutoComplete, searchFormLocationsAutoComplete, searchFormDefaultLocation, searchFormPlaceholderKeywords, searchFormPlaceholderLocation, searchFormKeywordsLabel, searchFormLocationLabel, cannedLinksHeader, homepageTitle, homepageDescription, homepageIntroTitle, homepageIntroText, head, adblock, bodyTop, bodyBottom, header_menu, header_menu_bottom, footer_menu, bdpTitle, bdpDescription, bdpAds, serpTitle, serpDescription, serpNumberResults, serpNumberAdverts, serpAds, serpTitleNoWhat, serpDescriptionNoWhat, cookiePolicyUrl, cookiePolicyNotice, addBusinessButtonText, twitterUrl, facebookUrl, copyright, advertUpgradeActive, advertUpgradePrice, advertUpgradeMaxTags, advertUpgradeMaxLocations, advertUpgradeContractLength, advertUpgradeRefId, phoneReveal, loginLinkText, contextLocationId, addBusinessButtonPosition, denyIndexing, contextRadius, activityStream, activityStreamSize, products)
+  def postFlatpack( flatpack_id, domainName, stub, flatpackName, less, language, country, mapsType, mapKey, searchFormShowOn, searchFormShowKeywordsBox, searchFormShowLocationBox, searchFormKeywordsAutoComplete, searchFormLocationsAutoComplete, searchFormDefaultLocation, searchFormPlaceholderKeywords, searchFormPlaceholderLocation, searchFormKeywordsLabel, searchFormLocationLabel, cannedLinksHeader, homepageTitle, homepageDescription, homepageIntroTitle, homepageIntroText, head, adblock, bodyTop, bodyBottom, header_menu, header_menu_bottom, footer_menu, bdpTitle, bdpDescription, bdpAds, serpTitle, serpDescription, serpNumberResults, serpNumberAdverts, serpAds, serpTitleNoWhat, serpDescriptionNoWhat, cookiePolicyUrl, cookiePolicyNotice, addBusinessButtonText, twitterUrl, facebookUrl, copyright, phoneReveal, loginLinkText, contextLocationId, addBusinessButtonPosition, denyIndexing, contextRadius, activityStream, activityStreamSize, products)
     params = Hash.new
     params['flatpack_id'] = flatpack_id
     params['domainName'] = domainName
@@ -2603,12 +2597,6 @@ class CentralIndex
     params['twitterUrl'] = twitterUrl
     params['facebookUrl'] = facebookUrl
     params['copyright'] = copyright
-    params['advertUpgradeActive'] = advertUpgradeActive
-    params['advertUpgradePrice'] = advertUpgradePrice
-    params['advertUpgradeMaxTags'] = advertUpgradeMaxTags
-    params['advertUpgradeMaxLocations'] = advertUpgradeMaxLocations
-    params['advertUpgradeContractLength'] = advertUpgradeContractLength
-    params['advertUpgradeRefId'] = advertUpgradeRefId
     params['phoneReveal'] = phoneReveal
     params['loginLinkText'] = loginLinkText
     params['contextLocationId'] = contextLocationId
@@ -2735,6 +2723,21 @@ class CentralIndex
 
 
   #
+  # Remove a canned link to an existing flatpack site.
+  #
+  #  @param flatpack_id - the id of the flatpack to delete
+  #  @param gen_id - the id of the canned link to remove
+  #  @return - the data from the api
+  #
+  def deleteFlatpackLink( flatpack_id, gen_id)
+    params = Hash.new
+    params['flatpack_id'] = flatpack_id
+    params['gen_id'] = gen_id
+    return doCurl("delete","/flatpack/link",params)
+  end
+
+
+  #
   # Add a canned link to an existing flatpack site.
   #
   #  @param flatpack_id - the id of the flatpack to delete
@@ -2750,21 +2753,6 @@ class CentralIndex
     params['location'] = location
     params['linkText'] = linkText
     return doCurl("post","/flatpack/link",params)
-  end
-
-
-  #
-  # Remove a canned link to an existing flatpack site.
-  #
-  #  @param flatpack_id - the id of the flatpack to delete
-  #  @param gen_id - the id of the canned link to remove
-  #  @return - the data from the api
-  #
-  def deleteFlatpackLink( flatpack_id, gen_id)
-    params = Hash.new
-    params['flatpack_id'] = flatpack_id
-    params['gen_id'] = gen_id
-    return doCurl("delete","/flatpack/link",params)
   end
 
 
@@ -2812,19 +2800,6 @@ class CentralIndex
 
 
   #
-  # Delete a group with a specified group_id
-  #
-  #  @param group_id
-  #  @return - the data from the api
-  #
-  def deleteGroup( group_id)
-    params = Hash.new
-    params['group_id'] = group_id
-    return doCurl("delete","/group",params)
-  end
-
-
-  #
   # Returns group that matches a given group id
   #
   #  @param group_id
@@ -2834,6 +2809,19 @@ class CentralIndex
     params = Hash.new
     params['group_id'] = group_id
     return doCurl("get","/group",params)
+  end
+
+
+  #
+  # Delete a group with a specified group_id
+  #
+  #  @param group_id
+  #  @return - the data from the api
+  #
+  def deleteGroup( group_id)
+    params = Hash.new
+    params['group_id'] = group_id
+    return doCurl("delete","/group",params)
   end
 
 
@@ -2962,6 +2950,19 @@ class CentralIndex
 
 
   #
+  # Get an ingest job from the collection
+  #
+  #  @param job_id
+  #  @return - the data from the api
+  #
+  def getIngest_job( job_id)
+    params = Hash.new
+    params['job_id'] = job_id
+    return doCurl("get","/ingest_job",params)
+  end
+
+
+  #
   # Add a ingest job to the collection
   #
   #  @param description
@@ -2973,19 +2974,6 @@ class CentralIndex
     params['description'] = description
     params['category_type'] = category_type
     return doCurl("post","/ingest_job",params)
-  end
-
-
-  #
-  # Get an ingest job from the collection
-  #
-  #  @param job_id
-  #  @return - the data from the api
-  #
-  def getIngest_job( job_id)
-    params = Hash.new
-    params['job_id'] = job_id
-    return doCurl("get","/ingest_job",params)
   end
 
 
@@ -3020,6 +3008,19 @@ class CentralIndex
     params = Hash.new
     params['flush'] = flush
     return doCurl("get","/ingest_queue",params)
+  end
+
+
+  #
+  # Read a location with the supplied ID in the locations reference database.
+  #
+  #  @param location_id
+  #  @return - the data from the api
+  #
+  def getLocation( location_id)
+    params = Hash.new
+    params['location_id'] = location_id
+    return doCurl("get","/location",params)
   end
 
 
@@ -3073,19 +3074,6 @@ class CentralIndex
     params['searchable_id'] = searchable_id
     params['searchable_ids'] = searchable_ids
     return doCurl("post","/location",params)
-  end
-
-
-  #
-  # Read a location with the supplied ID in the locations reference database.
-  #
-  #  @param location_id
-  #  @return - the data from the api
-  #
-  def getLocation( location_id)
-    params = Hash.new
-    params['location_id'] = location_id
-    return doCurl("get","/location",params)
   end
 
 
@@ -3350,19 +3338,6 @@ class CentralIndex
 
 
   #
-  # Allows a private object to be removed
-  #
-  #  @param private_object_id - The id of the private object to remove
-  #  @return - the data from the api
-  #
-  def deletePrivate_object( private_object_id)
-    params = Hash.new
-    params['private_object_id'] = private_object_id
-    return doCurl("delete","/private_object",params)
-  end
-
-
-  #
   # With a known entity id, a private object can be added.
   #
   #  @param entity_id - The entity to associate the private object with
@@ -3374,6 +3349,19 @@ class CentralIndex
     params['entity_id'] = entity_id
     params['data'] = data
     return doCurl("put","/private_object",params)
+  end
+
+
+  #
+  # Allows a private object to be removed
+  #
+  #  @param private_object_id - The id of the private object to remove
+  #  @return - the data from the api
+  #
+  def deletePrivate_object( private_object_id)
+    params = Hash.new
+    params['private_object_id'] = private_object_id
+    return doCurl("delete","/private_object",params)
   end
 
 
@@ -3588,6 +3576,27 @@ class CentralIndex
 
 
   #
+  # Update/Add a publisher
+  #
+  #  @param publisher_id
+  #  @param country
+  #  @param name
+  #  @param description
+  #  @param active
+  #  @return - the data from the api
+  #
+  def postPublisher( publisher_id, country, name, description, active)
+    params = Hash.new
+    params['publisher_id'] = publisher_id
+    params['country'] = country
+    params['name'] = name
+    params['description'] = description
+    params['active'] = active
+    return doCurl("post","/publisher",params)
+  end
+
+
+  #
   # Returns publisher that matches a given publisher id
   #
   #  @param publisher_id
@@ -3610,27 +3619,6 @@ class CentralIndex
     params = Hash.new
     params['publisher_id'] = publisher_id
     return doCurl("delete","/publisher",params)
-  end
-
-
-  #
-  # Update/Add a publisher
-  #
-  #  @param publisher_id
-  #  @param country
-  #  @param name
-  #  @param description
-  #  @param active
-  #  @return - the data from the api
-  #
-  def postPublisher( publisher_id, country, name, description, active)
-    params = Hash.new
-    params['publisher_id'] = publisher_id
-    params['country'] = country
-    params['name'] = name
-    params['description'] = description
-    params['active'] = active
-    return doCurl("post","/publisher",params)
   end
 
 
@@ -4234,35 +4222,6 @@ class CentralIndex
 
 
   #
-  # Fetch token for update path
-  #
-  #  @param entity_id - The id of the entity being upgraded
-  #  @param portal_name - The name of the application that has initiated the login process, example: 'Your Local'
-  #  @param language - The language for the app
-  #  @param price - The price of the advert in the entities native currency
-  #  @param max_tags - The number of tags attached to the advert
-  #  @param max_locations - The number of locations attached to the advert
-  #  @param contract_length - The number of days from the initial sale date that the contract is valid for
-  #  @param ref_id - The campaign or reference id
-  #  @param flatpack_id - The id of the flatpack site where the request originated
-  #  @return - the data from the api
-  #
-  def getTokenUpgrade( entity_id, portal_name, language, price, max_tags, max_locations, contract_length, ref_id, flatpack_id)
-    params = Hash.new
-    params['entity_id'] = entity_id
-    params['portal_name'] = portal_name
-    params['language'] = language
-    params['price'] = price
-    params['max_tags'] = max_tags
-    params['max_locations'] = max_locations
-    params['contract_length'] = contract_length
-    params['ref_id'] = ref_id
-    params['flatpack_id'] = flatpack_id
-    return doCurl("get","/token/upgrade",params)
-  end
-
-
-  #
   # The JaroWinklerDistance between two entities postal address objects
   #
   #  @param first_entity_id - The entity id of the first entity to be used in the postal address difference
@@ -4282,15 +4241,15 @@ class CentralIndex
   #
   #  @param method - The method e.g. POST
   #  @param path - The relative api call e.g. /entity/phone
-  #  @param curl_data - Multiple lines of data e.g. entity_id=123456&number=07731309555
+  #  @param filedata - A tab separated file for ingest
   #  @param email - Response email address e.g. dave@fender.com
   #  @return - the data from the api
   #
-  def postToolsCurl( method, path, curl_data, email)
+  def postToolsCurl( method, path, filedata, email)
     params = Hash.new
     params['method'] = method
     params['path'] = path
-    params['curl_data'] = curl_data
+    params['filedata'] = filedata
     params['email'] = email
     return doCurl("post","/tools/curl",params)
   end
