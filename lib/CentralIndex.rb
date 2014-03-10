@@ -2058,6 +2058,7 @@ class CentralIndex
   # Search for matching entities, ordered by nearness
   #
   #  @param what - What to get results for. E.g. Plumber e.g. plumber
+  #  @param country - The country to fetch results for e.g. gb
   #  @param per_page - Number of results returned per page
   #  @param page - Which page number to retrieve
   #  @param language - An ISO compatible language code, E.g. en
@@ -2065,9 +2066,10 @@ class CentralIndex
   #  @param longitude - The decimal longitude of the centre point of the search
   #  @return - the data from the api
   #
-  def getEntitySearchWhatBynearest( what, per_page, page, language, latitude, longitude)
+  def getEntitySearchWhatBynearest( what, country, per_page, page, language, latitude, longitude)
     params = Hash.new
     params['what'] = what
+    params['country'] = country
     params['per_page'] = per_page
     params['page'] = page
     params['language'] = language
@@ -2158,6 +2160,7 @@ class CentralIndex
   # Search for entities matching the supplied 'who', ordered by nearness
   #
   #  @param who - What to get results for. E.g. Plumber e.g. plumber
+  #  @param country - The country to fetch results for e.g. gb
   #  @param per_page - Number of results returned per page
   #  @param page - Which page number to retrieve
   #  @param language - An ISO compatible language code, E.g. en
@@ -2165,9 +2168,10 @@ class CentralIndex
   #  @param longitude - The decimal longitude of the centre point of the search
   #  @return - the data from the api
   #
-  def getEntitySearchWhoBynearest( who, per_page, page, language, latitude, longitude)
+  def getEntitySearchWhoBynearest( who, country, per_page, page, language, latitude, longitude)
     params = Hash.new
     params['who'] = who
+    params['country'] = country
     params['per_page'] = per_page
     params['page'] = page
     params['language'] = language
