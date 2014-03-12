@@ -3752,15 +3752,17 @@ class CentralIndex
   #  @param name
   #  @param description
   #  @param active
+  #  @param products
   #  @return - the data from the api
   #
-  def postReseller( reseller_id, country, name, description, active)
+  def postReseller( reseller_id, country, name, description, active, products)
     params = Hash.new
     params['reseller_id'] = reseller_id
     params['country'] = country
     params['name'] = name
     params['description'] = description
     params['active'] = active
+    params['products'] = products
     return doCurl("post","/reseller",params)
   end
 
@@ -4321,9 +4323,10 @@ class CentralIndex
   #  @param province
   #  @param postcode
   #  @param country
+  #  @param geocoder
   #  @return - the data from the api
   #
-  def getToolsGeocode( building_number, address1, address2, address3, district, town, county, province, postcode, country)
+  def getToolsGeocode( building_number, address1, address2, address3, district, town, county, province, postcode, country, geocoder)
     params = Hash.new
     params['building_number'] = building_number
     params['address1'] = address1
@@ -4335,6 +4338,7 @@ class CentralIndex
     params['province'] = province
     params['postcode'] = postcode
     params['country'] = country
+    params['geocoder'] = geocoder
     return doCurl("get","/tools/geocode",params)
   end
 
