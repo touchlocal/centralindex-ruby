@@ -2966,32 +2966,6 @@ class CentralIndex
 
 
   #
-  # Returns group that matches a given group id
-  #
-  #  @param group_id
-  #  @return - the data from the api
-  #
-  def getGroup( group_id)
-    params = Hash.new
-    params['group_id'] = group_id
-    return doCurl("get","/group",params)
-  end
-
-
-  #
-  # Delete a group with a specified group_id
-  #
-  #  @param group_id
-  #  @return - the data from the api
-  #
-  def deleteGroup( group_id)
-    params = Hash.new
-    params['group_id'] = group_id
-    return doCurl("delete","/group",params)
-  end
-
-
-  #
   # Update/Add a Group
   #
   #  @param group_id
@@ -3011,6 +2985,32 @@ class CentralIndex
     params['stamp_user_id'] = stamp_user_id
     params['stamp_sql'] = stamp_sql
     return doCurl("post","/group",params)
+  end
+
+
+  #
+  # Delete a group with a specified group_id
+  #
+  #  @param group_id
+  #  @return - the data from the api
+  #
+  def deleteGroup( group_id)
+    params = Hash.new
+    params['group_id'] = group_id
+    return doCurl("delete","/group",params)
+  end
+
+
+  #
+  # Returns group that matches a given group id
+  #
+  #  @param group_id
+  #  @return - the data from the api
+  #
+  def getGroup( group_id)
+    params = Hash.new
+    params['group_id'] = group_id
+    return doCurl("get","/group",params)
   end
 
 
@@ -3182,19 +3182,6 @@ class CentralIndex
 
 
   #
-  # Read a location with the supplied ID in the locations reference database.
-  #
-  #  @param location_id
-  #  @return - the data from the api
-  #
-  def getLocation( location_id)
-    params = Hash.new
-    params['location_id'] = location_id
-    return doCurl("get","/location",params)
-  end
-
-
-  #
   # Create/update a new locz document with the supplied ID in the locations reference database.
   #
   #  @param location_id
@@ -3248,6 +3235,19 @@ class CentralIndex
 
 
   #
+  # Read a location with the supplied ID in the locations reference database.
+  #
+  #  @param location_id
+  #  @return - the data from the api
+  #
+  def getLocation( location_id)
+    params = Hash.new
+    params['location_id'] = location_id
+    return doCurl("get","/location",params)
+  end
+
+
+  #
   # Given a location_id or a lat/lon, find other locations within the radius
   #
   #  @param location_id
@@ -3287,6 +3287,19 @@ class CentralIndex
   # Fetch the project logo, the symbol of the Wolf
   #
   #  @param a
+  #  @return - the data from the api
+  #
+  def putLogo( a)
+    params = Hash.new
+    params['a'] = a
+    return doCurl("put","/logo",params)
+  end
+
+
+  #
+  # Fetch the project logo, the symbol of the Wolf
+  #
+  #  @param a
   #  @param b
   #  @param c
   #  @param d
@@ -3299,19 +3312,6 @@ class CentralIndex
     params['c'] = c
     params['d'] = d
     return doCurl("get","/logo",params)
-  end
-
-
-  #
-  # Fetch the project logo, the symbol of the Wolf
-  #
-  #  @param a
-  #  @return - the data from the api
-  #
-  def putLogo( a)
-    params = Hash.new
-    params['a'] = a
-    return doCurl("put","/logo",params)
   end
 
 
@@ -3532,9 +3532,17 @@ class CentralIndex
   #  @param menuTop - the JSON that describes a navigation at the top of the page
   #  @param menuBottom - the JSON that describes a navigation below the masthead
   #  @param language - An ISO compatible language code, E.g. en e.g. en
+  #  @param menuFooter - the JSON that describes a navigation at the bottom of the page
+  #  @param searchNumberResults - the number of search results per page
+  #  @param searchTitle - Title of serps page
+  #  @param searchDescription - Description of serps page
+  #  @param searchTitleNoWhere - Title when no where is specified
+  #  @param searchDescriptionNoWhere - Description of serps page when no where is specified
+  #  @param searchIntroHeader - Introductory header
+  #  @param searchIntroText - Introductory text
   #  @return - the data from the api
   #
-  def postMultipack( multipack_id, group_id, domainName, multipackName, less, country, menuTop, menuBottom, language)
+  def postMultipack( multipack_id, group_id, domainName, multipackName, less, country, menuTop, menuBottom, language, menuFooter, searchNumberResults, searchTitle, searchDescription, searchTitleNoWhere, searchDescriptionNoWhere, searchIntroHeader, searchIntroText)
     params = Hash.new
     params['multipack_id'] = multipack_id
     params['group_id'] = group_id
@@ -3545,6 +3553,14 @@ class CentralIndex
     params['menuTop'] = menuTop
     params['menuBottom'] = menuBottom
     params['language'] = language
+    params['menuFooter'] = menuFooter
+    params['searchNumberResults'] = searchNumberResults
+    params['searchTitle'] = searchTitle
+    params['searchDescription'] = searchDescription
+    params['searchTitleNoWhere'] = searchTitleNoWhere
+    params['searchDescriptionNoWhere'] = searchDescriptionNoWhere
+    params['searchIntroHeader'] = searchIntroHeader
+    params['searchIntroText'] = searchIntroText
     return doCurl("post","/multipack",params)
   end
 
@@ -3574,6 +3590,21 @@ class CentralIndex
     params['multipack_id'] = multipack_id
     params['filedata'] = filedata
     return doCurl("post","/multipack/logo",params)
+  end
+
+
+  #
+  # Add a map pin to a multipack domain
+  #
+  #  @param multipack_id - the unique id to search for
+  #  @param filedata
+  #  @return - the data from the api
+  #
+  def postMultipackMap_pin( multipack_id, filedata)
+    params = Hash.new
+    params['multipack_id'] = multipack_id
+    params['filedata'] = filedata
+    return doCurl("post","/multipack/map_pin",params)
   end
 
 
@@ -3619,6 +3650,19 @@ class CentralIndex
 
 
   #
+  # Returns the product information given a valid product_id
+  #
+  #  @param product_id
+  #  @return - the data from the api
+  #
+  def getProduct( product_id)
+    params = Hash.new
+    params['product_id'] = product_id
+    return doCurl("get","/product",params)
+  end
+
+
+  #
   # Update/Add a product
   #
   #  @param product_id - The ID of the product
@@ -3652,19 +3696,6 @@ class CentralIndex
     params['outro_paragraph'] = outro_paragraph
     params['thanks_paragraph'] = thanks_paragraph
     return doCurl("post","/product",params)
-  end
-
-
-  #
-  # Returns the product information given a valid product_id
-  #
-  #  @param product_id
-  #  @return - the data from the api
-  #
-  def getProduct( product_id)
-    params = Hash.new
-    params['product_id'] = product_id
-    return doCurl("get","/product",params)
   end
 
 
@@ -3908,17 +3939,15 @@ class CentralIndex
 
 
   #
-  # Create a queue item
+  # With a known queue id, a queue item can be removed.
   #
-  #  @param queue_name
-  #  @param data
+  #  @param queue_id
   #  @return - the data from the api
   #
-  def putQueue( queue_name, data)
+  def deleteQueue( queue_id)
     params = Hash.new
-    params['queue_name'] = queue_name
-    params['data'] = data
-    return doCurl("put","/queue",params)
+    params['queue_id'] = queue_id
+    return doCurl("delete","/queue",params)
   end
 
 
@@ -3938,15 +3967,30 @@ class CentralIndex
 
 
   #
-  # With a known queue id, a queue item can be removed.
+  # Create a queue item
+  #
+  #  @param queue_name
+  #  @param data
+  #  @return - the data from the api
+  #
+  def putQueue( queue_name, data)
+    params = Hash.new
+    params['queue_name'] = queue_name
+    params['data'] = data
+    return doCurl("put","/queue",params)
+  end
+
+
+  #
+  # Find a queue item by its cloudant id
   #
   #  @param queue_id
   #  @return - the data from the api
   #
-  def deleteQueue( queue_id)
+  def getQueueBy_id( queue_id)
     params = Hash.new
     params['queue_id'] = queue_id
-    return doCurl("delete","/queue",params)
+    return doCurl("get","/queue/by_id",params)
   end
 
 
@@ -4359,19 +4403,6 @@ class CentralIndex
 
 
   #
-  # Returns a Syndication Submission
-  #
-  #  @param syndication_submission_id
-  #  @return - the data from the api
-  #
-  def getSyndication_submission( syndication_submission_id)
-    params = Hash.new
-    params['syndication_submission_id'] = syndication_submission_id
-    return doCurl("get","/syndication_submission",params)
-  end
-
-
-  #
   # Creates a new Syndication Submission
   #
   #  @param syndication_type
@@ -4387,6 +4418,19 @@ class CentralIndex
     params['publisher_id'] = publisher_id
     params['submission_id'] = submission_id
     return doCurl("put","/syndication_submission",params)
+  end
+
+
+  #
+  # Returns a Syndication Submission
+  #
+  #  @param syndication_submission_id
+  #  @return - the data from the api
+  #
+  def getSyndication_submission( syndication_submission_id)
+    params = Hash.new
+    params['syndication_submission_id'] = syndication_submission_id
+    return doCurl("get","/syndication_submission",params)
   end
 
 
@@ -5283,6 +5327,32 @@ class CentralIndex
 
 
   #
+  # Fetching a traction
+  #
+  #  @param traction_id
+  #  @return - the data from the api
+  #
+  def getTraction( traction_id)
+    params = Hash.new
+    params['traction_id'] = traction_id
+    return doCurl("get","/traction",params)
+  end
+
+
+  #
+  # Deleting a traction
+  #
+  #  @param traction_id
+  #  @return - the data from the api
+  #
+  def deleteTraction( traction_id)
+    params = Hash.new
+    params['traction_id'] = traction_id
+    return doCurl("delete","/traction",params)
+  end
+
+
+  #
   # Update/Add a traction
   #
   #  @param traction_id
@@ -5322,32 +5392,6 @@ class CentralIndex
 
 
   #
-  # Fetching a traction
-  #
-  #  @param traction_id
-  #  @return - the data from the api
-  #
-  def getTraction( traction_id)
-    params = Hash.new
-    params['traction_id'] = traction_id
-    return doCurl("get","/traction",params)
-  end
-
-
-  #
-  # Deleting a traction
-  #
-  #  @param traction_id
-  #  @return - the data from the api
-  #
-  def deleteTraction( traction_id)
-    params = Hash.new
-    params['traction_id'] = traction_id
-    return doCurl("delete","/traction",params)
-  end
-
-
-  #
   # Fetching active tractions
   #
   #  @return - the data from the api
@@ -5355,19 +5399,6 @@ class CentralIndex
   def getTractionActive()
     params = Hash.new
     return doCurl("get","/traction/active",params)
-  end
-
-
-  #
-  # Given a transaction_id retrieve information on it
-  #
-  #  @param transaction_id
-  #  @return - the data from the api
-  #
-  def getTransaction( transaction_id)
-    params = Hash.new
-    params['transaction_id'] = transaction_id
-    return doCurl("get","/transaction",params)
   end
 
 
@@ -5391,6 +5422,19 @@ class CentralIndex
     params['currency'] = currency
     params['notes'] = notes
     return doCurl("put","/transaction",params)
+  end
+
+
+  #
+  # Given a transaction_id retrieve information on it
+  #
+  #  @param transaction_id
+  #  @return - the data from the api
+  #
+  def getTransaction( transaction_id)
+    params = Hash.new
+    params['transaction_id'] = transaction_id
+    return doCurl("get","/transaction",params)
   end
 
 
@@ -5470,6 +5514,19 @@ class CentralIndex
 
 
   #
+  # With a unique ID address an user can be retrieved
+  #
+  #  @param user_id
+  #  @return - the data from the api
+  #
+  def getUser( user_id)
+    params = Hash.new
+    params['user_id'] = user_id
+    return doCurl("get","/user",params)
+  end
+
+
+  #
   # Update user based on email address or social_network/social_network_id
   #
   #  @param email
@@ -5503,19 +5560,6 @@ class CentralIndex
     params['group_id'] = group_id
     params['admin_upgrader'] = admin_upgrader
     return doCurl("post","/user",params)
-  end
-
-
-  #
-  # With a unique ID address an user can be retrieved
-  #
-  #  @param user_id
-  #  @return - the data from the api
-  #
-  def getUser( user_id)
-    params = Hash.new
-    params['user_id'] = user_id
-    return doCurl("get","/user",params)
   end
 
 
