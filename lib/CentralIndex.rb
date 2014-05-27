@@ -3606,12 +3606,16 @@ class CentralIndex
   #
   #  @param multipack_id - the unique id to search for
   #  @param filedata
+  #  @param mapPinOffsetX
+  #  @param mapPinOffsetY
   #  @return - the data from the api
   #
-  def postMultipackMap_pin( multipack_id, filedata)
+  def postMultipackMap_pin( multipack_id, filedata, mapPinOffsetX, mapPinOffsetY)
     params = Hash.new
     params['multipack_id'] = multipack_id
     params['filedata'] = filedata
+    params['mapPinOffsetX'] = mapPinOffsetX
+    params['mapPinOffsetY'] = mapPinOffsetY
     return doCurl("post","/multipack/map_pin",params)
   end
 
@@ -5644,11 +5648,13 @@ class CentralIndex
   # Downgrade an existing user
   #
   #  @param user_id
+  #  @param user_type
   #  @return - the data from the api
   #
-  def postUserDowngrade( user_id)
+  def postUserDowngrade( user_id, user_type)
     params = Hash.new
     params['user_id'] = user_id
+    params['user_type'] = user_type
     return doCurl("post","/user/downgrade",params)
   end
 
