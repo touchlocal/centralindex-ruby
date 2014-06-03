@@ -658,19 +658,6 @@ class CentralIndex
 
 
   #
-  # Get the contract log from the ID supplied
-  #
-  #  @param contract_log_id
-  #  @return - the data from the api
-  #
-  def getContract_log( contract_log_id)
-    params = Hash.new
-    params['contract_log_id'] = contract_log_id
-    return doCurl("get","/contract_log",params)
-  end
-
-
-  #
   # Creates a new contract log for a given contract
   #
   #  @param contract_id
@@ -692,6 +679,19 @@ class CentralIndex
     params['amount'] = amount
     params['currency'] = currency
     return doCurl("post","/contract_log",params)
+  end
+
+
+  #
+  # Get the contract log from the ID supplied
+  #
+  #  @param contract_log_id
+  #  @return - the data from the api
+  #
+  def getContract_log( contract_log_id)
+    params = Hash.new
+    params['contract_log_id'] = contract_log_id
+    return doCurl("get","/contract_log",params)
   end
 
 
@@ -893,11 +893,15 @@ class CentralIndex
   # Allows a whole entity to be pulled from the datastore by its unique id
   #
   #  @param entity_id - The unique entity ID e.g. 379236608286720
+  #  @param domain
+  #  @param path
   #  @return - the data from the api
   #
-  def getEntity( entity_id)
+  def getEntity( entity_id, domain, path)
     params = Hash.new
     params['entity_id'] = entity_id
+    params['domain'] = domain
+    params['path'] = path
     return doCurl("get","/entity",params)
   end
 
@@ -1396,21 +1400,6 @@ class CentralIndex
 
 
   #
-  # Allows a phone object to be reduced in confidence
-  #
-  #  @param entity_id
-  #  @param gen_id
-  #  @return - the data from the api
-  #
-  def deleteEntityDocument( entity_id, gen_id)
-    params = Hash.new
-    params['entity_id'] = entity_id
-    params['gen_id'] = gen_id
-    return doCurl("delete","/entity/document",params)
-  end
-
-
-  #
   # With a known entity id, an document object can be added.
   #
   #  @param entity_id
@@ -1424,6 +1413,21 @@ class CentralIndex
     params['name'] = name
     params['filedata'] = filedata
     return doCurl("post","/entity/document",params)
+  end
+
+
+  #
+  # Allows a phone object to be reduced in confidence
+  #
+  #  @param entity_id
+  #  @param gen_id
+  #  @return - the data from the api
+  #
+  def deleteEntityDocument( entity_id, gen_id)
+    params = Hash.new
+    params['entity_id'] = entity_id
+    params['gen_id'] = gen_id
+    return doCurl("delete","/entity/document",params)
   end
 
 
@@ -1460,6 +1464,21 @@ class CentralIndex
 
 
   #
+  # Allows an employee object to be reduced in confidence
+  #
+  #  @param entity_id
+  #  @param gen_id
+  #  @return - the data from the api
+  #
+  def deleteEntityEmployee( entity_id, gen_id)
+    params = Hash.new
+    params['entity_id'] = entity_id
+    params['gen_id'] = gen_id
+    return doCurl("delete","/entity/employee",params)
+  end
+
+
+  #
   # With a known entity id, an employee object can be added.
   #
   #  @param entity_id
@@ -1483,21 +1502,6 @@ class CentralIndex
     params['email'] = email
     params['phone_number'] = phone_number
     return doCurl("post","/entity/employee",params)
-  end
-
-
-  #
-  # Allows an employee object to be reduced in confidence
-  #
-  #  @param entity_id
-  #  @param gen_id
-  #  @return - the data from the api
-  #
-  def deleteEntityEmployee( entity_id, gen_id)
-    params = Hash.new
-    params['entity_id'] = entity_id
-    params['gen_id'] = gen_id
-    return doCurl("delete","/entity/employee",params)
   end
 
 
@@ -1583,6 +1587,21 @@ class CentralIndex
 
 
   #
+  # Allows a image object to be reduced in confidence
+  #
+  #  @param entity_id
+  #  @param gen_id
+  #  @return - the data from the api
+  #
+  def deleteEntityImage( entity_id, gen_id)
+    params = Hash.new
+    params['entity_id'] = entity_id
+    params['gen_id'] = gen_id
+    return doCurl("delete","/entity/image",params)
+  end
+
+
+  #
   # With a known entity id, a image object can be added.
   #
   #  @param entity_id
@@ -1596,21 +1615,6 @@ class CentralIndex
     params['filedata'] = filedata
     params['image_name'] = image_name
     return doCurl("post","/entity/image",params)
-  end
-
-
-  #
-  # Allows a image object to be reduced in confidence
-  #
-  #  @param entity_id
-  #  @param gen_id
-  #  @return - the data from the api
-  #
-  def deleteEntityImage( entity_id, gen_id)
-    params = Hash.new
-    params['entity_id'] = entity_id
-    params['gen_id'] = gen_id
-    return doCurl("delete","/entity/image",params)
   end
 
 
@@ -1678,6 +1682,21 @@ class CentralIndex
 
 
   #
+  # Allows a list description object to be reduced in confidence
+  #
+  #  @param gen_id
+  #  @param entity_id
+  #  @return - the data from the api
+  #
+  def deleteEntityList( gen_id, entity_id)
+    params = Hash.new
+    params['gen_id'] = gen_id
+    params['entity_id'] = entity_id
+    return doCurl("delete","/entity/list",params)
+  end
+
+
+  #
   # With a known entity id, a list description object can be added.
   #
   #  @param entity_id
@@ -1691,21 +1710,6 @@ class CentralIndex
     params['headline'] = headline
     params['body'] = body
     return doCurl("post","/entity/list",params)
-  end
-
-
-  #
-  # Allows a list description object to be reduced in confidence
-  #
-  #  @param gen_id
-  #  @param entity_id
-  #  @return - the data from the api
-  #
-  def deleteEntityList( gen_id, entity_id)
-    params = Hash.new
-    params['gen_id'] = gen_id
-    params['entity_id'] = entity_id
-    return doCurl("delete","/entity/list",params)
   end
 
 
@@ -1835,6 +1839,19 @@ class CentralIndex
 
 
   #
+  # With a known entity id, a opening times object can be removed.
+  #
+  #  @param entity_id - The id of the entity to edit
+  #  @return - the data from the api
+  #
+  def deleteEntityOpening_times( entity_id)
+    params = Hash.new
+    params['entity_id'] = entity_id
+    return doCurl("delete","/entity/opening_times",params)
+  end
+
+
+  #
   # With a known entity id, a opening times object can be added. Each day can be either 'closed' to indicate that the entity is closed that day, '24hour' to indicate that the entity is open all day or single/split time ranges can be supplied in 4-digit 24-hour format, such as '09001730' or '09001200,13001700' to indicate hours of opening.
   #
   #  @param entity_id - The id of the entity to edit
@@ -1862,19 +1879,6 @@ class CentralIndex
     params['closed'] = closed
     params['closed_public_holidays'] = closed_public_holidays
     return doCurl("post","/entity/opening_times",params)
-  end
-
-
-  #
-  # With a known entity id, a opening times object can be removed.
-  #
-  #  @param entity_id - The id of the entity to edit
-  #  @return - the data from the api
-  #
-  def deleteEntityOpening_times( entity_id)
-    params = Hash.new
-    params['entity_id'] = entity_id
-    return doCurl("delete","/entity/opening_times",params)
   end
 
 
@@ -2027,9 +2031,11 @@ class CentralIndex
   #  @param page
   #  @param country
   #  @param language
+  #  @param domain
+  #  @param path
   #  @return - the data from the api
   #
-  def getEntitySearchByboundingbox( latitude_1, longitude_1, latitude_2, longitude_2, per_page, page, country, language)
+  def getEntitySearchByboundingbox( latitude_1, longitude_1, latitude_2, longitude_2, per_page, page, country, language, domain, path)
     params = Hash.new
     params['latitude_1'] = latitude_1
     params['longitude_1'] = longitude_1
@@ -2039,6 +2045,8 @@ class CentralIndex
     params['page'] = page
     params['country'] = country
     params['language'] = language
+    params['domain'] = domain
+    params['path'] = path
     return doCurl("get","/entity/search/byboundingbox",params)
   end
 
@@ -2053,9 +2061,11 @@ class CentralIndex
   #  @param language - An ISO compatible language code, E.g. en
   #  @param latitude - The decimal latitude of the search context (optional)
   #  @param longitude - The decimal longitude of the search context (optional)
+  #  @param domain
+  #  @param path
   #  @return - the data from the api
   #
-  def getEntitySearchBylocation( where, per_page, page, country, language, latitude, longitude)
+  def getEntitySearchBylocation( where, per_page, page, country, language, latitude, longitude, domain, path)
     params = Hash.new
     params['where'] = where
     params['per_page'] = per_page
@@ -2064,6 +2074,8 @@ class CentralIndex
     params['language'] = language
     params['latitude'] = latitude
     params['longitude'] = longitude
+    params['domain'] = domain
+    params['path'] = path
     return doCurl("get","/entity/search/bylocation",params)
   end
 
@@ -2079,9 +2091,11 @@ class CentralIndex
   #  @param language - An ISO compatible language code, E.g. en
   #  @param latitude - The decimal latitude of the centre point of the search context
   #  @param longitude - The decimal longitude of the centre point of the search context
+  #  @param domain
+  #  @param path
   #  @return - the data from the api
   #
-  def getEntitySearchGroupBylocation( group_id, where, country, per_page, page, language, latitude, longitude)
+  def getEntitySearchGroupBylocation( group_id, where, country, per_page, page, language, latitude, longitude, domain, path)
     params = Hash.new
     params['group_id'] = group_id
     params['where'] = where
@@ -2091,6 +2105,8 @@ class CentralIndex
     params['language'] = language
     params['latitude'] = latitude
     params['longitude'] = longitude
+    params['domain'] = domain
+    params['path'] = path
     return doCurl("get","/entity/search/group/bylocation",params)
   end
 
@@ -2105,9 +2121,11 @@ class CentralIndex
   #  @param language - An ISO compatible language code, E.g. en
   #  @param latitude - The decimal latitude of the centre point of the search
   #  @param longitude - The decimal longitude of the centre point of the search
+  #  @param domain
+  #  @param path
   #  @return - the data from the api
   #
-  def getEntitySearchGroupBynearest( group_id, country, per_page, page, language, latitude, longitude)
+  def getEntitySearchGroupBynearest( group_id, country, per_page, page, language, latitude, longitude, domain, path)
     params = Hash.new
     params['group_id'] = group_id
     params['country'] = country
@@ -2116,7 +2134,38 @@ class CentralIndex
     params['language'] = language
     params['latitude'] = latitude
     params['longitude'] = longitude
+    params['domain'] = domain
+    params['path'] = path
     return doCurl("get","/entity/search/group/bynearest",params)
+  end
+
+
+  #
+  # Search for entities matching the supplied 'who', ordered by nearness
+  #
+  #  @param keyword - What to get results for. E.g. cafe e.g. cafe
+  #  @param country - The country to fetch results for e.g. gb
+  #  @param per_page - Number of results returned per page
+  #  @param page - Which page number to retrieve
+  #  @param language - An ISO compatible language code, E.g. en
+  #  @param latitude - The decimal latitude of the centre point of the search
+  #  @param longitude - The decimal longitude of the centre point of the search
+  #  @param domain
+  #  @param path
+  #  @return - the data from the api
+  #
+  def getEntitySearchKeywordBynearest( keyword, country, per_page, page, language, latitude, longitude, domain, path)
+    params = Hash.new
+    params['keyword'] = keyword
+    params['country'] = country
+    params['per_page'] = per_page
+    params['page'] = page
+    params['language'] = language
+    params['latitude'] = latitude
+    params['longitude'] = longitude
+    params['domain'] = domain
+    params['path'] = path
+    return doCurl("get","/entity/search/keyword/bynearest",params)
   end
 
 
@@ -2128,15 +2177,19 @@ class CentralIndex
   #  @param page - The page number to retrieve
   #  @param country - Which country to return results for. An ISO compatible country code, E.g. ie e.g. ie
   #  @param language - An ISO compatible language code, E.g. en
+  #  @param domain
+  #  @param path
   #  @return - the data from the api
   #
-  def getEntitySearchWhat( what, per_page, page, country, language)
+  def getEntitySearchWhat( what, per_page, page, country, language, domain, path)
     params = Hash.new
     params['what'] = what
     params['per_page'] = per_page
     params['page'] = page
     params['country'] = country
     params['language'] = language
+    params['domain'] = domain
+    params['path'] = path
     return doCurl("get","/entity/search/what",params)
   end
 
@@ -2153,9 +2206,11 @@ class CentralIndex
   #  @param page
   #  @param country - A valid ISO 3166 country code e.g. ie
   #  @param language
+  #  @param domain
+  #  @param path
   #  @return - the data from the api
   #
-  def getEntitySearchWhatByboundingbox( what, latitude_1, longitude_1, latitude_2, longitude_2, per_page, page, country, language)
+  def getEntitySearchWhatByboundingbox( what, latitude_1, longitude_1, latitude_2, longitude_2, per_page, page, country, language, domain, path)
     params = Hash.new
     params['what'] = what
     params['latitude_1'] = latitude_1
@@ -2166,6 +2221,8 @@ class CentralIndex
     params['page'] = page
     params['country'] = country
     params['language'] = language
+    params['domain'] = domain
+    params['path'] = path
     return doCurl("get","/entity/search/what/byboundingbox",params)
   end
 
@@ -2181,9 +2238,11 @@ class CentralIndex
   #  @param language - An ISO compatible language code, E.g. en
   #  @param latitude - The decimal latitude of the search context (optional)
   #  @param longitude - The decimal longitude of the search context (optional)
+  #  @param domain
+  #  @param path
   #  @return - the data from the api
   #
-  def getEntitySearchWhatBylocation( what, where, per_page, page, country, language, latitude, longitude)
+  def getEntitySearchWhatBylocation( what, where, per_page, page, country, language, latitude, longitude, domain, path)
     params = Hash.new
     params['what'] = what
     params['where'] = where
@@ -2193,6 +2252,8 @@ class CentralIndex
     params['language'] = language
     params['latitude'] = latitude
     params['longitude'] = longitude
+    params['domain'] = domain
+    params['path'] = path
     return doCurl("get","/entity/search/what/bylocation",params)
   end
 
@@ -2207,9 +2268,11 @@ class CentralIndex
   #  @param language - An ISO compatible language code, E.g. en
   #  @param latitude - The decimal latitude of the centre point of the search
   #  @param longitude - The decimal longitude of the centre point of the search
+  #  @param domain
+  #  @param path
   #  @return - the data from the api
   #
-  def getEntitySearchWhatBynearest( what, country, per_page, page, language, latitude, longitude)
+  def getEntitySearchWhatBynearest( what, country, per_page, page, language, latitude, longitude, domain, path)
     params = Hash.new
     params['what'] = what
     params['country'] = country
@@ -2218,6 +2281,8 @@ class CentralIndex
     params['language'] = language
     params['latitude'] = latitude
     params['longitude'] = longitude
+    params['domain'] = domain
+    params['path'] = path
     return doCurl("get","/entity/search/what/bynearest",params)
   end
 
@@ -2230,15 +2295,19 @@ class CentralIndex
   #  @param page - What page number to retrieve
   #  @param country - Which country to return results for. An ISO compatible country code, E.g. ie e.g. ie
   #  @param language - An ISO compatible language code, E.g. en
+  #  @param domain
+  #  @param path
   #  @return - the data from the api
   #
-  def getEntitySearchWho( who, per_page, page, country, language)
+  def getEntitySearchWho( who, per_page, page, country, language, domain, path)
     params = Hash.new
     params['who'] = who
     params['per_page'] = per_page
     params['page'] = page
     params['country'] = country
     params['language'] = language
+    params['domain'] = domain
+    params['path'] = path
     return doCurl("get","/entity/search/who",params)
   end
 
@@ -2255,9 +2324,11 @@ class CentralIndex
   #  @param page
   #  @param country
   #  @param language - An ISO compatible language code, E.g. en
+  #  @param domain
+  #  @param path
   #  @return - the data from the api
   #
-  def getEntitySearchWhoByboundingbox( who, latitude_1, longitude_1, latitude_2, longitude_2, per_page, page, country, language)
+  def getEntitySearchWhoByboundingbox( who, latitude_1, longitude_1, latitude_2, longitude_2, per_page, page, country, language, domain, path)
     params = Hash.new
     params['who'] = who
     params['latitude_1'] = latitude_1
@@ -2268,6 +2339,8 @@ class CentralIndex
     params['page'] = page
     params['country'] = country
     params['language'] = language
+    params['domain'] = domain
+    params['path'] = path
     return doCurl("get","/entity/search/who/byboundingbox",params)
   end
 
@@ -2283,9 +2356,11 @@ class CentralIndex
   #  @param latitude - The decimal latitude of the search context (optional)
   #  @param longitude - The decimal longitude of the search context (optional)
   #  @param language - An ISO compatible language code, E.g. en
+  #  @param domain
+  #  @param path
   #  @return - the data from the api
   #
-  def getEntitySearchWhoBylocation( who, where, per_page, page, country, latitude, longitude, language)
+  def getEntitySearchWhoBylocation( who, where, per_page, page, country, latitude, longitude, language, domain, path)
     params = Hash.new
     params['who'] = who
     params['where'] = where
@@ -2295,6 +2370,8 @@ class CentralIndex
     params['latitude'] = latitude
     params['longitude'] = longitude
     params['language'] = language
+    params['domain'] = domain
+    params['path'] = path
     return doCurl("get","/entity/search/who/bylocation",params)
   end
 
@@ -2309,9 +2386,11 @@ class CentralIndex
   #  @param language - An ISO compatible language code, E.g. en
   #  @param latitude - The decimal latitude of the centre point of the search
   #  @param longitude - The decimal longitude of the centre point of the search
+  #  @param domain
+  #  @param path
   #  @return - the data from the api
   #
-  def getEntitySearchWhoBynearest( who, country, per_page, page, language, latitude, longitude)
+  def getEntitySearchWhoBynearest( who, country, per_page, page, language, latitude, longitude, domain, path)
     params = Hash.new
     params['who'] = who
     params['country'] = country
@@ -2320,6 +2399,8 @@ class CentralIndex
     params['language'] = language
     params['latitude'] = latitude
     params['longitude'] = longitude
+    params['domain'] = domain
+    params['path'] = path
     return doCurl("get","/entity/search/who/bynearest",params)
   end
 
@@ -2346,6 +2427,21 @@ class CentralIndex
 
 
   #
+  # Allows a social media object to be reduced in confidence
+  #
+  #  @param entity_id
+  #  @param gen_id
+  #  @return - the data from the api
+  #
+  def deleteEntitySocialmedia( entity_id, gen_id)
+    params = Hash.new
+    params['entity_id'] = entity_id
+    params['gen_id'] = gen_id
+    return doCurl("delete","/entity/socialmedia",params)
+  end
+
+
+  #
   # With a known entity id, a social media object can be added.
   #
   #  @param entity_id
@@ -2363,17 +2459,17 @@ class CentralIndex
 
 
   #
-  # Allows a social media object to be reduced in confidence
+  # Allows a special offer object to be reduced in confidence
   #
   #  @param entity_id
   #  @param gen_id
   #  @return - the data from the api
   #
-  def deleteEntitySocialmedia( entity_id, gen_id)
+  def deleteEntitySpecial_offer( entity_id, gen_id)
     params = Hash.new
     params['entity_id'] = entity_id
     params['gen_id'] = gen_id
-    return doCurl("delete","/entity/socialmedia",params)
+    return doCurl("delete","/entity/special_offer",params)
   end
 
 
@@ -2405,21 +2501,6 @@ class CentralIndex
 
 
   #
-  # Allows a special offer object to be reduced in confidence
-  #
-  #  @param entity_id
-  #  @param gen_id
-  #  @return - the data from the api
-  #
-  def deleteEntitySpecial_offer( entity_id, gen_id)
-    params = Hash.new
-    params['entity_id'] = entity_id
-    params['gen_id'] = gen_id
-    return doCurl("delete","/entity/special_offer",params)
-  end
-
-
-  #
   # With a known entity id, a status object can be updated.
   #
   #  @param entity_id
@@ -2435,6 +2516,21 @@ class CentralIndex
     params['inactive_reason'] = inactive_reason
     params['inactive_description'] = inactive_description
     return doCurl("post","/entity/status",params)
+  end
+
+
+  #
+  # Allows a tag object to be reduced in confidence
+  #
+  #  @param entity_id
+  #  @param gen_id
+  #  @return - the data from the api
+  #
+  def deleteEntityTag( entity_id, gen_id)
+    params = Hash.new
+    params['entity_id'] = entity_id
+    params['gen_id'] = gen_id
+    return doCurl("delete","/entity/tag",params)
   end
 
 
@@ -2456,17 +2552,17 @@ class CentralIndex
 
 
   #
-  # Allows a tag object to be reduced in confidence
+  # Allows a testimonial object to be reduced in confidence
   #
   #  @param entity_id
   #  @param gen_id
   #  @return - the data from the api
   #
-  def deleteEntityTag( entity_id, gen_id)
+  def deleteEntityTestimonial( entity_id, gen_id)
     params = Hash.new
     params['entity_id'] = entity_id
     params['gen_id'] = gen_id
-    return doCurl("delete","/entity/tag",params)
+    return doCurl("delete","/entity/testimonial",params)
   end
 
 
@@ -2488,21 +2584,6 @@ class CentralIndex
     params['date'] = date
     params['testifier_name'] = testifier_name
     return doCurl("post","/entity/testimonial",params)
-  end
-
-
-  #
-  # Allows a testimonial object to be reduced in confidence
-  #
-  #  @param entity_id
-  #  @param gen_id
-  #  @return - the data from the api
-  #
-  def deleteEntityTestimonial( entity_id, gen_id)
-    params = Hash.new
-    params['entity_id'] = entity_id
-    params['gen_id'] = gen_id
-    return doCurl("delete","/entity/testimonial",params)
   end
 
 
@@ -2631,13 +2712,17 @@ class CentralIndex
   #  @param entity_id - The id of the entity to create the entityserve event for
   #  @param country - the ISO code of the country
   #  @param event_type - The event type being recorded
+  #  @param domain
+  #  @param path
   #  @return - the data from the api
   #
-  def putEntityserve( entity_id, country, event_type)
+  def putEntityserve( entity_id, country, event_type, domain, path)
     params = Hash.new
     params['entity_id'] = entity_id
     params['country'] = country
     params['event_type'] = event_type
+    params['domain'] = domain
+    params['path'] = path
     return doCurl("put","/entityserve",params)
   end
 
