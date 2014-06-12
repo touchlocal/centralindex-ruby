@@ -3553,24 +3553,28 @@ class CentralIndex
   #
   # Create a matching log
   #
-  #  @param processed_entity_id
-  #  @param matched_entity_id
-  #  @param processed_mega
-  #  @param matched_mega
-  #  @param processed_group
-  #  @param matched_group
-  #  @param merged
+  #  @param primary_entity_id
+  #  @param secondary_entity_id
+  #  @param primary_name
+  #  @param secondary_name
+  #  @param address_score
+  #  @param address_match
+  #  @param name_score
+  #  @param name_match
+  #  @param distance
   #  @return - the data from the api
   #
-  def putMatching_log( processed_entity_id, matched_entity_id, processed_mega, matched_mega, processed_group, matched_group, merged)
+  def putMatching_log( primary_entity_id, secondary_entity_id, primary_name, secondary_name, address_score, address_match, name_score, name_match, distance)
     params = Hash.new
-    params['processed_entity_id'] = processed_entity_id
-    params['matched_entity_id'] = matched_entity_id
-    params['processed_mega'] = processed_mega
-    params['matched_mega'] = matched_mega
-    params['processed_group'] = processed_group
-    params['matched_group'] = matched_group
-    params['merged'] = merged
+    params['primary_entity_id'] = primary_entity_id
+    params['secondary_entity_id'] = secondary_entity_id
+    params['primary_name'] = primary_name
+    params['secondary_name'] = secondary_name
+    params['address_score'] = address_score
+    params['address_match'] = address_match
+    params['name_score'] = name_score
+    params['name_match'] = name_match
+    params['distance'] = distance
     return doCurl("put","/matching_log",params)
   end
 
