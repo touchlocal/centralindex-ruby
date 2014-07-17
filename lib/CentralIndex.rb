@@ -3680,10 +3680,13 @@ class CentralIndex
   #  @param name_match
   #  @param distance
   #  @param phone_match
+  #  @param category_match
+  #  @param email_match
+  #  @param website_match
   #  @param match
   #  @return - the data from the api
   #
-  def putMatching_log( primary_entity_id, secondary_entity_id, primary_name, secondary_name, address_score, address_match, name_score, name_match, distance, phone_match, match)
+  def putMatching_log( primary_entity_id, secondary_entity_id, primary_name, secondary_name, address_score, address_match, name_score, name_match, distance, phone_match, category_match, email_match, website_match, match)
     params = Hash.new
     params['primary_entity_id'] = primary_entity_id
     params['secondary_entity_id'] = secondary_entity_id
@@ -3695,6 +3698,9 @@ class CentralIndex
     params['name_match'] = name_match
     params['distance'] = distance
     params['phone_match'] = phone_match
+    params['category_match'] = category_match
+    params['email_match'] = email_match
+    params['website_match'] = website_match
     params['match'] = match
     return doCurl("put","/matching_log",params)
   end
