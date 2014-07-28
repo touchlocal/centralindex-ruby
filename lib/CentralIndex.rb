@@ -233,9 +233,10 @@ class CentralIndex
   #  @param referrer_url
   #  @param referrer_name
   #  @param destructive
+  #  @param delete_mode - The type of object contribution deletion
   #  @return - the data from the api
   #
-  def putBusiness( name, building_number, branch_name, address1, address2, address3, district, town, county, province, postcode, country, latitude, longitude, timezone, telephone_number, additional_telephone_number, email, website, category_id, category_type, do_not_display, referrer_url, referrer_name, destructive)
+  def putBusiness( name, building_number, branch_name, address1, address2, address3, district, town, county, province, postcode, country, latitude, longitude, timezone, telephone_number, additional_telephone_number, email, website, category_id, category_type, do_not_display, referrer_url, referrer_name, destructive, delete_mode)
     params = Hash.new
     params['name'] = name
     params['building_number'] = building_number
@@ -262,6 +263,7 @@ class CentralIndex
     params['referrer_url'] = referrer_url
     params['referrer_name'] = referrer_name
     params['destructive'] = destructive
+    params['delete_mode'] = delete_mode
     return doCurl("put","/business",params)
   end
 
@@ -925,13 +927,15 @@ class CentralIndex
   #  @param entity_id - The unique entity ID e.g. 379236608286720
   #  @param domain
   #  @param path
+  #  @param data_filter
   #  @return - the data from the api
   #
-  def getEntity( entity_id, domain, path)
+  def getEntity( entity_id, domain, path, data_filter)
     params = Hash.new
     params['entity_id'] = entity_id
     params['domain'] = domain
     params['path'] = path
+    params['data_filter'] = data_filter
     return doCurl("get","/entity",params)
   end
 
@@ -1863,9 +1867,10 @@ class CentralIndex
   #  @param uncontribute_masheryid - Do we want to uncontribute any data for a masheryid?
   #  @param uncontribute_userid - Do we want to uncontribute any data for a user_id?
   #  @param uncontribute_supplierid - Do we want to uncontribute any data for a supplier_id?
+  #  @param delete_mode - The type of object contribution deletion
   #  @return - the data from the api
   #
-  def postEntityMerge( from, to, override_trust, uncontribute_masheryid, uncontribute_userid, uncontribute_supplierid)
+  def postEntityMerge( from, to, override_trust, uncontribute_masheryid, uncontribute_userid, uncontribute_supplierid, delete_mode)
     params = Hash.new
     params['from'] = from
     params['to'] = to
@@ -1873,6 +1878,7 @@ class CentralIndex
     params['uncontribute_masheryid'] = uncontribute_masheryid
     params['uncontribute_userid'] = uncontribute_userid
     params['uncontribute_supplierid'] = uncontribute_supplierid
+    params['delete_mode'] = delete_mode
     return doCurl("post","/entity/merge",params)
   end
 
@@ -4359,9 +4365,10 @@ class CentralIndex
   #  @param description
   #  @param active
   #  @param products
+  #  @param master_user_id
   #  @return - the data from the api
   #
-  def postReseller( reseller_id, country, name, description, active, products)
+  def postReseller( reseller_id, country, name, description, active, products, master_user_id)
     params = Hash.new
     params['reseller_id'] = reseller_id
     params['country'] = country
@@ -4369,6 +4376,7 @@ class CentralIndex
     params['description'] = description
     params['active'] = active
     params['products'] = products
+    params['master_user_id'] = master_user_id
     return doCurl("post","/reseller",params)
   end
 
@@ -4628,9 +4636,10 @@ class CentralIndex
   #  @param seed_masheryid
   #  @param supplier_masheryid
   #  @param country
+  #  @param data_type
   #  @return - the data from the api
   #
-  def postSyndicationCreate( syndication_type, publisher_id, expiry_date, entity_id, group_id, seed_masheryid, supplier_masheryid, country)
+  def postSyndicationCreate( syndication_type, publisher_id, expiry_date, entity_id, group_id, seed_masheryid, supplier_masheryid, country, data_type)
     params = Hash.new
     params['syndication_type'] = syndication_type
     params['publisher_id'] = publisher_id
@@ -4640,6 +4649,7 @@ class CentralIndex
     params['seed_masheryid'] = seed_masheryid
     params['supplier_masheryid'] = supplier_masheryid
     params['country'] = country
+    params['data_type'] = data_type
     return doCurl("post","/syndication/create",params)
   end
 
