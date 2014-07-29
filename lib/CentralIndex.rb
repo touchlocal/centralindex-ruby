@@ -4636,10 +4636,10 @@ class CentralIndex
   #  @param seed_masheryid
   #  @param supplier_masheryid
   #  @param country
-  #  @param data_type
+  #  @param data_filter
   #  @return - the data from the api
   #
-  def postSyndicationCreate( syndication_type, publisher_id, expiry_date, entity_id, group_id, seed_masheryid, supplier_masheryid, country, data_type)
+  def postSyndicationCreate( syndication_type, publisher_id, expiry_date, entity_id, group_id, seed_masheryid, supplier_masheryid, country, data_filter)
     params = Hash.new
     params['syndication_type'] = syndication_type
     params['publisher_id'] = publisher_id
@@ -4649,7 +4649,7 @@ class CentralIndex
     params['seed_masheryid'] = seed_masheryid
     params['supplier_masheryid'] = supplier_masheryid
     params['country'] = country
-    params['data_type'] = data_type
+    params['data_filter'] = data_filter
     return doCurl("post","/syndication/create",params)
   end
 
