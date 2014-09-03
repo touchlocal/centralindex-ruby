@@ -234,9 +234,10 @@ class CentralIndex
   #  @param referrer_name
   #  @param destructive
   #  @param delete_mode - The type of object contribution deletion
+  #  @param master_entity_id - The entity you want this data to go to
   #  @return - the data from the api
   #
-  def putBusiness( name, building_number, branch_name, address1, address2, address3, district, town, county, province, postcode, country, latitude, longitude, timezone, telephone_number, additional_telephone_number, email, website, category_id, category_type, do_not_display, referrer_url, referrer_name, destructive, delete_mode)
+  def putBusiness( name, building_number, branch_name, address1, address2, address3, district, town, county, province, postcode, country, latitude, longitude, timezone, telephone_number, additional_telephone_number, email, website, category_id, category_type, do_not_display, referrer_url, referrer_name, destructive, delete_mode, master_entity_id)
     params = Hash.new
     params['name'] = name
     params['building_number'] = building_number
@@ -264,6 +265,7 @@ class CentralIndex
     params['referrer_name'] = referrer_name
     params['destructive'] = destructive
     params['delete_mode'] = delete_mode
+    params['master_entity_id'] = master_entity_id
     return doCurl("put","/business",params)
   end
 
@@ -274,13 +276,15 @@ class CentralIndex
   #  @param json - Business JSON
   #  @param country - The country to fetch results for e.g. gb
   #  @param timezone
+  #  @param master_entity_id - The entity you want this data to go to
   #  @return - the data from the api
   #
-  def putBusinessJson( json, country, timezone)
+  def putBusinessJson( json, country, timezone, master_entity_id)
     params = Hash.new
     params['json'] = json
     params['country'] = country
     params['timezone'] = timezone
+    params['master_entity_id'] = master_entity_id
     return doCurl("put","/business/json",params)
   end
 
@@ -5524,7 +5528,7 @@ class CentralIndex
 
 
   #
-  # Fetch the entity and convert it to Nokia CSV format
+  # Fetch the entity and convert it to Nokia NBS CSV format
   #
   #  @param entity_id - The entity_id to fetch
   #  @return - the data from the api
