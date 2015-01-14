@@ -3535,9 +3535,10 @@ class CentralIndex
   #  @param radius - Radius in km
   #  @param resolution
   #  @param country
+  #  @param num_results
   #  @return - the data from the api
   #
-  def getLocationContext( location_id, latitude, longitude, radius, resolution, country)
+  def getLocationContext( location_id, latitude, longitude, radius, resolution, country, num_results)
     params = Hash.new
     params['location_id'] = location_id
     params['latitude'] = latitude
@@ -3545,6 +3546,7 @@ class CentralIndex
     params['radius'] = radius
     params['resolution'] = resolution
     params['country'] = country
+    params['num_results'] = num_results
     return doCurl("get","/location/context",params)
   end
 
