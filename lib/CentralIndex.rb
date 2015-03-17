@@ -4144,14 +4144,16 @@ class CentralIndex
   #  @param type
   #  @param action
   #  @param data
+  #  @param slack_channel
   #  @return - the data from the api
   #
-  def postOps_log( success, type, action, data)
+  def postOps_log( success, type, action, data, slack_channel)
     params = Hash.new
     params['success'] = success
     params['type'] = type
     params['action'] = action
     params['data'] = data
+    params['slack_channel'] = slack_channel
     return doCurl("post","/ops_log",params)
   end
 
