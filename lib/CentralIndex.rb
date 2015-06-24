@@ -2273,9 +2273,10 @@ class CentralIndex
   #  @param language
   #  @param domain
   #  @param path
+  #  @param restrict_category_ids - Pipe delimited optional IDs to restrict matches to (optional)
   #  @return - the data from the api
   #
-  def getEntitySearchByboundingbox( latitude_1, longitude_1, latitude_2, longitude_2, per_page, page, country, language, domain, path)
+  def getEntitySearchByboundingbox( latitude_1, longitude_1, latitude_2, longitude_2, per_page, page, country, language, domain, path, restrict_category_ids)
     params = Hash.new
     params['latitude_1'] = latitude_1
     params['longitude_1'] = longitude_1
@@ -2287,6 +2288,7 @@ class CentralIndex
     params['language'] = language
     params['domain'] = domain
     params['path'] = path
+    params['restrict_category_ids'] = restrict_category_ids
     return doCurl("get","/entity/search/byboundingbox",params)
   end
 
@@ -2303,9 +2305,10 @@ class CentralIndex
   #  @param longitude - The decimal longitude of the search context (optional)
   #  @param domain
   #  @param path
+  #  @param restrict_category_ids - Pipe delimited optional IDs to restrict matches to (optional)
   #  @return - the data from the api
   #
-  def getEntitySearchBylocation( where, per_page, page, country, language, latitude, longitude, domain, path)
+  def getEntitySearchBylocation( where, per_page, page, country, language, latitude, longitude, domain, path, restrict_category_ids)
     params = Hash.new
     params['where'] = where
     params['per_page'] = per_page
@@ -2316,6 +2319,7 @@ class CentralIndex
     params['longitude'] = longitude
     params['domain'] = domain
     params['path'] = path
+    params['restrict_category_ids'] = restrict_category_ids
     return doCurl("get","/entity/search/bylocation",params)
   end
 
@@ -2334,9 +2338,10 @@ class CentralIndex
   #  @param domain
   #  @param path
   #  @param unitOfDistance
+  #  @param restrict_category_ids - Pipe delimited optional IDs to restrict matches to (optional)
   #  @return - the data from the api
   #
-  def getEntitySearchGroupBynearest( group_id, country, per_page, page, language, latitude, longitude, where, domain, path, unitOfDistance)
+  def getEntitySearchGroupBynearest( group_id, country, per_page, page, language, latitude, longitude, where, domain, path, unitOfDistance, restrict_category_ids)
     params = Hash.new
     params['group_id'] = group_id
     params['country'] = country
@@ -2349,6 +2354,7 @@ class CentralIndex
     params['domain'] = domain
     params['path'] = path
     params['unitOfDistance'] = unitOfDistance
+    params['restrict_category_ids'] = restrict_category_ids
     return doCurl("get","/entity/search/group/bynearest",params)
   end
 
@@ -2365,9 +2371,10 @@ class CentralIndex
   #  @param longitude - The decimal longitude of the centre point of the search
   #  @param domain
   #  @param path
+  #  @param restrict_category_ids - Pipe delimited optional IDs to restrict matches to (optional)
   #  @return - the data from the api
   #
-  def getEntitySearchKeywordBynearest( keyword, country, per_page, page, language, latitude, longitude, domain, path)
+  def getEntitySearchKeywordBynearest( keyword, country, per_page, page, language, latitude, longitude, domain, path, restrict_category_ids)
     params = Hash.new
     params['keyword'] = keyword
     params['country'] = country
@@ -2378,6 +2385,7 @@ class CentralIndex
     params['longitude'] = longitude
     params['domain'] = domain
     params['path'] = path
+    params['restrict_category_ids'] = restrict_category_ids
     return doCurl("get","/entity/search/keyword/bynearest",params)
   end
 
@@ -2392,9 +2400,10 @@ class CentralIndex
   #  @param language - An ISO compatible language code, E.g. en
   #  @param domain
   #  @param path
+  #  @param restrict_category_ids - Pipe delimited optional IDs to restrict matches to (optional)
   #  @return - the data from the api
   #
-  def getEntitySearchWhat( what, per_page, page, country, language, domain, path)
+  def getEntitySearchWhat( what, per_page, page, country, language, domain, path, restrict_category_ids)
     params = Hash.new
     params['what'] = what
     params['per_page'] = per_page
@@ -2403,6 +2412,7 @@ class CentralIndex
     params['language'] = language
     params['domain'] = domain
     params['path'] = path
+    params['restrict_category_ids'] = restrict_category_ids
     return doCurl("get","/entity/search/what",params)
   end
 
@@ -2421,9 +2431,10 @@ class CentralIndex
   #  @param language
   #  @param domain
   #  @param path
+  #  @param restrict_category_ids - Pipe delimited optional IDs to restrict matches to (optional)
   #  @return - the data from the api
   #
-  def getEntitySearchWhatByboundingbox( what, latitude_1, longitude_1, latitude_2, longitude_2, per_page, page, country, language, domain, path)
+  def getEntitySearchWhatByboundingbox( what, latitude_1, longitude_1, latitude_2, longitude_2, per_page, page, country, language, domain, path, restrict_category_ids)
     params = Hash.new
     params['what'] = what
     params['latitude_1'] = latitude_1
@@ -2436,6 +2447,7 @@ class CentralIndex
     params['language'] = language
     params['domain'] = domain
     params['path'] = path
+    params['restrict_category_ids'] = restrict_category_ids
     return doCurl("get","/entity/search/what/byboundingbox",params)
   end
 
@@ -2453,9 +2465,10 @@ class CentralIndex
   #  @param longitude - The decimal longitude of the search context (optional)
   #  @param domain
   #  @param path
+  #  @param restrict_category_ids - Pipe delimited optional IDs to restrict matches to (optional)
   #  @return - the data from the api
   #
-  def getEntitySearchWhatBylocation( what, where, per_page, page, country, language, latitude, longitude, domain, path)
+  def getEntitySearchWhatBylocation( what, where, per_page, page, country, language, latitude, longitude, domain, path, restrict_category_ids)
     params = Hash.new
     params['what'] = what
     params['where'] = where
@@ -2467,6 +2480,7 @@ class CentralIndex
     params['longitude'] = longitude
     params['domain'] = domain
     params['path'] = path
+    params['restrict_category_ids'] = restrict_category_ids
     return doCurl("get","/entity/search/what/bylocation",params)
   end
 
@@ -2483,9 +2497,10 @@ class CentralIndex
   #  @param longitude - The decimal longitude of the centre point of the search
   #  @param domain
   #  @param path
+  #  @param restrict_category_ids - Pipe delimited optional IDs to restrict matches to (optional)
   #  @return - the data from the api
   #
-  def getEntitySearchWhatBynearest( what, country, per_page, page, language, latitude, longitude, domain, path)
+  def getEntitySearchWhatBynearest( what, country, per_page, page, language, latitude, longitude, domain, path, restrict_category_ids)
     params = Hash.new
     params['what'] = what
     params['country'] = country
@@ -2496,6 +2511,7 @@ class CentralIndex
     params['longitude'] = longitude
     params['domain'] = domain
     params['path'] = path
+    params['restrict_category_ids'] = restrict_category_ids
     return doCurl("get","/entity/search/what/bynearest",params)
   end
 
@@ -2510,9 +2526,10 @@ class CentralIndex
   #  @param language - An ISO compatible language code, E.g. en
   #  @param domain
   #  @param path
+  #  @param restrict_category_ids - Pipe delimited optional IDs to restrict matches to (optional)
   #  @return - the data from the api
   #
-  def getEntitySearchWho( who, per_page, page, country, language, domain, path)
+  def getEntitySearchWho( who, per_page, page, country, language, domain, path, restrict_category_ids)
     params = Hash.new
     params['who'] = who
     params['per_page'] = per_page
@@ -2521,6 +2538,7 @@ class CentralIndex
     params['language'] = language
     params['domain'] = domain
     params['path'] = path
+    params['restrict_category_ids'] = restrict_category_ids
     return doCurl("get","/entity/search/who",params)
   end
 
@@ -2539,9 +2557,10 @@ class CentralIndex
   #  @param language - An ISO compatible language code, E.g. en
   #  @param domain
   #  @param path
+  #  @param restrict_category_ids - Pipe delimited optional IDs to restrict matches to (optional)
   #  @return - the data from the api
   #
-  def getEntitySearchWhoByboundingbox( who, latitude_1, longitude_1, latitude_2, longitude_2, per_page, page, country, language, domain, path)
+  def getEntitySearchWhoByboundingbox( who, latitude_1, longitude_1, latitude_2, longitude_2, per_page, page, country, language, domain, path, restrict_category_ids)
     params = Hash.new
     params['who'] = who
     params['latitude_1'] = latitude_1
@@ -2554,6 +2573,7 @@ class CentralIndex
     params['language'] = language
     params['domain'] = domain
     params['path'] = path
+    params['restrict_category_ids'] = restrict_category_ids
     return doCurl("get","/entity/search/who/byboundingbox",params)
   end
 
@@ -2571,9 +2591,10 @@ class CentralIndex
   #  @param language - An ISO compatible language code, E.g. en
   #  @param domain
   #  @param path
+  #  @param restrict_category_ids - Pipe delimited optional IDs to restrict matches to (optional)
   #  @return - the data from the api
   #
-  def getEntitySearchWhoBylocation( who, where, per_page, page, country, latitude, longitude, language, domain, path)
+  def getEntitySearchWhoBylocation( who, where, per_page, page, country, latitude, longitude, language, domain, path, restrict_category_ids)
     params = Hash.new
     params['who'] = who
     params['where'] = where
@@ -2585,6 +2606,7 @@ class CentralIndex
     params['language'] = language
     params['domain'] = domain
     params['path'] = path
+    params['restrict_category_ids'] = restrict_category_ids
     return doCurl("get","/entity/search/who/bylocation",params)
   end
 
@@ -2601,9 +2623,10 @@ class CentralIndex
   #  @param longitude - The decimal longitude of the centre point of the search
   #  @param domain
   #  @param path
+  #  @param restrict_category_ids - Pipe delimited optional IDs to restrict matches to (optional)
   #  @return - the data from the api
   #
-  def getEntitySearchWhoBynearest( who, country, per_page, page, language, latitude, longitude, domain, path)
+  def getEntitySearchWhoBynearest( who, country, per_page, page, language, latitude, longitude, domain, path, restrict_category_ids)
     params = Hash.new
     params['who'] = who
     params['country'] = country
@@ -2614,6 +2637,7 @@ class CentralIndex
     params['longitude'] = longitude
     params['domain'] = domain
     params['path'] = path
+    params['restrict_category_ids'] = restrict_category_ids
     return doCurl("get","/entity/search/who/bynearest",params)
   end
 
