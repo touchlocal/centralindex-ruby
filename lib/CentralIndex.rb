@@ -5578,14 +5578,16 @@ class CentralIndex
   #  @param from - The phone number to call from
   #  @param pin - The pin to verify the phone number with
   #  @param twilio_voice - The language to read the verification in
+  #  @param extension - The pin to verify the phone number with
   #  @return - the data from the api
   #
-  def getToolsPhonecallVerify( to, from, pin, twilio_voice)
+  def getToolsPhonecallVerify( to, from, pin, twilio_voice, extension)
     params = Hash.new
     params['to'] = to
     params['from'] = from
     params['pin'] = pin
     params['twilio_voice'] = twilio_voice
+    params['extension'] = extension
     return doCurl("get","/tools/phonecall/verify",params)
   end
 
