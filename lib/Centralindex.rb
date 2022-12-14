@@ -1,7 +1,7 @@
-2022/12/14 12:14:38 STARTUP Redis server: tcp://127.0.0.1:6379
-2022/12/14 12:14:38 STARTUP ElasticSearch server: http://172.22.12.49:9200
-2022/12/14 12:14:38 STARTUP ES view server: http://172.22.114.129:63300/view/view
-2022/12/14 12:14:38 STARTUP CouchDB server: http://wolf_staging:******@172.22.10.201:5984
+2022/12/14 12:14:41 STARTUP Redis server: tcp://127.0.0.1:6379
+2022/12/14 12:14:41 STARTUP ElasticSearch server: http://172.22.12.49:9200
+2022/12/14 12:14:41 STARTUP ES view server: http://172.22.114.129:63300/view/view
+2022/12/14 12:14:41 STARTUP CouchDB server: http://wolf_staging:******@172.22.10.201:5984
 require 'net/http'
 require "rubygems"
 require "json"
